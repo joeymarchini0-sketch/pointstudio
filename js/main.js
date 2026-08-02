@@ -66,24 +66,44 @@ function initGallery() {
 
   track.insertAdjacentHTML("beforeend", cards);
 
-  // Scale-ruler scroll indicator
-  const ruler = document.getElementById("scaleRuler");
-  const ticksWrap = document.getElementById("scaleTicks");
-  const cursor = document.getElementById("scaleCursor");
-  if (ruler && ticksWrap && cursor) {
-    ticksWrap.innerHTML = PROJECTS.map(
-      (p, i) => `<div class="tick" data-n="${p.sheet}"></div>`
+  // Dot progression indicator
+  const dotProgress = document.getElementById("dotProgress");
+  if (dotProgress) {
+    dotProgress.innerHTML = PROJECTS.map(
+      (p, i) =>
+        `<button class="dot" type="button" data-index="${i}" aria-label="Go to ${p.title}"></button>`
     ).join("");
 
-    const updateCursor = () => {
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      const progress = maxScroll > 0 ? track.scrollLeft / maxScroll : 0;
-      const rulerWidth = ticksWrap.clientWidth;
-      cursor.style.left = `${progress * rulerWidth}px`;
+    const dots = Array.from(dotProgress.querySelectorAll(".dot"));
+    const cards = Array.from(track.querySelectorAll(".project-card"));
+
+    const updateActiveDot = () => {
+      const containerCenter = track.scrollLeft + track.clientWidth / 2;
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+      cards.forEach((card, i) => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const distance = Math.abs(cardCenter - containerCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = i;
+        }
+      });
+      dots.forEach((dot, i) => dot.classList.toggle("active", i === closestIndex));
     };
-    track.addEventListener("scroll", updateCursor, { passive: true });
-    window.addEventListener("resize", updateCursor);
-    updateCursor();
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        const card = cards[i];
+        if (card) {
+          track.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
+        }
+      });
+    });
+
+    track.addEventListener("scroll", updateActiveDot, { passive: true });
+    window.addEventListener("resize", updateActiveDot);
+    updateActiveDot();
   }
 }
 
