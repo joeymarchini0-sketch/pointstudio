@@ -12,7 +12,7 @@ function renderHeader(activePage) {
   if (!header) return;
 
   const links = [
-    { href: "index.html", label: "Projects", key: "projects" },
+    { href: "index.html", label: "Selected Work", key: "projects" },
     { href: "about.html", label: "About", key: "about" },
     { href: "contact.html", label: "Contact", key: "contact" }
   ];

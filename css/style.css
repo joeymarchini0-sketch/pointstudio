@@ -63,7 +63,7 @@ textarea:focus-visible {
   top: var(--header-gap);
   z-index: 50;
   height: var(--nav-height);
-  background: var(--paper);
+  background: var(--header);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -138,7 +138,7 @@ textarea:focus-visible {
     top: calc(var(--header-gap) + var(--nav-height));
     left: 0;
     right: 0;
-    background: var(--paper);
+    background: var(--header);
     box-shadow: 0 8px 20px rgba(28, 27, 25, 0.08);
     flex-direction: column;
     gap: 0;
