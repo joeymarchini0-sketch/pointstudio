@@ -57,10 +57,7 @@ function initGallery() {
       <a class="project-card" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
         <div class="card-image">
           <img src="${p.image}" alt="${p.title}" />
-        </div>
-        <div class="card-label">
-          <div class="card-title">${p.title}</div>
-          <div class="card-meta">${p.location} — ${p.year}</div>
+          <div class="card-hover-title">${p.title}</div>
         </div>
       </a>`
   ).join("");
