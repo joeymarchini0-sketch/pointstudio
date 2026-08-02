@@ -177,12 +177,6 @@ main { flex: 1; }
   color: var(--ink);
 }
 
-.site-footer .footer-cta::after {
-  content: "→";
-  transition: transform 0.15s ease;
-}
-.site-footer .footer-cta:hover::after { transform: translateX(4px); }
-
 /* ============================================================
    Projects (home) — horizontal scroll gallery
    ============================================================ */
@@ -233,17 +227,6 @@ main { flex: 1; }
   line-height: 1.6;
   max-width: 40ch;
   margin: 0;
-}
-
-.gallery-intro .scroll-hint {
-  margin-top: 32px;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--graphite);
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .project-card {

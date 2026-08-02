@@ -82,6 +82,24 @@ function initGallery() {
       // viewport is the "active" one. Free-scrolling (no native scroll-snap)
       // means this just tracks wherever the user happens to be — no forced
       // jumps, no fighting with the browser's snap engine.
+      //
+      // Edge case: when the first or last card is narrower than the
+      // viewport, the browser can't scroll far enough for that card's true
+      // center to ever line up with the viewport's center — so at the very
+      // start/end of the scroll range, plain center-matching can end up
+      // favoring the neighboring card instead. Being at the scroll boundary
+      // is itself proof of which card is "active," so handle those two
+      // cases directly rather than relying on the center-distance math.
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      if (track.scrollLeft <= 1) {
+        dots.forEach((dot, i) => dot.classList.toggle("active", i === 0));
+        return;
+      }
+      if (track.scrollLeft >= maxScroll - 1) {
+        dots.forEach((dot, i) => dot.classList.toggle("active", i === cards.length - 1));
+        return;
+      }
+
       const containerCenter = track.scrollLeft + track.clientWidth / 2;
       let closestIndex = 0;
       let closestDistance = Infinity;
