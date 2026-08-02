@@ -55,7 +55,7 @@ function initGallery() {
   const cards = PROJECTS.map(
     (p) => `
       <a class="project-card" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
-        <img src="${p.image}" alt="${p.title}" loading="lazy" />
+        <img src="${p.image}" alt="${p.title}" />
         <div class="card-label">
           <div class="card-sheet">${p.sheet}</div>
           <div class="card-title">${p.title}</div>
@@ -76,6 +76,7 @@ function initGallery() {
 
     const dots = Array.from(dotProgress.querySelectorAll(".dot"));
     const cards = Array.from(track.querySelectorAll(".project-card"));
+    const images = Array.from(track.querySelectorAll(".project-card img"));
 
     const updateActiveDot = () => {
       const containerCenter = track.scrollLeft + track.clientWidth / 2;
@@ -103,7 +104,18 @@ function initGallery() {
 
     track.addEventListener("scroll", updateActiveDot, { passive: true });
     window.addEventListener("resize", updateActiveDot);
+
+    // Card widths depend on each image's natural aspect ratio, which isn't
+    // known until it finishes loading — recalc as each one comes in so the
+    // dots (and click targets) stay accurate instead of using stale/zero
+    // widths from before the images loaded.
+    images.forEach((img) => {
+      if (img.complete) return;
+      img.addEventListener("load", updateActiveDot, { once: true });
+    });
+
     updateActiveDot();
+
   }
 }
 

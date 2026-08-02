@@ -52,39 +52,39 @@ const PROJECTS = [
     ]
   },
   {
-    slug: "placeholder-project-three",
+    slug: "project-3",
     sheet: "A-03",
-    title: "Project Title Three",
+    title: "Project 3",
     location: "City, CA",
     year: "2023",
     category: "New Construction",
-    image: "images/projects/placeholder-03.svg",
+    image: "images/projects/project-03.jpg",
     summary: "A one-line description of this project goes here.",
     description: [
       "Replace this paragraph with a description of the project."
     ]
   },
   {
-    slug: "placeholder-project-four",
+    slug: "project-4",
     sheet: "A-04",
-    title: "Project Title Four",
+    title: "Project 4",
     location: "City, CA",
     year: "2022",
     category: "Kitchen + Bath",
-    image: "images/projects/placeholder-04.svg",
+    image: "images/projects/project-04.jpg",
     summary: "A one-line description of this project goes here.",
     description: [
       "Replace this paragraph with a description of the project."
     ]
   },
   {
-    slug: "placeholder-project-five",
+    slug: "project-5",
     sheet: "A-05",
-    title: "Project Title Five",
+    title: "Project 5",
     location: "City, CA",
     year: "2022",
     category: "ADU",
-    image: "images/projects/placeholder-05.svg",
+    image: "images/projects/project-05.jpg",
     summary: "A one-line description of this project goes here.",
     description: [
       "Replace this paragraph with a description of the project."
