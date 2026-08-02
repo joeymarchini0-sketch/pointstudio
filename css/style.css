@@ -61,6 +61,7 @@ textarea:focus-visible {
    ============================================================ */
 .site-header {
   position: relative;
+  z-index: 60;
   height: var(--nav-height);
   background: var(--header);
   display: flex;
@@ -137,6 +138,7 @@ textarea:focus-visible {
     top: 100%;
     left: 0;
     right: 0;
+    z-index: 100;
     background: var(--header);
     box-shadow: 0 8px 20px rgba(28, 27, 25, 0.08);
     flex-direction: column;
