@@ -168,21 +168,34 @@ function initProjectPage() {
   const paragraphs = project.description.map((p) => `<p>${p}</p>`).join("");
 
   container.innerHTML = `
-    <div class="project-hero">
-      <img src="${project.image}" alt="${project.title}" />
-    </div>
-    <div class="project-body">
-      <div class="project-sheet">${project.sheet}</div>
-      <h1>${project.title}</h1>
-      <div class="meta-row">
-        <div><span class="k">Location</span><span class="v">${project.location}</span></div>
-        <div><span class="k">Year</span><span class="v">${project.year}</span></div>
-        <div><span class="k">Category</span><span class="v">${project.category}</span></div>
+    <div class="project-detail" id="projectDetailInner">
+      <div class="project-photo">
+        <img src="${project.image}" alt="${project.title}" />
       </div>
-      <div class="project-copy">${paragraphs}</div>
-      <a class="back-link" href="index.html">Back to all projects</a>
+      <div class="project-copy">
+        <h1>${project.title}</h1>
+        <div class="project-description">${paragraphs}</div>
+        <a class="back-link" href="index.html">Back to all projects</a>
+      </div>
     </div>
   `;
+
+  // Portrait photos sit beside the text; landscape photos stack above it.
+  // Decided from the image's actual dimensions once it loads, so adding a
+  // new project never requires manually picking a layout — just add the
+  // entry to projects-data.js and point it at an image.
+  const detailEl = document.getElementById("projectDetailInner");
+  const photoImg = detailEl.querySelector(".project-photo img");
+  const applyOrientation = () => {
+    if (!photoImg.naturalWidth || !photoImg.naturalHeight) return;
+    const isLandscape = photoImg.naturalWidth >= photoImg.naturalHeight;
+    detailEl.classList.toggle("is-landscape", isLandscape);
+  };
+  if (photoImg.complete) {
+    applyOrientation();
+  } else {
+    photoImg.addEventListener("load", applyOrientation, { once: true });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
