@@ -97,11 +97,16 @@ function initGallery() {
     });
 
     // Which dot is "active" is decided by the browser itself: whichever
-    // card currently takes up the most visible area of the track wins.
+    // Which dot is "active" is decided by the browser itself: rootMargin
+    // shrinks the area IntersectionObserver actually watches down to a
+    // thin vertical band through the center of the track, so a card only
+    // registers as "intersecting" once part of it crosses the middle of
+    // the screen — the dot lights up for whichever project is closest to
+    // center, not just whichever happens to take up the most raw area.
     // This sidesteps all the manual scroll-offset math (and its edge
     // cases at the very start/end of the track) that kept causing the
     // first/last dot to mis-highlight — IntersectionObserver measures
-    // actual on-screen visibility directly, so there's nothing to get
+    // actual on-screen position directly, so there's nothing to get
     // wrong at the boundaries.
     const visibleRatios = new Map();
 
@@ -127,6 +132,7 @@ function initGallery() {
       },
       {
         root: track,
+        rootMargin: "0px -42% 0px -42%",
         threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
       }
     );
