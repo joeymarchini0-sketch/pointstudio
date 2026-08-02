@@ -259,6 +259,11 @@ main { flex: 1; }
   display: flex;
 }
 
+.gallery-spacer {
+  flex: 0 0 auto;
+  height: 100%;
+}
+
 .project-card img {
   height: 100%;
   width: auto;
@@ -323,6 +328,7 @@ main { flex: 1; }
   }
   .gallery-intro { padding: 40px clamp(20px, 5vw, 40px) 28px; }
   .project-card { height: 62vh; min-height: 340px; }
+  .gallery-spacer { display: none; }
 }
 
 /* Dot progression — shows which project is currently in view */

@@ -64,6 +64,10 @@ function initGallery() {
   ).join("");
 
   track.insertAdjacentHTML("beforeend", cards);
+  track.insertAdjacentHTML(
+    "beforeend",
+    '<div class="gallery-spacer" id="gallerySpacer" aria-hidden="true"></div>'
+  );
 
   // Dot progression indicator
   const dotProgress = document.getElementById("dotProgress");
@@ -76,28 +80,29 @@ function initGallery() {
     const dots = Array.from(dotProgress.querySelectorAll(".dot"));
     const cards = Array.from(track.querySelectorAll(".project-card"));
     const images = Array.from(track.querySelectorAll(".project-card img"));
+    const spacer = document.getElementById("gallerySpacer");
+
+    // The last card is often narrower than the viewport, and there's no
+    // content after it — so without extra room, the track physically can't
+    // scroll far enough for the last image to ever reach the center of the
+    // screen. This spacer adds exactly enough blank scroll room at the end
+    // to make that possible, so the last dot behaves like every other dot.
+    const updateSpacer = () => {
+      if (!spacer || cards.length === 0) return;
+      const lastCard = cards[cards.length - 1];
+      const width = Math.max(0, track.clientWidth / 2 - lastCard.offsetWidth / 2);
+      spacer.style.width = `${width}px`;
+    };
 
     const updateActiveDot = () => {
-      // Cards snap to their LEFT edge (scroll-snap-align: start), so the
-      // "active" card is whichever one's left edge is closest to the
-      // current scroll position — not whichever card's center is closest
-      // to the middle of the viewport (a card is usually narrower than
-      // the viewport, so center-matching was picking the next card over).
-      //
-      // Edge case: the last card's left edge can sit further right than
-      // the track is able to scroll (there's no more content after it to
-      // pull into view), so plain edge-matching can never reach it. When
-      // we're scrolled to the end, force the last dot active regardless.
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      if (track.scrollLeft >= maxScroll - 1) {
-        dots.forEach((dot, i) => dot.classList.toggle("active", i === cards.length - 1));
-        return;
-      }
-
+      // Whichever project's center is closest to the center of the
+      // viewport is the "active" one.
+      const containerCenter = track.scrollLeft + track.clientWidth / 2;
       let closestIndex = 0;
       let closestDistance = Infinity;
       cards.forEach((card, i) => {
-        const distance = Math.abs(card.offsetLeft - track.scrollLeft);
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const distance = Math.abs(cardCenter - containerCenter);
         if (distance < closestDistance) {
           closestDistance = distance;
           closestIndex = i;
@@ -116,17 +121,24 @@ function initGallery() {
     });
 
     track.addEventListener("scroll", updateActiveDot, { passive: true });
-    window.addEventListener("resize", updateActiveDot);
+    window.addEventListener("resize", () => {
+      updateSpacer();
+      updateActiveDot();
+    });
 
     // Card widths depend on each image's natural aspect ratio, which isn't
     // known until it finishes loading — recalc as each one comes in so the
-    // dots (and click targets) stay accurate instead of using stale/zero
-    // widths from before the images loaded.
+    // spacer, dots, and click targets all stay accurate instead of using
+    // stale/zero widths from before the images loaded.
     images.forEach((img) => {
       if (img.complete) return;
-      img.addEventListener("load", updateActiveDot, { once: true });
+      img.addEventListener("load", () => {
+        updateSpacer();
+        updateActiveDot();
+      }, { once: true });
     });
 
+    updateSpacer();
     updateActiveDot();
 
   }
