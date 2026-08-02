@@ -392,6 +392,7 @@ main { flex: 1; }
   border-right: 1px solid var(--line);
   display: flex;
   align-items: stretch;
+  padding: 0 clamp(20px, 3vw, 40px);
 }
 .about-photo img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -511,6 +512,7 @@ main { flex: 1; }
   border-right: 1px solid var(--line);
   display: flex;
   align-items: stretch;
+  padding: 0 clamp(20px, 3vw, 40px);
 }
 .project-detail .project-photo img {
   width: 100%;
@@ -566,6 +568,7 @@ main { flex: 1; }
   border-bottom: 1px solid var(--line);
   height: auto;
   min-height: 0;
+  padding: 0;
 }
 .project-detail.is-landscape .project-photo img {
   height: auto;
