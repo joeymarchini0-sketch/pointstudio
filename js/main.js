@@ -74,33 +74,6 @@ function initGallery() {
 
     const dots = Array.from(dotProgress.querySelectorAll(".dot"));
     const cards = Array.from(track.querySelectorAll(".project-card"));
-    const images = Array.from(track.querySelectorAll(".project-card img"));
-
-    const updateActiveDot = () => {
-      // For each card, work out where the track would need to scroll to
-      // center that card — clamped to what's actually scrollable, since a
-      // card near either end often can't be perfectly centered (there's not
-      // enough content before/after it). Then pick whichever card's
-      // (clamped) target position is closest to where we actually are.
-      //
-      // This handles the boundaries correctly without special-casing them:
-      // if two cards near the end both get clamped to the same maximum
-      // scroll position, whichever one the user actually scrolled/clicked
-      // toward will match the current scroll position more closely.
-      const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
-      let closestIndex = 0;
-      let closestDistance = Infinity;
-      cards.forEach((card, i) => {
-        const idealTarget = card.offsetLeft + card.offsetWidth / 2 - track.clientWidth / 2;
-        const reachableTarget = Math.min(Math.max(idealTarget, 0), maxScroll);
-        const distance = Math.abs(track.scrollLeft - reachableTarget);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = i;
-        }
-      });
-      dots.forEach((dot, i) => dot.classList.toggle("active", i === closestIndex));
-    };
 
     dots.forEach((dot, i) => {
       dot.addEventListener("click", () => {
@@ -116,17 +89,42 @@ function initGallery() {
       });
     });
 
-    track.addEventListener("scroll", updateActiveDot, { passive: true });
-    window.addEventListener("resize", updateActiveDot);
+    // Which dot is "active" is decided by the browser itself: whichever
+    // card currently takes up the most visible area of the track wins.
+    // This sidesteps all the manual scroll-offset math (and its edge
+    // cases at the very start/end of the track) that kept causing the
+    // first/last dot to mis-highlight — IntersectionObserver measures
+    // actual on-screen visibility directly, so there's nothing to get
+    // wrong at the boundaries.
+    const visibleRatios = new Map();
 
-    // Card widths depend on each image's natural aspect ratio, which isn't
-    // known until it finishes loading — recalc as each one comes in so the
-    // dots and click targets stay accurate instead of using stale/zero
-    // widths from before the images loaded.
-    images.forEach((img) => {
-      if (img.complete) return;
-      img.addEventListener("load", updateActiveDot, { once: true });
-    });
+    const updateActiveDot = () => {
+      let bestIndex = 0;
+      let bestRatio = -1;
+      cards.forEach((card, i) => {
+        const ratio = visibleRatios.get(card) || 0;
+        if (ratio > bestRatio) {
+          bestRatio = ratio;
+          bestIndex = i;
+        }
+      });
+      dots.forEach((dot, i) => dot.classList.toggle("active", i === bestIndex));
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          visibleRatios.set(entry.target, entry.intersectionRatio);
+        });
+        updateActiveDot();
+      },
+      {
+        root: track,
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+      }
+    );
+
+    cards.forEach((card) => observer.observe(card));
 
     updateActiveDot();
 
