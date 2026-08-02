@@ -63,6 +63,13 @@ function initGallery() {
   ).join("");
 
   track.insertAdjacentHTML("beforeend", cards);
+  track.insertAdjacentHTML(
+    "beforeend",
+    `<a class="gallery-outro" href="contact.html">
+      <h2>Let's Talk</h2>
+      <p>Have a project in mind? We'd love to hear about it.</p>
+    </a>`
+  );
 
   // Dot progression indicator
   const dotProgress = document.getElementById("dotProgress");
