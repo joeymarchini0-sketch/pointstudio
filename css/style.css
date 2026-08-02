@@ -71,7 +71,7 @@ textarea:focus-visible {
 
 .site-header .mark {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: 15px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -209,7 +209,7 @@ main { flex: 1; }
 
 .gallery-intro h1 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(28px, 3.4vw, 44px);
   line-height: 1.1;
   margin: 0 0 18px;
@@ -235,7 +235,7 @@ main { flex: 1; }
 
 .gallery-outro h2 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(28px, 3.4vw, 44px);
   line-height: 1.1;
   margin: 0 0 18px;
@@ -404,7 +404,7 @@ main { flex: 1; }
 
 .about-copy h1 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(28px, 3.6vw, 46px);
   margin: 0 0 24px;
   line-height: 1.15;
@@ -445,7 +445,7 @@ main { flex: 1; }
 
 .contact-page h1 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(28px, 4vw, 42px);
   margin: 0 0 16px;
 }
@@ -524,7 +524,7 @@ main { flex: 1; }
 
 .project-page h1 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(28px, 4vw, 44px);
   margin: 0 0 22px;
   line-height: 1.12;
