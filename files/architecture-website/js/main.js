@@ -4,8 +4,8 @@
  * runs only if the relevant container exists on that page.
  */
 
-const OWNER_NAME = "Owner Name";
-const STUDIO_NAME = "Studio Name";
+const OWNER_NAME = "Megan Lizarraga Marchini";
+const STUDIO_NAME = "Point Studio";
 
 function renderHeader(activePage) {
   const header = document.getElementById("site-header");

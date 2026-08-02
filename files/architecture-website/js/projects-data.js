@@ -25,13 +25,13 @@
 
 const PROJECTS = [
   {
-    slug: "placeholder-project-one",
+    slug: "project-1",
     sheet: "A-01",
-    title: "Project Title One",
+    title: "Project 1",
     location: "City, CA",
     year: "2024",
     category: "Full Renovation",
-    image: "images/projects/placeholder-01.svg",
+    image: "images/projects/project-01.jpg",
     summary: "A one-line description of this project goes here.",
     description: [
       "Replace this paragraph with a description of the project — the design intent, the scope of work, and anything about the client's brief worth telling a visitor.",
@@ -39,9 +39,9 @@ const PROJECTS = [
     ]
   },
   {
-    slug: "placeholder-project-two",
+    slug: "project-2",
     sheet: "A-02",
-    title: "Project Title Two",
+    title: "Project 2",
     location: "City, CA",
     year: "2023",
     category: "Addition",
