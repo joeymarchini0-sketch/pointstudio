@@ -77,34 +77,23 @@ function initGallery() {
     const images = Array.from(track.querySelectorAll(".project-card img"));
 
     const updateActiveDot = () => {
-      // Whichever project's center is closest to the center of the
-      // viewport is the "active" one. Free-scrolling (no native scroll-snap)
-      // means this just tracks wherever the user happens to be — no forced
-      // jumps, no fighting with the browser's snap engine.
+      // For each card, work out where the track would need to scroll to
+      // center that card — clamped to what's actually scrollable, since a
+      // card near either end often can't be perfectly centered (there's not
+      // enough content before/after it). Then pick whichever card's
+      // (clamped) target position is closest to where we actually are.
       //
-      // Edge case: when the first or last card is narrower than the
-      // viewport, the browser can't scroll far enough for that card's true
-      // center to ever line up with the viewport's center — so at the very
-      // start/end of the scroll range, plain center-matching can end up
-      // favoring the neighboring card instead. Being at the scroll boundary
-      // is itself proof of which card is "active," so handle those two
-      // cases directly rather than relying on the center-distance math.
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      if (track.scrollLeft <= 1) {
-        dots.forEach((dot, i) => dot.classList.toggle("active", i === 0));
-        return;
-      }
-      if (track.scrollLeft >= maxScroll - 1) {
-        dots.forEach((dot, i) => dot.classList.toggle("active", i === cards.length - 1));
-        return;
-      }
-
-      const containerCenter = track.scrollLeft + track.clientWidth / 2;
+      // This handles the boundaries correctly without special-casing them:
+      // if two cards near the end both get clamped to the same maximum
+      // scroll position, whichever one the user actually scrolled/clicked
+      // toward will match the current scroll position more closely.
+      const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
       let closestIndex = 0;
       let closestDistance = Infinity;
       cards.forEach((card, i) => {
-        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-        const distance = Math.abs(cardCenter - containerCenter);
+        const idealTarget = card.offsetLeft + card.offsetWidth / 2 - track.clientWidth / 2;
+        const reachableTarget = Math.min(Math.max(idealTarget, 0), maxScroll);
+        const distance = Math.abs(track.scrollLeft - reachableTarget);
         if (distance < closestDistance) {
           closestDistance = distance;
           closestIndex = i;
