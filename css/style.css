@@ -388,7 +388,7 @@ main { flex: 1; }
 }
 
 .about-photo {
-  background: var(--header);
+  background: var(--paper);
   border-right: 1px solid var(--line);
   display: flex;
   align-items: stretch;
@@ -508,7 +508,7 @@ main { flex: 1; }
 }
 
 .project-detail .project-photo {
-  background: var(--header);
+  background: var(--paper);
   border-right: 1px solid var(--line);
   display: flex;
   align-items: stretch;
