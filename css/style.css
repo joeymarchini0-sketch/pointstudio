@@ -389,7 +389,6 @@ main { flex: 1; }
 
 .about-photo {
   background: var(--paper);
-  border-right: 1px solid var(--line);
   display: flex;
   align-items: stretch;
   padding: 0 clamp(20px, 3vw, 40px);
@@ -421,7 +420,7 @@ main { flex: 1; }
 
 @media (max-width: 820px) {
   .about-page { grid-template-columns: 1fr; }
-  .about-photo { border-right: none; border-bottom: 1px solid var(--line); height: 46vh; }
+  .about-photo { height: 46vh; }
 }
 
 /* ============================================================
@@ -509,7 +508,6 @@ main { flex: 1; }
 
 .project-detail .project-photo {
   background: var(--paper);
-  border-right: 1px solid var(--line);
   display: flex;
   align-items: stretch;
   padding: 0 clamp(20px, 3vw, 40px);
@@ -582,8 +580,6 @@ main { flex: 1; }
     flex-direction: column;
   }
   .project-detail .project-photo {
-    border-right: none;
-    border-bottom: 1px solid var(--line);
     height: 46vh;
     min-height: 300px;
   }
