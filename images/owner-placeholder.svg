@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200">
+  <rect width="900" height="1200" fill="#f6f5f1"/>
+  <circle cx="450" cy="480" r="140" fill="none" stroke="#1c1b19" stroke-width="2"/>
+  <path d="M 260 900 Q 450 680 640 900 L 640 1200 L 260 1200 Z" fill="none" stroke="#1c1b19" stroke-width="2"/>
+  <text x="60" y="70" font-family="Avenir, Futura, sans-serif" font-size="20" letter-spacing="2" fill="#8c8880">A-00</text>
+  <text x="60" y="1140" font-family="Avenir, Futura, sans-serif" font-size="16" letter-spacing="2" fill="#8c8880">PLACEHOLDER — REPLACE WITH images/owner.jpg</text>
+</svg>
