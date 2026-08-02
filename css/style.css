@@ -133,14 +133,14 @@ textarea:focus-visible {
 
 @media (max-width: 720px) {
   .nav-toggle { display: flex; }
+  .site-header {
+    flex-wrap: wrap;
+    height: auto;
+  }
   .site-nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 100;
+    flex-basis: 100%;
+    width: 100%;
     background: var(--header);
-    box-shadow: 0 8px 20px rgba(28, 27, 25, 0.08);
     flex-direction: column;
     gap: 0;
     max-height: 0;
