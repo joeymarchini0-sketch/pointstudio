@@ -45,7 +45,7 @@ const PROJECTS = [
     location: "City, CA",
     year: "2023",
     category: "Addition",
-    image: "images/projects/placeholder-02.svg",
+    image: "images/projects/project-02.jpg",
     summary: "A one-line description of this project goes here.",
     description: [
       "Replace this paragraph with a description of the project."
@@ -85,19 +85,6 @@ const PROJECTS = [
     year: "2022",
     category: "ADU",
     image: "images/projects/project-05.jpg",
-    summary: "A one-line description of this project goes here.",
-    description: [
-      "Replace this paragraph with a description of the project."
-    ]
-  },
-  {
-    slug: "placeholder-project-six",
-    sheet: "A-06",
-    title: "Project Title Six",
-    location: "City, CA",
-    year: "2021",
-    category: "Full Renovation",
-    image: "images/projects/placeholder-06.svg",
     summary: "A one-line description of this project goes here.",
     description: [
       "Replace this paragraph with a description of the project."

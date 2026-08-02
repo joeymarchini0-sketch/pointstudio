@@ -194,7 +194,6 @@ main { flex: 1; }
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
-  scroll-snap-type: x mandatory;
   height: calc(100vh - var(--nav-height) - var(--footer-height) - 40px);
   min-height: 420px;
   scrollbar-width: none;
@@ -203,7 +202,6 @@ main { flex: 1; }
 
 .gallery-intro {
   flex: 0 0 min(38vw, 480px);
-  scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -252,16 +250,10 @@ main { flex: 1; }
   position: relative;
   flex: 0 0 auto;
   height: 100%;
-  scroll-snap-align: start;
   border-right: 1px solid var(--line);
   overflow: hidden;
   cursor: pointer;
   display: flex;
-}
-
-.gallery-spacer {
-  flex: 0 0 auto;
-  height: 100%;
 }
 
 .project-card img {
@@ -311,7 +303,6 @@ main { flex: 1; }
     height: auto;
     overflow-x: visible;
     overflow-y: visible;
-    scroll-snap-type: none;
   }
   .gallery-intro {
     flex: none;
@@ -328,7 +319,6 @@ main { flex: 1; }
   }
   .gallery-intro { padding: 40px clamp(20px, 5vw, 40px) 28px; }
   .project-card { height: 62vh; min-height: 340px; }
-  .gallery-spacer { display: none; }
 }
 
 /* Dot progression — shows which project is currently in view */

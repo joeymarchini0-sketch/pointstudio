@@ -64,10 +64,6 @@ function initGallery() {
   ).join("");
 
   track.insertAdjacentHTML("beforeend", cards);
-  track.insertAdjacentHTML(
-    "beforeend",
-    '<div class="gallery-spacer" id="gallerySpacer" aria-hidden="true"></div>'
-  );
 
   // Dot progression indicator
   const dotProgress = document.getElementById("dotProgress");
@@ -80,23 +76,12 @@ function initGallery() {
     const dots = Array.from(dotProgress.querySelectorAll(".dot"));
     const cards = Array.from(track.querySelectorAll(".project-card"));
     const images = Array.from(track.querySelectorAll(".project-card img"));
-    const spacer = document.getElementById("gallerySpacer");
-
-    // The last card is often narrower than the viewport, and there's no
-    // content after it — so without extra room, the track physically can't
-    // scroll far enough for the last image to ever reach the center of the
-    // screen. This spacer adds exactly enough blank scroll room at the end
-    // to make that possible, so the last dot behaves like every other dot.
-    const updateSpacer = () => {
-      if (!spacer || cards.length === 0) return;
-      const lastCard = cards[cards.length - 1];
-      const width = Math.max(0, track.clientWidth / 2 - lastCard.offsetWidth / 2);
-      spacer.style.width = `${width}px`;
-    };
 
     const updateActiveDot = () => {
       // Whichever project's center is closest to the center of the
-      // viewport is the "active" one.
+      // viewport is the "active" one. Free-scrolling (no native scroll-snap)
+      // means this just tracks wherever the user happens to be — no forced
+      // jumps, no fighting with the browser's snap engine.
       const containerCenter = track.scrollLeft + track.clientWidth / 2;
       let closestIndex = 0;
       let closestDistance = Infinity;
@@ -115,30 +100,28 @@ function initGallery() {
       dot.addEventListener("click", () => {
         const card = cards[i];
         if (card) {
-          track.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
+          // Center the clicked project rather than left-aligning it — with
+          // no snap forcing a specific resting edge, centering is the more
+          // natural target and the browser clamps automatically if a card
+          // near either end can't fully reach center.
+          const target = card.offsetLeft + card.offsetWidth / 2 - track.clientWidth / 2;
+          track.scrollTo({ left: target, behavior: "smooth" });
         }
       });
     });
 
     track.addEventListener("scroll", updateActiveDot, { passive: true });
-    window.addEventListener("resize", () => {
-      updateSpacer();
-      updateActiveDot();
-    });
+    window.addEventListener("resize", updateActiveDot);
 
     // Card widths depend on each image's natural aspect ratio, which isn't
     // known until it finishes loading — recalc as each one comes in so the
-    // spacer, dots, and click targets all stay accurate instead of using
-    // stale/zero widths from before the images loaded.
+    // dots and click targets stay accurate instead of using stale/zero
+    // widths from before the images loaded.
     images.forEach((img) => {
       if (img.complete) return;
-      img.addEventListener("load", () => {
-        updateSpacer();
-        updateActiveDot();
-      }, { once: true });
+      img.addEventListener("load", updateActiveDot, { once: true });
     });
 
-    updateSpacer();
     updateActiveDot();
 
   }
