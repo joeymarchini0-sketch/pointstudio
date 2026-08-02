@@ -54,10 +54,10 @@ function initGallery() {
   if (!track) return;
 
   const cards = PROJECTS.map(
-    (p) => `
+    (p, i) => `
       <a class="project-card" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
         <div class="card-image">
-          <img src="${p.image}" alt="${p.title}" />
+          <img src="${p.image}" alt="${p.title}" ${i === 0 ? "" : 'loading="lazy"'} />
           <div class="card-hover-title">${p.title}</div>
         </div>
       </a>`
