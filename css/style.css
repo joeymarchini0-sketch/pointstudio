@@ -557,6 +557,22 @@ main { flex: 1; }
 }
 .back-link::before { content: "←"; }
 
+.next-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: gap 0.15s ease;
+}
+.next-link::after { content: "→"; }
+.next-link:hover { gap: 12px; }
+
 /* Landscape variant: photo stacks above the copy instead of beside it,
    shown at its full aspect ratio — never cropped */
 .project-detail.is-landscape {

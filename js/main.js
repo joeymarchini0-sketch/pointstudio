@@ -167,6 +167,9 @@ function initProjectPage() {
 
   const paragraphs = project.description.map((p) => `<p>${p}</p>`).join("");
 
+  const currentIndex = PROJECTS.findIndex((p) => p.slug === project.slug);
+  const nextProject = PROJECTS[(currentIndex + 1) % PROJECTS.length];
+
   container.innerHTML = `
     <div class="project-detail" id="projectDetailInner">
       <div class="project-photo">
@@ -175,7 +178,7 @@ function initProjectPage() {
       <div class="project-copy">
         <h1>${project.title}</h1>
         <div class="project-description">${paragraphs}</div>
-        <a class="back-link" href="index.html">Back to all projects</a>
+        <a class="next-link" href="project.html?slug=${encodeURIComponent(nextProject.slug)}">Next Project</a>
       </div>
     </div>
   `;
