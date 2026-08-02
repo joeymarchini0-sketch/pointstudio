@@ -55,7 +55,9 @@ function initGallery() {
   const cards = PROJECTS.map(
     (p) => `
       <a class="project-card" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
-        <img src="${p.image}" alt="${p.title}" />
+        <div class="card-image">
+          <img src="${p.image}" alt="${p.title}" />
+        </div>
         <div class="card-label">
           <div class="card-title">${p.title}</div>
           <div class="card-meta">${p.location} — ${p.year}</div>
