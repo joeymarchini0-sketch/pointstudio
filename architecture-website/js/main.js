@@ -1,0 +1,136 @@
+/**
+ * Shared site behavior: header/footer injection + mobile nav toggle
+ * runs on every page. Page-specific rendering (gallery, project detail)
+ * runs only if the relevant container exists on that page.
+ */
+
+const OWNER_NAME = "Owner Name";
+const STUDIO_NAME = "Studio Name";
+
+function renderHeader(activePage) {
+  const header = document.getElementById("site-header");
+  if (!header) return;
+
+  const links = [
+    { href: "index.html", label: "Projects", key: "projects" },
+    { href: "about.html", label: "About", key: "about" },
+    { href: "contact.html", label: "Contact", key: "contact" }
+  ];
+
+  const navLinks = links
+    .map(
+      (l) =>
+        `<a href="${l.href}"${l.key === activePage ? ' aria-current="page"' : ""}>${l.label}</a>`
+    )
+    .join("");
+
+  header.innerHTML = `
+    <a href="index.html" class="mark">${STUDIO_NAME}<span class="sheet">Architecture</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+    </button>
+    <nav class="site-nav" id="siteNav">${navLinks}</nav>
+  `;
+
+  const toggle = document.getElementById("navToggle");
+  const nav = document.getElementById("siteNav");
+  toggle.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  });
+}
+
+function renderFooter() {
+  const footer = document.getElementById("site-footer");
+  if (!footer) return;
+  footer.innerHTML = `
+    <a class="footer-cta" href="contact.html">Start a project</a>
+  `;
+}
+
+function initGallery() {
+  const track = document.getElementById("galleryTrack");
+  if (!track) return;
+
+  const cards = PROJECTS.map(
+    (p) => `
+      <a class="project-card" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
+        <img src="${p.image}" alt="${p.title}" loading="lazy" />
+        <div class="card-label">
+          <div class="card-sheet">${p.sheet}</div>
+          <div class="card-title">${p.title}</div>
+          <div class="card-meta">${p.location} — ${p.year}</div>
+        </div>
+      </a>`
+  ).join("");
+
+  track.insertAdjacentHTML("beforeend", cards);
+
+  // Scale-ruler scroll indicator
+  const ruler = document.getElementById("scaleRuler");
+  const ticksWrap = document.getElementById("scaleTicks");
+  const cursor = document.getElementById("scaleCursor");
+  if (ruler && ticksWrap && cursor) {
+    ticksWrap.innerHTML = PROJECTS.map(
+      (p, i) => `<div class="tick" data-n="${p.sheet}"></div>`
+    ).join("");
+
+    const updateCursor = () => {
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      const progress = maxScroll > 0 ? track.scrollLeft / maxScroll : 0;
+      const rulerWidth = ticksWrap.clientWidth;
+      cursor.style.left = `${progress * rulerWidth}px`;
+    };
+    track.addEventListener("scroll", updateCursor, { passive: true });
+    window.addEventListener("resize", updateCursor);
+    updateCursor();
+  }
+}
+
+function initProjectPage() {
+  const container = document.getElementById("projectDetail");
+  if (!container) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get("slug");
+  const project = PROJECTS.find((p) => p.slug === slug);
+
+  if (!project) {
+    container.innerHTML = `
+      <div class="not-found">
+        <p>We couldn't find that project.</p>
+        <a class="back-link" href="index.html">Back to all projects</a>
+      </div>`;
+    document.title = "Project not found";
+    return;
+  }
+
+  document.title = `${project.title} — ${STUDIO_NAME}`;
+
+  const paragraphs = project.description.map((p) => `<p>${p}</p>`).join("");
+
+  container.innerHTML = `
+    <div class="project-hero">
+      <img src="${project.image}" alt="${project.title}" />
+    </div>
+    <div class="project-body">
+      <div class="project-sheet">${project.sheet}</div>
+      <h1>${project.title}</h1>
+      <div class="meta-row">
+        <div><span class="k">Location</span><span class="v">${project.location}</span></div>
+        <div><span class="k">Year</span><span class="v">${project.year}</span></div>
+        <div><span class="k">Category</span><span class="v">${project.category}</span></div>
+      </div>
+      <div class="project-copy">${paragraphs}</div>
+      <a class="back-link" href="index.html">Back to all projects</a>
+    </div>
+  `;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const activePage = document.body.dataset.page || "";
+  renderHeader(activePage);
+  renderFooter();
+  initGallery();
+  initProjectPage();
+});
