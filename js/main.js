@@ -40,9 +40,10 @@ function renderHeader(activePage) {
   });
 }
 
-function renderFooter() {
+function renderFooter(activePage) {
   const footer = document.getElementById("site-footer");
   if (!footer) return;
+  if (activePage === "contact") return;
   footer.innerHTML = `
     <a class="footer-cta" href="contact.html">Start a project</a>
   `;
@@ -187,7 +188,7 @@ function initProjectPage() {
 document.addEventListener("DOMContentLoaded", () => {
   const activePage = document.body.dataset.page || "";
   renderHeader(activePage);
-  renderFooter();
+  renderFooter(activePage);
   initGallery();
   initProjectPage();
 });
