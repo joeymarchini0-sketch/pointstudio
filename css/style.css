@@ -228,6 +228,8 @@ main { flex: 1; }
 .gallery-intro h1 {
   font-family: var(--font-title);
   font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   font-size: clamp(28px, 3.4vw, 44px);
   line-height: 1.1;
   margin: 0 0 18px;
@@ -254,6 +256,8 @@ main { flex: 1; }
 .gallery-outro h2 {
   font-family: var(--font-title);
   font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   font-size: clamp(28px, 3.4vw, 44px);
   line-height: 1.1;
   margin: 0 0 18px;
@@ -439,12 +443,12 @@ main { flex: 1; }
 
 /* About intro: text only, left-aligned, block centered on the page */
 .about-copy.about-intro {
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 clamp(24px, 6vw, 96px);
   text-align: left;
 }
-.about-intro p { max-width: none; }
+.about-copy.about-intro p { max-width: none; }
 .about-row--reverse .about-copy {
   padding: 0 clamp(8px, 1.5vw, 24px) 0 clamp(24px, 4vw, 64px);
 }
@@ -453,6 +457,8 @@ main { flex: 1; }
 .about-copy h2 {
   font-family: var(--font-title);
   font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   font-size: clamp(28px, 3.6vw, 46px);
   margin: 0 0 20px;
   line-height: 1;
@@ -511,6 +517,8 @@ main { flex: 1; }
 .contact-page h1 {
   font-family: var(--font-title);
   font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   font-size: clamp(28px, 4vw, 42px);
   margin: 0 0 16px;
 }
@@ -593,6 +601,8 @@ main { flex: 1; }
 .project-detail h1 {
   font-family: var(--font-title);
   font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   font-size: clamp(28px, 3.6vw, 46px);
   margin: 0 0 24px;
   line-height: 1.15;
