@@ -85,28 +85,31 @@ textarea:focus-visible {
   padding: 0 clamp(20px, 4vw, 48px);
 }
 
+/* Logo lockup: "POINT STUDIO" (Canela Deck Thin) stacked over
+   "ARCHITECTURE + DESIGN" (Avenir). The lower line's letter spacing is
+   stretched in JS (fitMarkLockup in main.js) so both lines end up
+   exactly the same width, whatever fonts the visitor's device has. */
 .site-header .mark {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 15px;
-  letter-spacing: 0.14em;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
   text-transform: uppercase;
+  line-height: 1;
 }
-
-/* "Point Studio" in Canela Deck Thin; "Architecture + Design" stays Avenir.
-   Canela Thin is much lighter than Avenir semibold, so it's set a bit
-   larger to hold its own beside it. */
 .site-header .mark .mark-name {
   font-family: var(--font-title);
   font-weight: 100;
-  font-size: 20px;
-  letter-spacing: 0.08em;
+  font-size: 26px;
+  letter-spacing: 0.06em;
 }
-
 .site-header .mark .sheet {
-  color: var(--graphite);
+  font-family: var(--font-display);
   font-weight: 500;
-  margin-left: 6px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--graphite);
+  white-space: nowrap;
 }
 
 .site-nav {
@@ -117,8 +120,8 @@ textarea:focus-visible {
 .site-nav a {
   font-family: var(--font-display);
   font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--graphite);
   padding: 6px 2px;
@@ -158,9 +161,9 @@ textarea:focus-visible {
 
 @media (max-width: 720px) {
   .nav-toggle { display: flex; }
-  .site-header .mark { font-size: 10px; letter-spacing: 0.1em; white-space: nowrap; }
-  .site-header .mark .mark-name { font-size: 15px; letter-spacing: 0.04em; }
-  .site-header .mark .sheet { margin-left: 4px; }
+  .site-header .mark { padding: 8px 0; }
+  .site-header .mark .mark-name { font-size: 21px; }
+  .site-header .mark .sheet { font-size: 8px; }
   .site-header {
     flex-wrap: wrap;
     height: auto;
@@ -196,10 +199,10 @@ main { flex: 1; }
 }
 
 .site-footer .footer-cta {
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-family: var(--font-title);
+  font-size: 22px;
+  font-weight: 100;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   display: inline-flex;
   align-items: center;
@@ -359,10 +362,10 @@ main { flex: 1; }
   padding: 0 24px;
   text-align: center;
   color: #fff;
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-family: var(--font-title);
+  font-size: 26px;
+  font-weight: 100;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   opacity: 0;
   transition: opacity 0.35s ease;

@@ -32,12 +32,44 @@ function renderHeader(activePage) {
     <nav class="site-nav" id="siteNav">${navLinks}</nav>
   `;
 
+  fitMarkLockup();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitMarkLockup);
+  window.addEventListener("resize", fitMarkLockup);
+
   const toggle = document.getElementById("navToggle");
   const nav = document.getElementById("siteNav");
   toggle.addEventListener("click", () => {
     const isOpen = nav.classList.toggle("open");
     toggle.setAttribute("aria-expanded", String(isOpen));
   });
+}
+
+/**
+ * Make "ARCHITECTURE + DESIGN" exactly as wide as "POINT STUDIO" above it
+ * by adjusting its letter spacing. Measured live, so it stays matched
+ * whichever fallback fonts a device uses, and re-runs on resize (the
+ * lockup is smaller on phones) and once the web font has loaded.
+ */
+function fitMarkLockup() {
+  const name = document.querySelector(".site-header .mark-name");
+  const sheet = document.querySelector(".site-header .sheet");
+  if (!name || !sheet) return;
+
+  sheet.style.letterSpacing = "";
+  sheet.style.marginRight = "";
+
+  // Visible width = box width minus the trailing letter-space after the last letter
+  const nameLS = parseFloat(getComputedStyle(name).letterSpacing) || 0;
+  const sheetLS = parseFloat(getComputedStyle(sheet).letterSpacing) || 0;
+  const target = name.getBoundingClientRect().width - nameLS;
+  const current = sheet.getBoundingClientRect().width - sheetLS;
+  const gaps = sheet.textContent.length - 1;
+  if (gaps < 1) return;
+
+  const ls = sheetLS + (target - current) / gaps;
+  sheet.style.letterSpacing = `${ls}px`;
+  sheet.style.marginRight = `${-ls}px`; // cancel the trailing space so the edges line up
+  name.style.marginRight = `${-nameLS}px`;
 }
 
 function renderFooter(activePage) {
