@@ -82,7 +82,7 @@ function initGallery() {
   // Dot progression indicator
   const dotProgress = document.getElementById("dotProgress");
   if (dotProgress) {
-    dotProgress.style.animationDelay = "0.9s";
+    dotProgress.style.animationDelay = "0.15s"; // same moment as the first project image
     dotProgress.innerHTML = PROJECTS.map(
       (p, i) =>
         `<button class="dot" type="button" data-index="${i}" aria-label="Go to ${p.title}"></button>`

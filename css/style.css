@@ -247,7 +247,7 @@ main { flex: 1; }
 .gallery-intro { flex: 0 0 auto; }
 .gallery-intro .logo-heading { margin: 0; line-height: 0; }
 .intro-logo {
-  width: clamp(150px, 15vw, 240px);
+  width: clamp(120px, 12vw, 192px);
   height: auto;
 }
 
@@ -370,7 +370,7 @@ main { flex: 1; }
     height: auto;
     padding: 8px clamp(20px, 5vw, 40px) 4px;
   }
-  .intro-logo { width: 140px; }
+  .intro-logo { width: 112px; }
   .gallery-outro {
     flex: none;
     align-self: stretch;
