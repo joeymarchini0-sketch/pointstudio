@@ -243,6 +243,27 @@ main { flex: 1; }
   margin: 0;
 }
 
+/* Logo in place of the intro title on the home page */
+.gallery-intro { flex: 0 0 auto; }
+.gallery-intro .logo-heading { margin: 0; line-height: 0; }
+.intro-logo {
+  width: clamp(150px, 15vw, 240px);
+  height: auto;
+}
+
+/* Home page load-in: the intro, each project card, the closing card and
+   the dots fade in while sliding from right to left, one after another.
+   Delays are set per item in initGallery (main.js). */
+.js .gallery > *,
+.js .dot-progress {
+  opacity: 0;
+  animation: slide-in-left 1s ease forwards;
+}
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(48px); }
+  to   { opacity: 1; transform: none; }
+}
+
 .gallery-outro {
   flex: 0 0 min(34vw, 440px);
   display: flex;
@@ -349,6 +370,7 @@ main { flex: 1; }
     height: auto;
     padding: 8px clamp(20px, 5vw, 40px) 4px;
   }
+  .intro-logo { width: 140px; }
   .gallery-outro {
     flex: none;
     align-self: stretch;

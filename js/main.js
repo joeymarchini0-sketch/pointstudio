@@ -72,9 +72,17 @@ function initGallery() {
     </a>`
   );
 
+  // Load-in animation: stagger each item (intro, cards, closing card) so
+  // they slide in right-to-left one after another. Capped so items far
+  // offscreen don't wait too long.
+  Array.from(track.children).forEach((el, i) => {
+    el.style.animationDelay = `${Math.min(i * 0.15, 1.2)}s`;
+  });
+
   // Dot progression indicator
   const dotProgress = document.getElementById("dotProgress");
   if (dotProgress) {
+    dotProgress.style.animationDelay = "0.9s";
     dotProgress.innerHTML = PROJECTS.map(
       (p, i) =>
         `<button class="dot" type="button" data-index="${i}" aria-label="Go to ${p.title}"></button>`
