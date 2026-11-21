@@ -244,6 +244,13 @@ main { flex: 1; }
 }
 
 /* Logo in place of the intro title on the home page */
+/* Center the logo in the blank space between the page edge and the first
+   project. The left padding equals the gallery gap, so the logo sits in
+   the middle of (intro width + gap) without moving the first project. */
+.gallery-intro {
+  align-items: center;
+  padding-left: clamp(32px, 4vw, 64px);
+}
 .gallery-intro .logo-heading { margin: 0; line-height: 0; }
 .intro-logo {
   width: clamp(120px, 12vw, 192px);
@@ -370,6 +377,7 @@ main { flex: 1; }
     padding: 8px clamp(20px, 5vw, 40px) 4px;
   }
   .intro-logo { width: 112px; }
+  .gallery-intro { align-items: flex-start; }
   .gallery-outro {
     flex: none;
     align-self: stretch;
@@ -586,6 +594,17 @@ main { flex: 1; }
 /* ============================================================
    Contact page
    ============================================================ */
+/* Contact page load-in: each block fades in while dropping down
+   slightly, top to bottom, one after another (delays set inline). */
+.js .fade-down {
+  opacity: 0;
+  animation: fade-down 0.9s ease forwards;
+}
+@keyframes fade-down {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: none; }
+}
+
 .contact-page {
   max-width: 760px;
   margin: 0 auto;
