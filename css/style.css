@@ -1,16 +1,16 @@
 /* ============================================================
-   Title font — Canela Light (commercial font by Commercial Type).
-   Uses Canela if it's installed on the visitor's computer; otherwise
-   loads the licensed webfont files from /fonts/ once they're added.
+   Title font — Canela Deck Thin (commercial font by Commercial Type).
+   Uses Canela Deck if it's installed on the visitor's computer;
+   otherwise loads the licensed webfont files from /fonts/ once added.
    ============================================================ */
 @font-face {
-  font-family: "Canela";
-  font-weight: 300;
+  font-family: "Canela Deck";
+  font-weight: 100;
   font-style: normal;
   font-display: swap;
-  src: local("Canela Light"), local("Canela-Light"),
-       url("../fonts/Canela-Light.woff2") format("woff2"),
-       url("../fonts/Canela-Light.woff") format("woff");
+  src: local("Canela Deck Thin"), local("CanelaDeck-Thin"), local("Canela-Deck-Thin"),
+       url("../fonts/Canela-Deck-Thin.woff2") format("woff2"),
+       url("../fonts/Canela-Deck-Thin.woff") format("woff");
 }
 
 /* ============================================================
@@ -26,7 +26,7 @@
   --accent-soft: #eef0ef;
 
   --font-display: "Avenir Next", Avenir, "Century Gothic", "Futura", "Segoe UI", sans-serif;
-  --font-title: "Canela", Georgia, "Times New Roman", serif;
+  --font-title: "Canela Deck", Georgia, "Times New Roman", serif;
   --font-body: "Avenir Next", Avenir, "Futura", "Segoe UI", sans-serif;
 
   --nav-height: 60px;
@@ -227,7 +227,7 @@ main { flex: 1; }
 
 .gallery-intro h1 {
   font-family: var(--font-title);
-  font-weight: 300;
+  font-weight: 100;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: clamp(28px, 3.4vw, 44px);
@@ -255,7 +255,7 @@ main { flex: 1; }
 
 .gallery-outro h2 {
   font-family: var(--font-title);
-  font-weight: 300;
+  font-weight: 100;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: clamp(28px, 3.4vw, 44px);
@@ -456,7 +456,7 @@ main { flex: 1; }
 .about-copy h1,
 .about-copy h2 {
   font-family: var(--font-title);
-  font-weight: 300;
+  font-weight: 100;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: clamp(28px, 3.6vw, 46px);
@@ -516,7 +516,7 @@ main { flex: 1; }
 
 .contact-page h1 {
   font-family: var(--font-title);
-  font-weight: 300;
+  font-weight: 100;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: clamp(28px, 4vw, 42px);
@@ -600,7 +600,7 @@ main { flex: 1; }
 
 .project-detail h1 {
   font-family: var(--font-title);
-  font-weight: 300;
+  font-weight: 100;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: clamp(28px, 3.6vw, 46px);
