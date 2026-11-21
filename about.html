@@ -6,29 +6,41 @@
   <title>About — Point Studio Architecture</title>
   <meta name="description" content="Point Studio Architecture + Design — full architectural services for Bay Area remodels, new homes, and ADUs, led by architect Megan Lizarraga Marchini." />
   <link rel="stylesheet" href="css/style.css" />
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body data-page="about">
   <header id="site-header" class="site-header"></header>
 
   <main>
+    <!-- Collage of drawings — fades in on page load. Placeholder images
+         in images/collage/; swap the src paths for real drawings/renders. -->
+    <section class="collage" aria-label="Selected drawings and renderings">
+      <figure class="collage-tile tile-a"><img src="images/collage/collage-01-plan.svg" alt="Floor plan drawing" /></figure>
+      <figure class="collage-tile tile-b"><img src="images/collage/collage-05-detail.svg" alt="Window detail drawing" /></figure>
+      <figure class="collage-tile tile-c"><img src="images/collage/collage-02-elevation.svg" alt="Front elevation drawing" /></figure>
+      <figure class="collage-tile tile-d"><img src="images/collage/collage-03-section.svg" alt="Building section drawing" /></figure>
+      <figure class="collage-tile tile-e"><img src="images/collage/collage-04-axon.svg" alt="Axonometric drawing" /></figure>
+      <figure class="collage-tile tile-f"><img src="images/collage/collage-06-site.svg" alt="Site plan drawing" /></figure>
+    </section>
+
     <div class="about-page">
       <!-- About intro: text only, full width -->
       <section class="about-copy about-intro">
-          <h1>About</h1>
-          <p>
+          <h1 data-reveal>About</h1>
+          <p data-reveal>
             Point Studio Architecture + Design is an emerging practice offering full
             architectural services for remodels, new homes, and new ADUs, with a focus on
             modern design and transformations of Bay Area vernacular architecture from
             Edwardians, to Craftsmans to Eichlers.
           </p>
-          <p>
+          <p data-reveal>
             We take your project personally. Our goal is to create a space that embodies
             your family, your personality — a space that celebrates your unique lifestyle.
             We believe your home should be sensible while still inviting, expressing your
             spirit through light and warmth, authentic materials and serendipitous moments
             throughout.
           </p>
-          <p>
+          <p data-reveal>
             With deep connections to professionals across the Bay Area, we assemble the
             right team and workflow for each project based on your specific goals —
             bringing in contractors, engineers, code compliance specialists, interior
@@ -39,7 +51,7 @@
             navigating a complicated permitting process, we’ve built relationships and
             experience across many jurisdictions.
           </p>
-          <p>
+          <p data-reveal>
             When you work with us, we acknowledge and appreciate the investment you are
             making in your home. Clients often come to us after much deliberation and years
             of hard work to reach this starting point. We use our experience to encourage
@@ -51,7 +63,7 @@
             throughout. Together, we’ll keep a budget that achieves your project goals front
             and center throughout design development.
           </p>
-          <p>
+          <p data-reveal>
             If you’re ready to learn more, the first step is simple.
             <a class="inline-link" href="contact.html">Let’s set up an introductory conversation.</a>
           </p>
@@ -60,13 +72,13 @@
       <!-- Row 2: Megan's bio left, photo right -->
       <div class="about-row about-row--reverse">
         <section class="about-copy">
-          <h2>Megan Lizarraga Marchini</h2>
-          <p>
+          <h2 data-reveal>Megan Lizarraga Marchini</h2>
+          <p data-reveal>
             Megan is a licensed architect in California with over ten years of design
             experience. Her passion lies in designing homes and staying closely involved
             through the construction process.
           </p>
-          <p>
+          <p data-reveal>
             Megan earned her Bachelor of Architecture, with a minor in Sustainable
             Environments, from Cal Poly San Luis Obispo, spending a year abroad at the École
             Nationale Supérieure d'Architecture Paris-Val de Seine. Before starting this
@@ -74,28 +86,28 @@
             then found her true passion in residential design — working as a designer and
             project manager on high-end custom homes.
           </p>
-          <p>
+          <p data-reveal>
             Megan is a fourth-generation Bay Area native, with family roots tracing back
             over a hundred years in Richmond and Oakland. That connection to place runs
             deep: she and her husband purchased her grandparents' house in Richmond — her
             father's childhood home — and reimagined it for their own family, bringing in
             much-needed upgrades along the way.
           </p>
-          <p>
+          <p data-reveal>
             Megan also teaches as a studio instructor for Cal Poly San Luis Obispo's SF
             Urban Program, a fourth-year studio in which students envision the
             revitalization of a large urban site in the Bay Area, then carry that vision
             through the design development of multi-family housing responsive to its
             surrounding community.
           </p>
-          <p>
+          <p data-reveal>
             In her free time, Megan enjoys spending time with her family, trips to the
             mountains, and running. In fact, she's probably on a run right now. She sketches
             constantly and dabbles in other art forms, having recently completed a
             black-and-white film photography class.
           </p>
         </section>
-        <div class="about-photo">
+        <div class="about-photo" data-reveal>
           <!-- Placeholder photo — swap for Megan's portrait later -->
           <img src="images/owner.jpg" alt="Portrait of Megan Lizarraga Marchini" />
         </div>

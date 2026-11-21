@@ -97,7 +97,6 @@ function initGallery() {
       });
     });
 
-    // Which dot is "active" is decided by the browser itself: whichever
     // Which dot is "active" is decided by the browser itself: rootMargin
     // shrinks the area IntersectionObserver actually watches down to a
     // thin vertical band through the center of the track, so a card only
@@ -143,6 +142,38 @@ function initGallery() {
     updateActiveDot();
 
   }
+}
+
+/**
+ * Scroll reveal: elements marked data-reveal fade up the first time they
+ * scroll into view, then stay visible for the rest of the visit (each
+ * element is un-observed as soon as it's revealed, so it never fades
+ * back out). To use on any page: add data-reveal to an element, and the
+ * one-line "js" class script in that page's <head>.
+ */
+function initReveal() {
+  const items = document.querySelectorAll("[data-reveal]");
+  if (!items.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    items.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    },
+    // Reveal once ~10% of the element is on screen, slightly above the
+    // bottom edge so the fade is actually seen rather than happening offscreen
+    { threshold: 0.1, rootMargin: "0px 0px -8% 0px" }
+  );
+
+  items.forEach((el) => observer.observe(el));
 }
 
 function initProjectPage() {
@@ -207,4 +238,5 @@ document.addEventListener("DOMContentLoaded", () => {
   renderFooter(activePage);
   initGallery();
   initProjectPage();
+  initReveal();
 });
