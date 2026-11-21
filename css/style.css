@@ -437,9 +437,11 @@ main { flex: 1; }
   padding: 0 clamp(24px, 4vw, 64px) 0 clamp(8px, 1.5vw, 24px);
 }
 
-/* About intro: text only, left-aligned, wide margins on both sides */
+/* About intro: text only, left-aligned, block centered on the page */
 .about-copy.about-intro {
-  padding: 0 clamp(32px, 12vw, 200px);
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 6vw, 96px);
   text-align: left;
 }
 .about-intro p { max-width: none; }
