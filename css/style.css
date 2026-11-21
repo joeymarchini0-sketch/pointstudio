@@ -1,7 +1,6 @@
 /* ============================================================
-   Title font — Canela Deck Thin (commercial font by Commercial Type).
-   Uses Canela Deck if it's installed on the visitor's computer;
-   otherwise loads the licensed webfont files from /fonts/ once added.
+   Title font — Canela Deck Thin (licensed web font, files in /fonts/).
+   Used for: About page titles, Contact page title, project page titles.
    ============================================================ */
 @font-face {
   font-family: "Canela Deck";
@@ -94,6 +93,16 @@ textarea:focus-visible {
   text-transform: uppercase;
 }
 
+/* "Point Studio" in Canela Deck Thin; "Architecture + Design" stays Avenir.
+   Canela Thin is much lighter than Avenir semibold, so it's set a bit
+   larger to hold its own beside it. */
+.site-header .mark .mark-name {
+  font-family: var(--font-title);
+  font-weight: 100;
+  font-size: 20px;
+  letter-spacing: 0.08em;
+}
+
 .site-header .mark .sheet {
   color: var(--graphite);
   font-weight: 500;
@@ -149,6 +158,9 @@ textarea:focus-visible {
 
 @media (max-width: 720px) {
   .nav-toggle { display: flex; }
+  .site-header .mark { font-size: 10px; letter-spacing: 0.1em; white-space: nowrap; }
+  .site-header .mark .mark-name { font-size: 15px; letter-spacing: 0.04em; }
+  .site-header .mark .sheet { margin-left: 4px; }
   .site-header {
     flex-wrap: wrap;
     height: auto;
@@ -226,8 +238,8 @@ main { flex: 1; }
 }
 
 .gallery-intro h1 {
-  font-family: var(--font-title);
-  font-weight: 100;
+  font-family: var(--font-display);
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: clamp(28px, 3.4vw, 44px);
@@ -281,8 +293,8 @@ main { flex: 1; }
 }
 
 .gallery-outro h2 {
-  font-family: var(--font-title);
-  font-weight: 100;
+  font-family: var(--font-display);
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: clamp(28px, 3.4vw, 44px);

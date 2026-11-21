@@ -25,7 +25,7 @@ function renderHeader(activePage) {
     .join("");
 
   header.innerHTML = `
-    <a href="index.html" class="mark">${STUDIO_NAME}<span class="sheet">Architecture</span></a>
+    <a href="index.html" class="mark"><span class="mark-name">${STUDIO_NAME}</span><span class="sheet">Architecture + Design</span></a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span>
     </button>
