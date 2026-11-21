@@ -1,4 +1,19 @@
 /* ============================================================
+   Title font — Canela Light (commercial font by Commercial Type).
+   Uses Canela if it's installed on the visitor's computer; otherwise
+   loads the licensed webfont files from /fonts/ once they're added.
+   ============================================================ */
+@font-face {
+  font-family: "Canela";
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: local("Canela Light"), local("Canela-Light"),
+       url("../fonts/Canela-Light.woff2") format("woff2"),
+       url("../fonts/Canela-Light.woff") format("woff");
+}
+
+/* ============================================================
    Design tokens
    ============================================================ */
 :root {
@@ -11,6 +26,7 @@
   --accent-soft: #eef0ef;
 
   --font-display: "Avenir Next", Avenir, "Century Gothic", "Futura", "Segoe UI", sans-serif;
+  --font-title: "Canela", Georgia, "Times New Roman", serif;
   --font-body: "Avenir Next", Avenir, "Futura", "Segoe UI", sans-serif;
 
   --nav-height: 60px;
@@ -210,8 +226,8 @@ main { flex: 1; }
 }
 
 .gallery-intro h1 {
-  font-family: var(--font-display);
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 300;
   font-size: clamp(28px, 3.4vw, 44px);
   line-height: 1.1;
   margin: 0 0 18px;
@@ -236,8 +252,8 @@ main { flex: 1; }
 }
 
 .gallery-outro h2 {
-  font-family: var(--font-display);
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 300;
   font-size: clamp(28px, 3.4vw, 44px);
   line-height: 1.1;
   margin: 0 0 18px;
@@ -398,6 +414,7 @@ main { flex: 1; }
 .about-row--reverse {
   grid-template-columns: 1fr minmax(240px, 32%);
 }
+.about-intro + .about-row,
 .about-row + .about-row {
   margin-top: clamp(56px, 7vw, 96px);
 }
@@ -419,14 +436,21 @@ main { flex: 1; }
 .about-copy {
   padding: 0 clamp(24px, 4vw, 64px) 0 clamp(8px, 1.5vw, 24px);
 }
+
+/* About intro: text only, left-aligned, wide margins on both sides */
+.about-copy.about-intro {
+  padding: 0 clamp(32px, 12vw, 200px);
+  text-align: left;
+}
+.about-intro p { max-width: none; }
 .about-row--reverse .about-copy {
   padding: 0 clamp(8px, 1.5vw, 24px) 0 clamp(24px, 4vw, 64px);
 }
 
 .about-copy h1,
 .about-copy h2 {
-  font-family: var(--font-display);
-  font-weight: 700;
+  font-family: var(--font-title);
+  font-weight: 300;
   font-size: clamp(28px, 3.6vw, 46px);
   margin: 0 0 20px;
   line-height: 1;
@@ -457,6 +481,7 @@ main { flex: 1; }
   .about-photo { height: 46vh; }
   .about-copy,
   .about-row--reverse .about-copy { padding: 28px clamp(20px, 5vw, 40px) 0; }
+  .about-copy.about-intro { padding: 8px clamp(20px, 5vw, 40px) 0; }
   /* On phones, each photo sits above its text */
   .about-row--reverse .about-photo { order: -1; }
 }
@@ -482,8 +507,8 @@ main { flex: 1; }
 }
 
 .contact-page h1 {
-  font-family: var(--font-display);
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 300;
   font-size: clamp(28px, 4vw, 42px);
   margin: 0 0 16px;
 }
@@ -564,8 +589,8 @@ main { flex: 1; }
 }
 
 .project-detail h1 {
-  font-family: var(--font-display);
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 300;
   font-size: clamp(28px, 3.6vw, 46px);
   margin: 0 0 24px;
   line-height: 1.15;
