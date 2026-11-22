@@ -29,7 +29,7 @@
   --font-body: "Avenir Next", Avenir, "Futura", "Segoe UI", sans-serif;
 
   --nav-height: 70px;
-  --footer-height: 172px; /* home: "Start a project" row + red footer bar */
+  --footer-height: 166px; /* home: "Start a project" row + red footer bar */
   --header-gap: clamp(16px, 2vw, 28px);
   --gallery-top-space: clamp(24px, 3vw, 48px);
 }
@@ -237,6 +237,13 @@ main { flex: 1; }
   white-space: nowrap;
   opacity: 0.9;
 }
+/* Copyright sits at the right edge, mirroring the wordmark on the left
+   (both use the bar's side padding as their distance from the edge) */
+.footer-copyright {
+  justify-self: end;
+  white-space: nowrap;
+  opacity: 0.9;
+}
 .footer-bar a {
   color: #f6f5f1;
   border-bottom: 1px solid transparent;
@@ -248,7 +255,8 @@ main { flex: 1; }
 @media (max-width: 1100px) {
   :root { --footer-height: 220px; } /* home: stacked footer is taller */
   .footer-bar { grid-template-columns: 1fr; justify-items: center; gap: 16px; padding: 24px 20px; }
-  .footer-wordmark { justify-self: center; }
+  .footer-wordmark,
+  .footer-copyright { justify-self: center; }
 }
 @media (max-width: 640px) {
   .footer-blurb { white-space: normal; }
