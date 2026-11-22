@@ -941,18 +941,27 @@ main { flex: 1; }
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+/* Scope: one run of items separated by dots, centered, wrapping at about
+   two-thirds of the title's width (set in main.js). A dot never starts a
+   line: main.js hides it on whichever item begins a new line. */
 .project-scope {
   list-style: none;
-  margin: 26px 0 0;
+  margin: 26px auto 0;
   padding: 0;
   font-family: var(--font-title);
   font-weight: 100;
-  font-size: clamp(15px, 1.4vw, 19px);
+  font-size: clamp(14px, 1.2vw, 17px);
   line-height: 1.7;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--graphite);
 }
+.project-scope li { display: inline; }
+.project-scope li + li::before {
+  content: "·\00a0\00a0"; /* dot + two non-breaking spaces, stays with the next item */
+  margin-left: 0.15em;
+}
+.project-scope li.line-start::before { content: none; }
 
 /* Feature photo on the left, description on the right */
 .project-feature {
@@ -981,6 +990,9 @@ main { flex: 1; }
 .project-pair img { width: 100%; height: auto; }
 /* The second photo fades in a beat after the first, so they read as two */
 .project-pair figure + figure[data-reveal] { transition-delay: 0.35s; }
+
+/* Same gap as credits → divider line below */
+.project-section.project-credits { margin-top: clamp(40px, 4vw, 56px); }
 
 .project-credits ul {
   list-style: none;
@@ -1052,7 +1064,7 @@ main { flex: 1; }
 .nav-name {
   font-family: var(--font-title);
   font-weight: 100;
-  font-size: clamp(18px, 1.8vw, 24px);
+  font-size: clamp(15px, 1.25vw, 18px);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   line-height: 1.2;
@@ -1082,7 +1094,11 @@ main { flex: 1; }
   .project-cover { height: 55vh; min-height: 280px; }
   .project-heading, .project-section { padding: 0 clamp(20px, 5vw, 40px); }
   .project-nav { padding-top: 20px; }
-  .nav-name { font-size: 16px; }
+  .nav-name { font-size: 14px; }
+  /* Phones: scope items stacked one per line, no dots */
+  .project-scope { max-width: none !important; }
+  .project-scope li { display: block; }
+  .project-scope li + li::before { content: none; }
   .project-nav::after { left: clamp(20px, 5vw, 40px); right: clamp(20px, 5vw, 40px); }
   .project-feature { grid-template-columns: 1fr; row-gap: 32px; }
   .project-pair { flex-direction: column; }

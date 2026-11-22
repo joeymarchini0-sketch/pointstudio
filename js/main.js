@@ -262,7 +262,7 @@ function initProjectPage() {
   const paragraphs = (project.description || []).map((t) => `<p>${t}</p>`).join("");
 
   const scope = project.scope && project.scope.length
-    ? `<ul class="project-scope" data-reveal>${project.scope.map((l) => `<li>${l}</li>`).join("")}</ul>`
+    ? `<ul class="project-scope" data-reveal>${project.scope.map((l) => `<li>${l}</li>`).join(" ")}</ul>`
     : "";
 
   // Description: beside the feature photo if there is one, otherwise alone
@@ -307,6 +307,42 @@ function initProjectPage() {
       </nav>
     </article>
   `;
+
+  // Scope line: wrap at ~2/3 of the title's width, and hide the dot on any
+  // item that starts a new line
+  const scopeList = container.querySelector(".project-scope");
+  const titleEl = container.querySelector(".project-heading h1");
+  if (scopeList && titleEl) {
+    const layoutScope = () => {
+      const range = document.createRange();
+      range.selectNodeContents(titleEl);
+      const titleWidth = range.getBoundingClientRect().width;
+      const items = Array.from(scopeList.children);
+      items.forEach((li) => li.classList.remove("line-start"));
+      scopeList.style.maxWidth = `${Math.max(240, titleWidth * 0.67)}px`;
+      // An item starts a new line if its first line sits lower than the
+      // previous item's last line
+      const mark = () =>
+        items.forEach((li, i) => {
+          if (i === 0) return;
+          // ignore the empty sliver some browsers leave at the end of a line
+          const rects = (el) => Array.from(el.getClientRects()).filter((r) => r.width > 1);
+          const prev = rects(items[i - 1]);
+          const cur = rects(li);
+          const starts = cur.length && prev.length && cur[0].top > prev[prev.length - 1].top + 2;
+          li.classList.toggle("line-start", Boolean(starts));
+        });
+      // Hiding a dot can shift the wrapping, so repeat until it settles
+      for (let pass = 0; pass < 4; pass++) {
+        const before = items.map((li) => li.classList.contains("line-start")).join();
+        mark();
+        if (items.map((li) => li.classList.contains("line-start")).join() === before) break;
+      }
+    };
+    layoutScope();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layoutScope);
+    window.addEventListener("resize", layoutScope);
+  }
 
   // Credit links open in a new tab
   container.querySelectorAll(".project-credits a").forEach((a) => {
