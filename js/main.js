@@ -344,6 +344,7 @@ function initContactForm() {
         thanks.classList.add("is-showing");
       }, 400);
     } catch (err) {
+      console.error("Contact form:", err); // visible in the browser's developer console
       button.disabled = false;
       button.textContent = "Send";
       status.innerHTML =
