@@ -29,9 +29,6 @@ You never touch HTML to add a project.
 3. Save and push. The Selected Work gallery, the new project page, and the
    Previous / Next links on every project page all update automatically.
 
-Gallery photos are shown at a standard size: portrait photos at 3:4,
-landscape photos at 4:3.
-
 ## Testing it locally (offline, no npm needed)
 
 Because there's no build step, you have two options:

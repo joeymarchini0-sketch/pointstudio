@@ -19,11 +19,14 @@
  *     cardTitle: "Glen Park<br />Remodel",// optional: hover title with line break
  *     card: "project-images/glen-park-remodel/01.jpg",   // gallery photo
  *     cover: "project-images/glen-park-remodel/cover.jpg",// full-width top photo
+ *     coverPosition: "center 70%",        // optional: move the cover crop
+ *                                         // (0% = show top, 100% = show bottom)
  *     scope: [                            // lines under the title
  *       "Kitchen remodel",
  *       "New rear deck"
  *     ],
  *     featureImage: "project-images/glen-park-remodel/01.jpg", // left of text
+ *       // or several side by side: ["…/01.jpg", "…/02.jpg"]
  *     description: [                      // one entry per paragraph
  *       "First paragraph…"
  *     ],
@@ -37,8 +40,6 @@
  *   },
  *
  * NOTES
- *   - Gallery photos are shown at a standard size: portrait photos 3:4,
- *     landscape photos 4:3 (cropped from the center if needed).
  *   - Use &amp; for "&" inside text.
  */
 
@@ -77,6 +78,7 @@ const PROJECTS = [
     title: "Hidden Suite",
     card: "project-images/hidden-suite/01.jpg",
     cover: "project-images/hidden-suite/cover.jpg",
+    coverPosition: "center 78%", // shift the crop down to show the bed
     scope: [
       "Exterior refresh",
       "Deck addition",
@@ -84,12 +86,12 @@ const PROJECTS = [
       "Kitchen and bathroom modernizations",
       "Maintain existing building footprint"
     ],
-    featureImage: "project-images/hidden-suite/01.jpg",
+    featureImage: [
+      "project-images/hidden-suite/01.jpg",
+      "project-images/hidden-suite/02.jpg"
+    ],
     description: [
       "Part of an ongoing years-long renovation of our East Bay home that's been in the family for three generations. The tiny en-suite water closet became far more functional with the addition of a diagonal, wood-clad wall allowing for a roomy walk-in shower. Inside, the walls and ceiling are drenched in silky plaster, creating a calm cool retreat despite the small footprint."
-    ],
-    photos: [
-      "project-images/hidden-suite/02.jpg"
     ],
     credits: [
       "Joey Marchini - DIY builder",

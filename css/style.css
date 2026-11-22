@@ -374,16 +374,6 @@ main { flex: 1; }
   justify-content: center;
 }
 
-/* Standard card photo sizes (class set in main.js from the photo's shape) */
-.project-card.is-portrait img,
-.project-card.is-landscape img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-.project-card.is-portrait img { aspect-ratio: 3 / 4; }
-.project-card.is-landscape img { aspect-ratio: 4 / 3; }
-
 .project-card .card-image {
   position: relative;
   flex: 1 1 auto;
@@ -971,6 +961,10 @@ main { flex: 1; }
   align-items: center;
 }
 .project-feature-photo img { width: 100%; height: auto; }
+/* Two (or more) photos side by side, with the description to their right */
+.project-feature.has-multi { grid-template-columns: minmax(320px, 60%) 1fr; }
+.project-feature-photo.is-multi { display: flex; gap: clamp(12px, 1.5vw, 24px); align-items: flex-start; }
+.project-feature-photo.is-multi figure { flex: 1 1 0; min-width: 0; margin: 0; }
 .project-description p {
   margin: 0 0 18px;
   font-size: 16px;
@@ -1107,7 +1101,8 @@ main { flex: 1; }
   .project-scope li { display: block; }
   .project-scope li + li::before { content: none; }
   .project-nav::after { left: clamp(20px, 5vw, 40px); right: clamp(20px, 5vw, 40px); }
-  .project-feature { grid-template-columns: 1fr; row-gap: 32px; }
+  .project-feature,
+  .project-feature.has-multi { grid-template-columns: 1fr; row-gap: 32px; }
   .project-photos { flex-direction: column; }
   .project-photos figure { flex: none !important; }
 }

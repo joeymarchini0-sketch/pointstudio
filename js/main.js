@@ -91,19 +91,6 @@ function initGallery() {
     </a>`
   );
 
-  // Standard card sizes: portrait photos show at 3:4, landscape at 4:3, so
-  // every card of the same orientation is the same size
-  track.querySelectorAll(".project-card img").forEach((img) => {
-    const set = () => {
-      if (!img.naturalWidth) return;
-      const card = img.closest(".project-card");
-      const portrait = img.naturalHeight > img.naturalWidth;
-      card.classList.toggle("is-portrait", portrait);
-      card.classList.toggle("is-landscape", !portrait);
-    };
-    if (img.complete) set(); else img.addEventListener("load", set, { once: true });
-  });
-
   // Touch screens have no hover, so the project title (and the photo
   // darkening) appears on its own when a project scrolls into the middle
   // of the screen, and fades away again as it scrolls past.
@@ -270,9 +257,17 @@ function initProjectPage() {
     : "";
 
   // Description: beside the feature photo if there is one, otherwise alone
-  const story = project.featureImage
-    ? `<section class="project-section project-feature">
-         <div class="project-feature-photo" data-reveal><img src="${project.featureImage}" alt="${project.title}" /></div>
+  // Feature photo(s) to the left of the description: one photo, or a list
+  // of photos shown side by side at matching heights
+  const featureList = [].concat(project.featureImage || []);
+  const featurePhotos = featureList.length > 1
+    ? `<div class="project-feature-photo is-multi">${featureList
+        .map((src, n) => `<figure data-reveal style="transition-delay: ${n * 0.35}s"><img src="${src}" alt="${project.title}" /></figure>`)
+        .join("")}</div>`
+    : `<div class="project-feature-photo" data-reveal><img src="${featureList[0]}" alt="${project.title}" /></div>`;
+  const story = featureList.length
+    ? `<section class="project-section project-feature${featureList.length > 1 ? " has-multi" : ""}">
+         ${featurePhotos}
          <div class="project-description" data-reveal>${paragraphs}</div>
        </section>`
     : `<section class="project-section"><div class="project-description" data-reveal>${paragraphs}</div></section>`;
@@ -293,7 +288,7 @@ function initProjectPage() {
 
   container.innerHTML = `
     <article class="project-page">
-      <div class="project-cover"><img src="${project.cover || project.card || project.image}" alt="${project.title}" /></div>
+      <div class="project-cover"><img src="${project.cover || project.card || project.image}" alt="${project.title}"${project.coverPosition ? ` style="object-position: ${project.coverPosition}"` : ""} /></div>
       <header class="project-heading">
         <h1 data-reveal>${project.title}</h1>
         ${scope}
@@ -361,7 +356,7 @@ function initProjectPage() {
 
   // Side-by-side photos: give each a width in proportion to its shape so
   // both end up exactly the same height
-  container.querySelectorAll(".project-photos:not(.is-single) figure").forEach((fig) => {
+  container.querySelectorAll(".project-photos:not(.is-single) figure, .project-feature-photo.is-multi figure").forEach((fig) => {
     const img = fig.querySelector("img");
     const size = () => {
       if (img.naturalWidth) fig.style.flexGrow = img.naturalWidth / img.naturalHeight;
