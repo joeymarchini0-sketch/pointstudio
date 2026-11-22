@@ -49,12 +49,9 @@ function renderFooter(activePage) {
       <a class="footer-cta" href="contact.html">Start a project</a>
     </div>`;
 
-  // The home page gallery is sized to fill the screen, so it keeps just the
-  // "Start a project" link. Every other page gets the full footer.
-  if (document.body.dataset.page === "projects" && document.getElementById("galleryTrack")) {
-    footer.innerHTML = cta;
-    return;
-  }
+  // Home page: the gallery is sized to fill the screen, so the footer sits
+  // tighter there (see .site-footer.is-home in the CSS)
+  if (document.getElementById("galleryTrack")) footer.classList.add("is-home");
 
   const year = new Date().getFullYear();
   footer.innerHTML = `${cta}
@@ -64,11 +61,9 @@ function renderFooter(activePage) {
         <span>Residential architecture and design for the San Francisco Bay Area.</span>
       </div>
       <div class="footer-item">
-        <span class="footer-label">Studio</span>
         <span>Richmond, CA</span>
       </div>
       <div class="footer-item">
-        <span class="footer-label">Contact</span>
         <a href="mailto:hello@pointstudioarch.com">hello@pointstudioarch.com</a>
       </div>
       <div class="footer-item">

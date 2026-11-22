@@ -29,7 +29,7 @@
   --font-body: "Avenir Next", Avenir, "Futura", "Segoe UI", sans-serif;
 
   --nav-height: 60px;
-  --footer-height: 68px;
+  --footer-height: 118px; /* home: "Start a project" row + red footer bar */
   --header-gap: clamp(16px, 2vw, 28px);
   --gallery-top-space: clamp(24px, 3vw, 48px);
 }
@@ -193,6 +193,9 @@ main { flex: 1; }
 .site-footer { padding: 0; }
 .footer-cta-row { padding-left: clamp(20px, 4vw, 48px); padding-right: clamp(20px, 4vw, 48px); }
 .footer-cta-row + .footer-bar { margin-top: 34px; }
+/* Home: no extra gap, so gallery + footer still fit on one screen */
+.site-footer.is-home .footer-cta-row { padding: 16px 0 18px; }
+.site-footer.is-home .footer-cta-row + .footer-bar { margin-top: 0; }
 
 .footer-bar {
   display: flex;
@@ -213,14 +216,6 @@ main { flex: 1; }
   white-space: nowrap;
 }
 .footer-mark { height: 18px; width: auto; display: block; }
-.footer-label {
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  opacity: 0.75;
-}
 .footer-bar a {
   color: #f6f5f1;
   border-bottom: 1px solid transparent;
