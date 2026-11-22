@@ -268,6 +268,7 @@ main { flex: 1; }
    ============================================================ */
 .gallery-wrap {
   position: relative;
+  overflow-x: clip; /* stops the slide-in animation from widening the page on phones */
   padding-top: var(--gallery-top-space);
 }
 
@@ -445,7 +446,39 @@ main { flex: 1; }
     align-self: stretch;
     justify-content: center;
   }
-  .project-card { height: 62vh; min-height: 340px; }
+  /* Phones: each photo shows at its own proportions (no letterbox gaps) */
+  .project-card { height: auto; min-height: 0; }
+  .project-card .card-image { flex: none; }
+  .project-card img { height: auto; }
+  .project-card:hover img { transform: none; filter: none; }
+  /* "Let's Talk" already invites contact at the end of the list, so the
+     separate "Start a project" link is dropped on the phone home page */
+  .site-footer.is-home .footer-cta-row { display: none; }
+  .site-footer.is-home .footer-cta-row + .footer-bar { margin-top: 0; }
+  .gallery-outro { padding-bottom: 48px; }
+}
+
+/* Project captions: shown under each photo on touch screens, where the
+   hover title can't appear. Hidden on devices with a mouse. */
+.card-caption { display: none; }
+@media (hover: none), (max-width: 720px) {
+  .card-caption {
+    display: block;
+    margin: 12px 0 0;
+    align-self: center; /* centered under the photo in the sideways gallery */
+    text-align: center;
+    font-family: var(--font-title);
+    font-weight: 100;
+    font-size: 17px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .card-hover-title { display: none; }
+}
+@media (max-width: 720px) {
+  /* Phones: full-width photos, caption at the left margin */
+  .card-caption { align-self: flex-start; text-align: left; padding: 0 clamp(20px, 5vw, 40px); }
 }
 
 /* Progress line — a thin rule under the gallery that fills from left to

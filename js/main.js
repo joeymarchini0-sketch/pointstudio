@@ -79,6 +79,7 @@ function initGallery() {
           <img src="${p.image}" alt="${p.title}" ${i === 0 ? "" : 'loading="lazy"'} />
           <div class="card-hover-title">${p.title}</div>
         </div>
+        <p class="card-caption">${p.title}</p>
       </a>`
   ).join("");
 
@@ -190,7 +191,7 @@ function initProjectPage() {
     return;
   }
 
-  document.title = `${project.title} — ${STUDIO_NAME}`;
+  document.title = `${project.title} — Point Studio Architecture + Design`;
 
   const paragraphs = project.description.map((p) => `<p>${p}</p>`).join("");
 
