@@ -187,45 +187,57 @@ main { flex: 1; }
   color: var(--ink);
 }
 
-/* Full footer (every page except the home gallery) */
-.footer-cta-row + .footer-main { margin-top: 34px; }
-.footer-main {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 32px;
-  padding: 40px 0 36px;
-  border-top: 1px solid var(--line);
+/* Full footer (every page except the home gallery): one thin red bar,
+   same red as the logo, with four items spread evenly across a single
+   line and vertically centered. */
+.site-footer { padding: 0; }
+.footer-cta-row { padding-left: clamp(20px, 4vw, 48px); padding-right: clamp(20px, 4vw, 48px); }
+.footer-cta-row + .footer-bar { margin-top: 34px; }
+
+.footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px clamp(20px, 4vw, 48px);
+  background: #aa3838;
+  color: #f6f5f1;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.04em;
 }
-.footer-mark { width: 34px; height: auto; margin-bottom: 16px; }
-.footer-brand p,
-.footer-col p {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--graphite);
+.footer-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
 }
-.footer-col h3 {
-  margin: 0 0 12px;
+.footer-mark { height: 18px; width: auto; display: block; }
+.footer-label {
   font-family: var(--font-display);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink);
+  opacity: 0.75;
 }
-.footer-col a { color: var(--graphite); transition: color 0.15s ease; }
-.footer-col a:hover { color: var(--ink); }
-.footer-legal {
-  padding: 18px 0 26px;
-  border-top: 1px solid var(--line);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--graphite);
+.footer-bar a {
+  color: #f6f5f1;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
 }
+.footer-bar a:hover { border-bottom-color: #f6f5f1; }
 
-@media (max-width: 820px) {
-  .footer-main { grid-template-columns: 1fr 1fr; }
-  .footer-brand { grid-column: 1 / -1; }
+/* When the single line no longer fits, stack the items, left-aligned */
+@media (max-width: 1100px) {
+  .footer-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+  .footer-item { white-space: normal; line-height: 1.4; }
 }
 
 /* ============================================================
