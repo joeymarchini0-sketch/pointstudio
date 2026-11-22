@@ -88,7 +88,7 @@ textarea:focus-visible {
 /* Header logo (horizontal lockup, SVG) */
 .site-header .mark { display: block; line-height: 0; }
 .site-header .mark img {
-  height: 44px;
+  height: 48px;
   width: auto;
 }
 
@@ -142,7 +142,7 @@ textarea:focus-visible {
 @media (max-width: 720px) {
   .nav-toggle { display: flex; }
   .site-header .mark { padding: 10px 0; }
-  .site-header .mark img { height: 34px; }
+  .site-header .mark img { height: 37px; }
   .site-header {
     flex-wrap: wrap;
     height: auto;
