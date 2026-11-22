@@ -74,7 +74,7 @@ function initGallery() {
 
   const cards = PROJECTS.map(
     (p, i) => `
-      <a class="project-card" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
+      <a class="project-card${p.cardWide ? " is-wide" : ""}" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
         <div class="card-image">
           <img src="${p.image}" alt="${p.title}" ${i === 0 ? "" : 'loading="lazy"'} />
           <div class="card-hover-title">${p.cardTitle || p.title}</div>
@@ -90,6 +90,15 @@ function initGallery() {
       <p>Have a project in mind? We'd love to hear about it.</p>
     </a>`
   );
+
+  // Wide cards take their width from the photo's actual shape
+  track.querySelectorAll(".project-card.is-wide").forEach((card) => {
+    const img = card.querySelector("img");
+    const set = () => {
+      if (img.naturalWidth) card.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+    };
+    if (img.complete) set(); else img.addEventListener("load", set, { once: true });
+  });
 
   // Touch screens have no hover, so the project title (and the photo
   // darkening) appears on its own when a project scrolls into the middle
@@ -247,7 +256,9 @@ function initProjectPage() {
   document.title = `${project.title} — Point Studio Architecture + Design`;
 
   const currentIndex = PROJECTS.findIndex((p) => p.slug === project.slug);
+  // Previous / next wrap around both ways (1 ← 5, 5 → 1)
   const nextProject = PROJECTS[(currentIndex + 1) % PROJECTS.length];
+  const prevProject = PROJECTS[(currentIndex - 1 + PROJECTS.length) % PROJECTS.length];
   const paragraphs = (project.description || []).map((t) => `<p>${t}</p>`).join("");
 
   const scope = project.scope && project.scope.length
@@ -284,7 +295,8 @@ function initProjectPage() {
       ${story}
       ${pair}
       ${credits}
-      <nav class="project-section project-next" data-reveal>
+      <nav class="project-section project-nav" data-reveal aria-label="More projects">
+        <a class="prev-link" href="project.html?slug=${encodeURIComponent(prevProject.slug)}">Previous Project</a>
         <a class="next-link" href="project.html?slug=${encodeURIComponent(nextProject.slug)}">Next Project</a>
       </nav>
     </article>

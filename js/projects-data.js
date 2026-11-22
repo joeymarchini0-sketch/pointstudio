@@ -24,6 +24,7 @@
  *
  * Optional fields for the full project page layout (see Inner Richmond):
  *   cardTitle    - gallery hover title with line breaks (<br />)
+ *   cardWide     - true = gallery card shown wide at full height (landscape photos)
  *   cover        - full-width photo at the top of the project page
  *   scope        - list of scope lines shown under the title
  *   featureImage - photo shown left of the description
@@ -38,8 +39,10 @@ const PROJECTS = [
     title: "Inner Richmond Addition",
     // Title shown over the photo on hover in the gallery (<br /> = line break)
     cardTitle: "Inner Richmond<br />Addition",
-    // Gallery card photo
-    image: "project-images/inner-richmond-addition/01.jpg",
+    // Gallery card photo (same as the project page cover)
+    image: "project-images/inner-richmond-addition/cover.jpg",
+    // Show this card wide, at the full gallery height, in the photo's own shape
+    cardWide: true,
     // Project page
     cover: "project-images/inner-richmond-addition/cover.jpg",
     scope: [

@@ -374,6 +374,14 @@ main { flex: 1; }
   justify-content: center;
 }
 
+/* Wide card (landscape lead photo): full gallery height, width from the
+   photo's shape (set in main.js; 4:3 until the photo loads) */
+.project-card.is-wide {
+  flex: 0 0 auto;
+  width: auto;
+  aspect-ratio: 4 / 3;
+}
+
 .project-card .card-image {
   position: relative;
   flex: 1 1 auto;
@@ -440,9 +448,11 @@ main { flex: 1; }
     height: auto;
     padding: 4px clamp(20px, 5vw, 40px) 24px;
   }
-  .project-card {
+  .project-card,
+  .project-card.is-wide {
     flex: none;
     width: 100%;
+    aspect-ratio: auto !important;
     align-self: stretch;
     justify-content: center;
   }
@@ -971,8 +981,16 @@ main { flex: 1; }
 }
 .project-credits a:hover { border-bottom-color: var(--ink); }
 
-.project-next { text-align: right; }
+/* Room between the previous/next row and "Start a project" below */
+.project-page { padding-bottom: clamp(48px, 6vw, 88px); }
 
+.project-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prev-link,
 .next-link {
   display: inline-flex;
   align-items: center;
@@ -986,7 +1004,9 @@ main { flex: 1; }
   transition: gap 0.15s ease;
 }
 .next-link::after { content: "→"; }
-.next-link:hover { gap: 12px; }
+.prev-link::before { content: "←"; }
+.next-link:hover,
+.prev-link:hover { gap: 12px; }
 
 .back-link {
   display: inline-flex;
