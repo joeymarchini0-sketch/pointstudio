@@ -98,18 +98,20 @@ function initGallery() {
     el.style.animationDelay = `${Math.min(i * 0.15, 1.2)}s`;
   });
 
-  // Progress line: fill = how far the right edge of the screen has
-  // travelled through the gallery (so it's partly full on load, completely
-  // full at the end). Clicking the line scrolls to that point.
+  // Progress line: starts one-third full when the page opens, then fills
+  // the remaining two-thirds in step with scrolling, reaching full at the
+  // end of the gallery. Clicking the line scrolls to the matching point.
   const progress = document.getElementById("scrollProgress");
   const fill = document.getElementById("scrollProgressFill");
   if (progress && fill) {
     progress.style.animationDelay = "0s"; // fades in with the first project
 
+    const START = 1 / 3;
+    const maxScroll = () => Math.max(1, track.scrollWidth - track.clientWidth);
+
     const update = () => {
-      const total = track.scrollWidth;
-      const seen = total > 0 ? (track.scrollLeft + track.clientWidth) / total : 1;
-      const pct = Math.min(1, Math.max(0, seen));
+      const t = Math.min(1, Math.max(0, track.scrollLeft / maxScroll()));
+      const pct = START + (1 - START) * t;
       fill.style.transform = `scaleX(${pct})`;
       progress.setAttribute("aria-valuenow", String(Math.round(pct * 100)));
     };
@@ -129,9 +131,9 @@ function initGallery() {
     progress.addEventListener("click", (e) => {
       const rect = progress.getBoundingClientRect();
       const ratio = (e.clientX - rect.left) / rect.width;
-      // Same scale as the fill: move so the line ends where you clicked
-      const left = ratio * track.scrollWidth - track.clientWidth;
-      track.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+      // Inverse of the fill: anywhere in the first third = the start
+      const t = Math.min(1, Math.max(0, (ratio - START) / (1 - START)));
+      track.scrollTo({ left: t * maxScroll(), behavior: "smooth" });
     });
 
     update();
