@@ -558,6 +558,30 @@ main { flex: 1; }
 }
 
 /* ============================================================
+   Banner — one full-width photo at the top of a page. Same height as
+   one row of the old drawing collage (half the space under the header),
+   cropped to fill. Fades in on page load.
+   ============================================================ */
+.about-banner {
+  height: max(240px, calc((100vh - var(--header-gap) - var(--nav-height) - 64px) / 2));
+  margin-top: 8px;
+  overflow: hidden;
+  opacity: 0;
+  animation: collage-in 1.2s ease 0.1s forwards;
+}
+.about-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.about-banner + .about-page {
+  padding-top: clamp(64px, 8vw, 120px);
+}
+@media (max-width: 720px) {
+  .about-banner { height: 30vh; min-height: 200px; }
+}
+
+/* ============================================================
    About page
    ============================================================ */
 .about-page {
@@ -586,6 +610,11 @@ main { flex: 1; }
   column-gap: clamp(32px, 4vw, 64px);
   align-items: stretch;
 }
+/* Photo on the left, text on the right */
+.about-row--photo-left {
+  grid-template-columns: minmax(240px, 32%) 1fr;
+}
+
 .about-intro + .about-row,
 .about-row + .about-row {
   margin-top: clamp(56px, 7vw, 96px);
@@ -637,8 +666,8 @@ main { flex: 1; }
   .about-copy.about-intro { padding-top: 8px; }
   .about-row { grid-template-columns: 1fr; row-gap: 28px; }
   .about-photo { height: 46vh; }
-  /* On phones, the photo sits above Megan's text */
-  .about-row--reverse .about-photo { order: -1; }
+  /* On phones, each section's photo sits above its text */
+  .about-row .about-photo { order: -1; }
 }
 
 /* ============================================================

@@ -15,65 +15,66 @@
   <header id="site-header" class="site-header"></header>
 
   <main>
-    <!-- Collage of drawings — fades in on page load. Placeholder images
-         in collage/; swap the src paths for real drawings/renders. -->
-    <section class="collage" aria-label="Selected drawings and renderings">
-      <figure class="collage-tile tile-a"><img src="collage/collage-01-plan.svg" alt="Floor plan drawing" /></figure>
-      <figure class="collage-tile tile-b"><img src="collage/collage-05-detail.svg" alt="Window detail drawing" /></figure>
-      <figure class="collage-tile tile-c"><img src="collage/collage-02-elevation.svg" alt="Front elevation drawing" /></figure>
-      <figure class="collage-tile tile-d"><img src="collage/collage-03-section.svg" alt="Building section drawing" /></figure>
-      <figure class="collage-tile tile-e"><img src="collage/collage-04-axon.svg" alt="Axonometric drawing" /></figure>
-      <figure class="collage-tile tile-f"><img src="collage/collage-06-site.svg" alt="Site plan drawing" /></figure>
+    <!-- Banner photo — fades in on page load. Placeholder: swap the src for
+         the final banner image. -->
+    <section class="about-banner" aria-label="Point Studio project">
+      <img src="images/projects/project-05.jpg" alt="Kitchen and dining space by Point Studio" />
     </section>
 
     <div class="about-page">
-      <!-- About intro: text only, full width -->
+      <!-- About -->
       <section class="about-copy about-intro">
-          <h1 data-reveal>About</h1>
-          <p data-reveal>
-            Point Studio Architecture + Design is an emerging practice offering full
-            architectural services for remodels, new homes, and new ADUs, with a focus on
-            modern design and transformations of Bay Area vernacular architecture from
-            Edwardians, to Craftsmans to Eichlers.
-          </p>
-          <p data-reveal>
-            We take your project personally. Our goal is to create a space that embodies
-            your family, your personality — a space that celebrates your unique lifestyle.
-            We believe your home should be sensible while still inviting, expressing your
-            spirit through light and warmth, authentic materials and serendipitous moments
-            throughout.
-          </p>
-          <p data-reveal>
-            With deep connections to professionals across the Bay Area, we assemble the
-            right team and workflow for each project based on your specific goals —
-            bringing in contractors, engineers, code compliance specialists, interior
-            designers and landscape designers as needed. Think of us as your navigator from
-            design ideation through project completion. We know residential construction
-            well, especially remodels where existing structure and systems need to be
-            preserved in part or in full. And because building in California means
-            navigating a complicated permitting process, we’ve built relationships and
-            experience across many jurisdictions.
-          </p>
+        <h1 data-reveal>About</h1>
+        <p data-reveal>
+          Point Studio Architecture + Design offers full architectural services for
+          remodels, new homes, and new ADUs, with a focus on modern design and
+          transformations of Bay Area vernacular architecture from Edwardians, to
+          Craftsmans to Eichlers.
+        </p>
+        <p data-reveal>
+          We take your project personally. Our goal is to create a space that embodies
+          your family, your personality — a space that celebrates your unique lifestyle.
+          We believe your home should be sensible while still inviting, expressing your
+          spirit through light and warmth, authentic materials and serendipitous moments
+          throughout.
+        </p>
+      </section>
+
+      <!-- Process: text left, photo right -->
+      <div class="about-row">
+        <section class="about-copy">
+          <h2 data-reveal>Process</h2>
           <p data-reveal>
             When you work with us, we acknowledge and appreciate the investment you are
-            making in your home. Clients often come to us after much deliberation and years
-            of hard work to reach this starting point. We use our experience to encourage
-            decisions that make the biggest impact toward your project goals. Early on,
-            we’ll walk you through different paths your project could take in terms of
-            budget, timeline and design. We stay in communication on these expectations as
-            the project evolves. We build design fee budgets using data from past projects
-            to forecast design costs, and we stay closely attuned to construction costs
-            throughout. Together, we’ll keep a budget that achieves your project goals front
-            and center throughout design development.
+            making in your home. We use our experience to encourage decisions that make the
+            biggest impact toward your project goals, which stay front and center throughout
+            the design process. Early on, we’ll walk you through different paths your
+            project could take in terms of budget, timeline and design. We stay in
+            communication on these expectations as the project evolves.
+          </p>
+          <p data-reveal>
+            With connections to professionals across the Bay Area, we assemble the right
+            team and workflow for each project — bringing in contractors, engineers, code
+            compliance specialists, interior designers and landscape designers as needed.
+            Think of us as your navigator from design ideation through project completion.
           </p>
           <p data-reveal>
             If you’re ready to learn more, the first step is simple.
             <a class="inline-link" href="contact.html">Let’s set up an introductory conversation.</a>
           </p>
-      </section>
+        </section>
+        <div class="about-photo" data-reveal>
+          <!-- Placeholder photo — swap for a process/studio image later -->
+          <img src="images/projects/project-03.jpg" alt="Oak stair and slatted railing by Point Studio" />
+        </div>
+      </div>
 
-      <!-- Row 2: Megan's bio left, photo right -->
-      <div class="about-row about-row--reverse">
+      <!-- Megan: photo left, text right -->
+      <div class="about-row about-row--photo-left">
+        <div class="about-photo" data-reveal>
+          <!-- Placeholder photo — swap for Megan's portrait later -->
+          <img src="images/owner.jpg" alt="Portrait of Megan Lizarraga Marchini" />
+        </div>
         <section class="about-copy">
           <h2 data-reveal>Megan Lizarraga Marchini</h2>
           <p data-reveal>
@@ -91,9 +92,9 @@
           </p>
           <p data-reveal>
             Megan is a fourth-generation Bay Area native, with family roots tracing back
-            over a hundred years in Richmond and Oakland. That connection to place runs
-            deep: she and her husband purchased her grandparents' house in Richmond — her
-            father's childhood home — and reimagined it for their own family, bringing in
+            over a century in Richmond and Oakland. That connection to place runs deep: she
+            and her husband purchased her grandparents' house in Richmond — her father's
+            childhood home — and reimagined it for their own family, bringing in
             much-needed upgrades along the way.
           </p>
           <p data-reveal>
@@ -110,10 +111,6 @@
             black-and-white film photography class.
           </p>
         </section>
-        <div class="about-photo" data-reveal>
-          <!-- Placeholder photo — swap for Megan's portrait later -->
-          <img src="images/owner.jpg" alt="Portrait of Megan Lizarraga Marchini" />
-        </div>
       </div>
     </div>
   </main>
