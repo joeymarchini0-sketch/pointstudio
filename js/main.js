@@ -25,7 +25,7 @@ function renderHeader(activePage) {
     .join("");
 
   header.innerHTML = `
-    <a href="index.html" class="mark"><img src="logo-horizontal.svg" alt="Point Studio Architecture + Design" /></a>
+    <a href="index.html" class="mark"><img src="logo-header.svg" alt="Point Studio Architecture + Design" /></a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span>
     </button>
@@ -56,14 +56,14 @@ function renderFooter(activePage) {
   const year = new Date().getFullYear();
   footer.innerHTML = `${cta}
     <div class="footer-bar">
-      <div class="footer-brand">
-        <img src="wordmark-light.svg" alt="Point Studio Architecture + Design" class="footer-wordmark" />
-        <p class="footer-blurb">Serving residential and commercial spaces<br />in the San Francisco Bay Area</p>
-      </div>
-      <div class="footer-info">
-        <span>Richmond, CA</span>
-        <a href="mailto:hello@pointstudioarch.com">hello@pointstudioarch.com</a>
-        <span>© ${year} Point Studio Inc.</span>
+      <img src="wordmark-light.svg" alt="Point Studio Architecture + Design" class="footer-wordmark" />
+      <div class="footer-center">
+        <p class="footer-blurb">Serving residential and commercial spaces in the San Francisco Bay Area</p>
+        <div class="footer-info">
+          <span>Richmond, CA</span>
+          <a href="mailto:hello@pointstudioarch.com">hello@pointstudioarch.com</a>
+          <span>© ${year} Point Studio Inc.</span>
+        </div>
       </div>
     </div>
   `;

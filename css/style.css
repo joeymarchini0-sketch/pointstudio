@@ -29,7 +29,7 @@
   --font-body: "Avenir Next", Avenir, "Futura", "Segoe UI", sans-serif;
 
   --nav-height: 70px;
-  --footer-height: 174px; /* home: "Start a project" row + red footer bar */
+  --footer-height: 166px; /* home: "Start a project" row + red footer bar */
   --header-gap: clamp(16px, 2vw, 28px);
   --gallery-top-space: clamp(24px, 3vw, 48px);
 }
@@ -200,40 +200,39 @@ main { flex: 1; }
 .site-footer.is-home .footer-cta-row + .footer-bar { margin-top: 0; }
 
 .footer-bar {
-  /* Left half: wordmark + blurb. Right half: info, starting just past the
-     right edge of the centered "Start a project" link above. */
-  --wordmark-h: 46px;
-  --cta-clearance: 120px; /* half the CTA's width + breathing room */
+  /* Wordmark on the left; blurb + info stacked and centered on the page
+     (lined up under "Start a project"). The empty third column mirrors
+     the wordmark's column so the middle stays truly centered. */
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 22px clamp(20px, 4vw, 48px);
+  gap: 32px;
+  padding: 20px clamp(20px, 4vw, 48px);
   background: #aa3838;
   color: #f6f5f1;
   font-size: 12px;
   letter-spacing: 0.04em;
 }
-.footer-brand {
+.footer-wordmark {
+  height: 37px;
+  width: auto;
+  display: block;
+  justify-self: start;
+}
+.footer-center {
   display: flex;
-  align-items: flex-start;
-  gap: 22px;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
 }
-.footer-wordmark { height: var(--wordmark-h); width: auto; display: block; }
-/* Two lines whose centers line up with the wordmark's two lines
-   ("POINT STUDIO" centered at 23.6% of its height, "ARCHITECTURE +
-   DESIGN" at 88%). Line height = the distance between those centers. */
-.footer-blurb {
-  margin: calc(var(--wordmark-h) * -0.0865) 0 0;
-  line-height: calc(var(--wordmark-h) * 0.645);
-  white-space: nowrap;
-}
+.footer-blurb { margin: 0; white-space: nowrap; }
 .footer-info {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding-left: var(--cta-clearance);
+  justify-content: center;
+  gap: 48px;
   white-space: nowrap;
+  opacity: 0.9;
 }
 .footer-bar a {
   color: #f6f5f1;
@@ -242,17 +241,15 @@ main { flex: 1; }
 }
 .footer-bar a:hover { border-bottom-color: #f6f5f1; }
 
-/* Narrower screens: stack brand above the info line */
-@media (max-width: 1320px) {
-  :root { --footer-height: 216px; } /* home: stacked footer is taller */
-  .footer-bar { grid-template-columns: 1fr; gap: 18px; }
-  .footer-info { padding-left: 0; justify-content: flex-start; gap: 32px; }
+/* Narrower screens: everything stacks, centered */
+@media (max-width: 1100px) {
+  :root { --footer-height: 220px; } /* home: stacked footer is taller */
+  .footer-bar { grid-template-columns: 1fr; justify-items: center; gap: 16px; padding: 24px 20px; }
+  .footer-wordmark { justify-self: center; }
 }
 @media (max-width: 640px) {
-  .footer-bar { --wordmark-h: 38px; }
-  .footer-brand { flex-direction: column; gap: 14px; }
-  .footer-blurb { margin: 0; line-height: 1.5; white-space: normal; }
-  .footer-info { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .footer-blurb { white-space: normal; }
+  .footer-info { flex-direction: column; align-items: center; gap: 8px; }
 }
 
 /* ============================================================
