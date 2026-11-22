@@ -79,7 +79,6 @@ function initGallery() {
           <img src="${p.image}" alt="${p.title}" ${i === 0 ? "" : 'loading="lazy"'} />
           <div class="card-hover-title">${p.title}</div>
         </div>
-        <p class="card-caption">${p.title}</p>
       </a>`
   ).join("");
 
@@ -91,6 +90,11 @@ function initGallery() {
       <p>Have a project in mind? We'd love to hear about it.</p>
     </a>`
   );
+
+  // Touch screens have no hover, so the project title (and the photo
+  // darkening) appears on its own when a project scrolls into the middle
+  // of the screen, and fades away again as it scrolls past.
+  initTouchTitles(track);
 
   // Load-in animation: stagger each item (intro, cards, closing card) so
   // they slide in right-to-left one after another. Capped so items far
@@ -171,6 +175,55 @@ function initReveal() {
   );
 
   items.forEach((el) => observer.observe(el));
+}
+
+function initTouchTitles(track) {
+  if (!("IntersectionObserver" in window)) return;
+  const touch = window.matchMedia("(hover: none)");
+  const phone = window.matchMedia("(max-width: 720px)");
+  const cards = Array.from(track.querySelectorAll(".project-card"));
+  let observer = null;
+
+  const setup = () => {
+    if (observer) observer.disconnect();
+    cards.forEach((c) => c.classList.remove("is-active"));
+    if (!touch.matches && !phone.matches) return; // mouse: normal hover
+
+    // Phones scroll the page up and down; tablets scroll the gallery sideways.
+    // Either way, watch a band through the middle of what's on screen.
+    const vertical = phone.matches;
+    // Only one title shows at a time: of the projects crossing the middle
+    // band, the one whose center is closest to the middle of the screen.
+    const inBand = new Set();
+    const pick = () => {
+      const r = vertical
+        ? { mid: window.innerHeight / 2 }
+        : { mid: track.getBoundingClientRect().left + track.clientWidth / 2 };
+      let best = null;
+      let bestDist = Infinity;
+      inBand.forEach((c) => {
+        const b = c.getBoundingClientRect();
+        const center = vertical ? b.top + b.height / 2 : b.left + b.width / 2;
+        const d = Math.abs(center - r.mid);
+        if (d < bestDist) { bestDist = d; best = c; }
+      });
+      cards.forEach((c) => c.classList.toggle("is-active", c === best));
+    };
+    observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => (e.isIntersecting ? inBand.add(e.target) : inBand.delete(e.target)));
+        pick();
+      },
+      vertical
+        ? { root: null, rootMargin: "-40% 0px -40% 0px" }
+        : { root: track, rootMargin: "0px -40% 0px -40%" }
+    );
+    cards.forEach((c) => observer.observe(c));
+  };
+
+  setup();
+  phone.addEventListener("change", setup);
+  touch.addEventListener("change", setup);
 }
 
 function initProjectPage() {
