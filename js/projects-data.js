@@ -1,47 +1,53 @@
 /**
  * PROJECTS DATA
  * =============
- * This is the only file you need to touch to add, remove, or update a
- * project. The home page gallery and every individual project page are
- * generated from this list automatically — no HTML editing required.
+ * The only file to edit to add, remove, reorder or update a project. The
+ * Selected Work gallery, every project page, and the Previous / Next links
+ * are all built from this list. Order here = order on the site.
  *
- * To add a new project:
- *   1. Drop the image file into /images/projects/
- *   2. Copy one of the objects below, paste it as a new entry, and edit
- *      the fields.
- *   3. Make sure `slug` is unique — it becomes the project's URL,
- *      e.g. slug: "oak-street-residence" -> project.html?slug=oak-street-residence
+ * TO ADD A PROJECT
+ *   1. Make a folder for its photos: /project-images/<slug>/
+ *      e.g. /project-images/glen-park-remodel/cover.jpg, 01.jpg, 02.jpg ...
+ *   2. Copy the TEMPLATE below into the list where you want it to appear,
+ *      fill it in, and delete any optional lines you don't need.
+ *   3. Save. That's it — no HTML to touch.
  *
- * Field guide:
- *   sheet      - architectural sheet number shown as a small label (e.g. "A-01")
- *   title      - project name shown on the card and detail page
- *   location   - city / neighborhood
- *   year       - completion year (or "In progress")
- *   category   - short type label, e.g. "Full Renovation", "New Construction"
- *   image      - path to the hero/card image
- *   summary    - one sentence shown on the home page card (kept short)
- *   description- one or more paragraphs shown on the project detail page
+ * TEMPLATE
+ *   {
+ *     slug: "glen-park-remodel",          // URL name: lowercase, dashes, unique
+ *     title: "Glen Park Remodel",
+ *     cardTitle: "Glen Park<br />Remodel",// optional: hover title with line break
+ *     card: "project-images/glen-park-remodel/01.jpg",   // gallery photo
+ *     cover: "project-images/glen-park-remodel/cover.jpg",// full-width top photo
+ *     scope: [                            // lines under the title
+ *       "Kitchen remodel",
+ *       "New rear deck"
+ *     ],
+ *     featureImage: "project-images/glen-park-remodel/01.jpg", // left of text
+ *     description: [                      // one entry per paragraph
+ *       "First paragraph…"
+ *     ],
+ *     photos: [                           // optional: 1–3 photos in a row,
+ *       "project-images/glen-park-remodel/02.jpg"  // shown at matching heights
+ *     ],
+ *     credits: [                          // one line each; links allowed
+ *       'Builder Name - GC',
+ *       '<a href="https://example.com">Photographer</a> - Photography'
+ *     ]
+ *   },
  *
- * Optional fields for the full project page layout (see Inner Richmond):
- *   cardTitle    - gallery hover title with line breaks (<br />)
- *   cardWide     - true = gallery card shown wide at full height (landscape photos)
- *   cover        - full-width photo at the top of the project page
- *   scope        - list of scope lines shown under the title
- *   featureImage - photo shown left of the description
- *   pair         - two photos shown side by side
- *   credits      - collaborator lines (links allowed)
- * Put each project's photos in its own folder in /project-images/.
+ * NOTES
+ *   - Gallery photos are shown at a standard size: portrait photos 3:4,
+ *     landscape photos 4:3 (cropped from the center if needed).
+ *   - Use &amp; for "&" inside text.
  */
 
 const PROJECTS = [
   {
     slug: "inner-richmond-addition",
     title: "Inner Richmond Addition",
-    // Title shown over the photo on hover in the gallery (<br /> = line break)
     cardTitle: "Inner Richmond<br />Addition",
-    // Gallery card photo (same as the project page cover)
-    image: "project-images/inner-richmond-addition/cover.jpg",
-    // Project page
+    card: "project-images/inner-richmond-addition/cover.jpg",
     cover: "project-images/inner-richmond-addition/cover.jpg",
     scope: [
       "3rd floor addition",
@@ -54,12 +60,10 @@ const PROJECTS = [
     description: [
       "Our clients wanted to maximize function and breathe new life into their family gathering spaces with light and color, which drove every decision as we added a third floor to their two-story 1900s Edwardian. A light-filled stairway with floating oak treads and a glass-walled bridge now connects the existing bedrooms to the new primary suite. Skylights draw daylight into the shared rooms at the center of the home’s deep footprint. Ultimately, carefully targeted interventions improved how the house works, while interiors that reflect the family’s cheerful personality enhanced the charm they first loved about it."
     ],
-    // Photos shown side by side, at matching heights
-    pair: [
+    photos: [
       "project-images/inner-richmond-addition/02.jpg",
       "project-images/inner-richmond-addition/03.jpg"
     ],
-    // One line each. Links use <a href="...">name</a>.
     credits: [
       'Completed as Designer &amp; Project Manager while at <a href="http://johnlumarchitecture.com">John Lum Architecture</a>',
       "Bryce CB Construction - GC",
@@ -69,18 +73,31 @@ const PROJECTS = [
     ]
   },
   {
-    slug: "project-2",
-    sheet: "A-02",
-    title: "Project 2",
-    location: "City, CA",
-    year: "2023",
-    category: "Addition",
-    image: "images/projects/project-02.jpg",
-    summary: "A one-line description of this project goes here.",
+    slug: "hidden-suite",
+    title: "Hidden Suite",
+    card: "project-images/hidden-suite/01.jpg",
+    cover: "project-images/hidden-suite/cover.jpg",
+    scope: [
+      "Exterior refresh",
+      "Deck addition",
+      "Select modifications of existing floorplan",
+      "Kitchen and bathroom modernizations",
+      "Maintain existing building footprint"
+    ],
+    featureImage: "project-images/hidden-suite/01.jpg",
     description: [
-      "Replace this paragraph with a description of the project."
+      "Part of an ongoing years-long renovation of our East Bay home that's been in the family for three generations. The tiny en-suite water closet became far more functional with the addition of a diagonal, wood-clad wall allowing for a roomy walk-in shower. Inside, the walls and ceiling are drenched in silky plaster, creating a calm cool retreat despite the small footprint."
+    ],
+    photos: [
+      "project-images/hidden-suite/02.jpg"
+    ],
+    credits: [
+      "Joey Marchini - DIY builder",
+      "Edwin Camacho - Expert Builder"
     ]
   },
+
+  // ---- Placeholders below: replace with real projects ----
   {
     slug: "project-3",
     sheet: "A-03",
@@ -88,7 +105,7 @@ const PROJECTS = [
     location: "City, CA",
     year: "2023",
     category: "New Construction",
-    image: "images/projects/project-03.jpg",
+    card: "images/projects/project-03.jpg",
     summary: "A one-line description of this project goes here.",
     description: [
       "Replace this paragraph with a description of the project."
@@ -101,7 +118,7 @@ const PROJECTS = [
     location: "City, CA",
     year: "2022",
     category: "Kitchen + Bath",
-    image: "images/projects/project-04.jpg",
+    card: "images/projects/project-04.jpg",
     summary: "A one-line description of this project goes here.",
     description: [
       "Replace this paragraph with a description of the project."
@@ -114,7 +131,7 @@ const PROJECTS = [
     location: "City, CA",
     year: "2022",
     category: "ADU",
-    image: "images/projects/project-05.jpg",
+    card: "images/projects/project-05.jpg",
     summary: "A one-line description of this project goes here.",
     description: [
       "Replace this paragraph with a description of the project."

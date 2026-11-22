@@ -74,9 +74,9 @@ function initGallery() {
 
   const cards = PROJECTS.map(
     (p, i) => `
-      <a class="project-card${p.cardWide ? " is-wide" : ""}" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
+      <a class="project-card" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
         <div class="card-image">
-          <img src="${p.image}" alt="${p.title}" ${i === 0 ? "" : 'loading="lazy"'} />
+          <img src="${p.card || p.image}" alt="${p.title}" ${i === 0 ? "" : 'loading="lazy"'} />
           <div class="card-hover-title">${p.cardTitle || p.title}</div>
         </div>
       </a>`
@@ -91,11 +91,15 @@ function initGallery() {
     </a>`
   );
 
-  // Wide cards take their width from the photo's actual shape
-  track.querySelectorAll(".project-card.is-wide").forEach((card) => {
-    const img = card.querySelector("img");
+  // Standard card sizes: portrait photos show at 3:4, landscape at 4:3, so
+  // every card of the same orientation is the same size
+  track.querySelectorAll(".project-card img").forEach((img) => {
     const set = () => {
-      if (img.naturalWidth) card.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+      if (!img.naturalWidth) return;
+      const card = img.closest(".project-card");
+      const portrait = img.naturalHeight > img.naturalWidth;
+      card.classList.toggle("is-portrait", portrait);
+      card.classList.toggle("is-landscape", !portrait);
     };
     if (img.complete) set(); else img.addEventListener("load", set, { once: true });
   });
@@ -273,9 +277,11 @@ function initProjectPage() {
        </section>`
     : `<section class="project-section"><div class="project-description" data-reveal>${paragraphs}</div></section>`;
 
-  const pair = project.pair && project.pair.length
-    ? `<section class="project-section project-pair">
-         ${project.pair.map((src) => `<figure data-reveal><img src="${src}" alt="${project.title}" /></figure>`).join("")}
+  // Photo row: 1–3 photos side by side at matching heights
+  const photoList = project.photos || project.pair || [];
+  const pair = photoList.length
+    ? `<section class="project-section project-photos${photoList.length === 1 ? " is-single" : ""}">
+         ${photoList.map((src, n) => `<figure data-reveal style="transition-delay: ${n * 0.35}s"><img src="${src}" alt="${project.title}" /></figure>`).join("")}
        </section>`
     : "";
 
@@ -287,7 +293,7 @@ function initProjectPage() {
 
   container.innerHTML = `
     <article class="project-page">
-      <div class="project-cover"><img src="${project.cover || project.image}" alt="${project.title}" /></div>
+      <div class="project-cover"><img src="${project.cover || project.card || project.image}" alt="${project.title}" /></div>
       <header class="project-heading">
         <h1 data-reveal>${project.title}</h1>
         ${scope}
@@ -319,7 +325,10 @@ function initProjectPage() {
       const titleWidth = range.getBoundingClientRect().width;
       const items = Array.from(scopeList.children);
       items.forEach((li) => li.classList.remove("line-start"));
-      scopeList.style.maxWidth = `${Math.max(240, titleWidth * 0.67)}px`;
+      // ~2/3 of the title's width, but never narrower than ~560px, so a short
+      // title (e.g. "Hidden Suite") doesn't squeeze the scope into a tall column
+      const containerWidth = scopeList.parentElement.clientWidth;
+      scopeList.style.maxWidth = `${Math.min(containerWidth, Math.max(560, titleWidth * 0.67))}px`;
       // An item starts a new line if its first line sits lower than the
       // previous item's last line
       const mark = () =>
@@ -352,7 +361,7 @@ function initProjectPage() {
 
   // Side-by-side photos: give each a width in proportion to its shape so
   // both end up exactly the same height
-  container.querySelectorAll(".project-pair figure").forEach((fig) => {
+  container.querySelectorAll(".project-photos:not(.is-single) figure").forEach((fig) => {
     const img = fig.querySelector("img");
     const size = () => {
       if (img.naturalWidth) fig.style.flexGrow = img.naturalWidth / img.naturalHeight;

@@ -1,4 +1,4 @@
-# Studio Name — Architecture Website
+# Point Studio Architecture + Design — Website
 
 A 3-page site: Projects (horizontal-scroll gallery), About, and Contact.
 Plain HTML/CSS/JS — **no build step, no npm install required.**
@@ -16,21 +16,21 @@ Plain HTML/CSS/JS — **no build step, no npm install required.**
   gallery + project pages from `projects-data.js`
 - `css/style.css` — all styling
 
-## Updating projects (the easy way)
+## Adding a project (the easy way)
 
-You never touch HTML to add a project. Open `js/projects-data.js`:
+You never touch HTML to add a project.
 
-1. Drop your new image into `images/projects/`
-2. Copy one of the existing entries in the `PROJECTS` array, paste it as a
-   new one, and fill in the fields (`title`, `location`, `year`, `image`
-   path, description, etc.)
-3. Give it a unique `slug` — that becomes its URL automatically
-4. Save. The home page gallery and the project's detail page both update
-   automatically — nothing else to touch.
+1. Make a folder for the project's photos inside `project-images/`, named
+   after the project, e.g. `project-images/glen-park-remodel/`. Put the
+   cover photo, the gallery photo and the page photos in it.
+2. Open `js/projects-data.js`. At the top there's a **TEMPLATE** — copy it
+   into the `PROJECTS` list where you want the project to appear, and fill
+   in the title, photos, scope lines, description and credits.
+3. Save and push. The Selected Work gallery, the new project page, and the
+   Previous / Next links on every project page all update automatically.
 
-To replace a placeholder image with a real photo, just point `image:` at
-the new file and delete the old placeholder from `images/projects/` if you
-want to clean up.
+Gallery photos are shown at a standard size: portrait photos at 3:4,
+landscape photos at 4:3.
 
 ## Testing it locally (offline, no npm needed)
 

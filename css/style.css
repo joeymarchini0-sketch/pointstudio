@@ -374,13 +374,15 @@ main { flex: 1; }
   justify-content: center;
 }
 
-/* Wide card (landscape lead photo): full gallery height, width from the
-   photo's shape (set in main.js; 4:3 until the photo loads) */
-.project-card.is-wide {
-  flex: 0 0 auto;
-  width: auto;
-  aspect-ratio: 4 / 3;
+/* Standard card photo sizes (class set in main.js from the photo's shape) */
+.project-card.is-portrait img,
+.project-card.is-landscape img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
+.project-card.is-portrait img { aspect-ratio: 3 / 4; }
+.project-card.is-landscape img { aspect-ratio: 4 / 3; }
 
 .project-card .card-image {
   position: relative;
@@ -448,11 +450,9 @@ main { flex: 1; }
     height: auto;
     padding: 4px clamp(20px, 5vw, 40px) 24px;
   }
-  .project-card,
-  .project-card.is-wide {
+  .project-card {
     flex: none;
     width: 100%;
-    aspect-ratio: auto !important;
     align-self: stretch;
     justify-content: center;
   }
@@ -980,16 +980,23 @@ main { flex: 1; }
 }
 .project-description p:last-child { margin-bottom: 0; }
 
-/* Two photos, same height, widths set by their shapes (main.js) */
-.project-pair {
+/* Photo row: 1–3 photos, same height, widths set by their shapes (main.js).
+   Each fades in a beat after the one before it (delay set in main.js). */
+.project-photos {
   display: flex;
   gap: clamp(16px, 2vw, 32px);
   align-items: flex-start;
 }
-.project-pair figure { flex: 1 1 0; min-width: 0; margin: 0; }
-.project-pair img { width: 100%; height: auto; }
-/* The second photo fades in a beat after the first, so they read as two */
-.project-pair figure + figure[data-reveal] { transition-delay: 0.35s; }
+.project-photos figure { flex: 1 1 0; min-width: 0; margin: 0; }
+.project-photos img { width: 100%; height: auto; }
+/* A single photo: centered, capped so a tall photo stays on screen */
+.project-photos.is-single { justify-content: center; }
+.project-photos.is-single figure { flex: none; }
+.project-photos.is-single img {
+  width: auto;
+  max-width: 100%;
+  max-height: min(85vh, 900px);
+}
 
 /* Same gap as credits → divider line below */
 .project-section.project-credits { margin-top: clamp(40px, 4vw, 56px); }
@@ -1101,8 +1108,8 @@ main { flex: 1; }
   .project-scope li + li::before { content: none; }
   .project-nav::after { left: clamp(20px, 5vw, 40px); right: clamp(20px, 5vw, 40px); }
   .project-feature { grid-template-columns: 1fr; row-gap: 32px; }
-  .project-pair { flex-direction: column; }
-  .project-pair figure { flex: none !important; }
+  .project-photos { flex-direction: column; }
+  .project-photos figure { flex: none !important; }
 }
 
 .not-found {
