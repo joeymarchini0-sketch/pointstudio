@@ -1009,7 +1009,8 @@ main { flex: 1; }
 .project-nav {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 24px;
 }
 .project-nav {
   position: relative;
@@ -1024,24 +1025,44 @@ main { flex: 1; }
   border-top: 1px solid var(--line);
 }
 
+/* Previous / Next: small Avenir label with arrow, project name in Canela
+   underneath. The arrow nudges outward on hover. */
 .prev-link,
 .next-link {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--ink);
+}
+.project-nav .prev-link,
+.project-nav .next-link { flex: 1 1 0; min-width: 0; }
+.next-link { align-items: flex-end; text-align: right; }
+.prev-link { align-items: flex-start; }
+.nav-label {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--graphite);
 }
-/* On hover the arrow nudges outward, in the direction it points; the
-   words stay put */
-.next-link::after { content: "→"; transition: transform 0.15s ease; }
-.prev-link::before { content: "←"; transition: transform 0.15s ease; }
-.next-link:hover::after { transform: translateX(4px); }
-.prev-link:hover::before { transform: translateX(-4px); }
+.nav-name {
+  font-family: var(--font-title);
+  font-weight: 100;
+  font-size: clamp(18px, 1.8vw, 24px);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.next-link .nav-label::after { content: "→"; transition: transform 0.15s ease; }
+.prev-link .nav-label::before { content: "←"; transition: transform 0.15s ease; }
+.next-link:hover .nav-label::after { transform: translateX(4px); }
+.prev-link:hover .nav-label::before { transform: translateX(-4px); }
+.prev-link:hover .nav-name,
+.next-link:hover .nav-name { color: var(--graphite); transition: color 0.15s ease; }
 
 .back-link {
   display: inline-flex;
@@ -1061,6 +1082,7 @@ main { flex: 1; }
   .project-cover { height: 55vh; min-height: 280px; }
   .project-heading, .project-section { padding: 0 clamp(20px, 5vw, 40px); }
   .project-nav { padding-top: 20px; }
+  .nav-name { font-size: 16px; }
   .project-nav::after { left: clamp(20px, 5vw, 40px); right: clamp(20px, 5vw, 40px); }
   .project-feature { grid-template-columns: 1fr; row-gap: 32px; }
   .project-pair { flex-direction: column; }

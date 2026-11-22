@@ -296,8 +296,14 @@ function initProjectPage() {
       ${pair}
       ${credits}
       <nav class="project-section project-nav" data-reveal aria-label="More projects">
-        <a class="prev-link" href="project.html?slug=${encodeURIComponent(prevProject.slug)}">Previous Project</a>
-        <a class="next-link" href="project.html?slug=${encodeURIComponent(nextProject.slug)}">Next Project</a>
+        <a class="prev-link" href="project.html?slug=${encodeURIComponent(prevProject.slug)}">
+          <span class="nav-label">Previous</span>
+          <span class="nav-name">${prevProject.title}</span>
+        </a>
+        <a class="next-link" href="project.html?slug=${encodeURIComponent(nextProject.slug)}">
+          <span class="nav-label">Next</span>
+          <span class="nav-name">${nextProject.title}</span>
+        </a>
       </nav>
     </article>
   `;
