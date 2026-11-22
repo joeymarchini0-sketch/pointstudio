@@ -43,9 +43,38 @@ function renderHeader(activePage) {
 function renderFooter(activePage) {
   const footer = document.getElementById("site-footer");
   if (!footer) return;
-  if (activePage === "contact") return;
-  footer.innerHTML = `
-    <a class="footer-cta" href="contact.html">Start a project</a>
+
+  const cta = activePage === "contact" ? "" : `
+    <div class="footer-cta-row">
+      <a class="footer-cta" href="contact.html">Start a project</a>
+    </div>`;
+
+  // The home page gallery is sized to fill the screen, so it keeps just the
+  // "Start a project" link. Every other page gets the full footer.
+  if (document.body.dataset.page === "projects" && document.getElementById("galleryTrack")) {
+    footer.innerHTML = cta;
+    return;
+  }
+
+  const year = new Date().getFullYear();
+  footer.innerHTML = `${cta}
+    <div class="footer-main">
+      <div class="footer-brand">
+        <img src="favicon.svg" alt="" class="footer-mark" />
+        <p>Residential architecture and design<br />for the San Francisco Bay Area.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Studio</h3>
+        <p>Richmond, CA</p>
+      </div>
+      <div class="footer-col">
+        <h3>Contact</h3>
+        <p><a href="mailto:hello@pointstudioarch.com">hello@pointstudioarch.com</a></p>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <span>© ${year} Point Studio Inc.</span>
+    </div>
   `;
 }
 

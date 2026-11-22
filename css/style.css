@@ -171,22 +171,61 @@ textarea:focus-visible {
 main { flex: 1; }
 
 .site-footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 22px clamp(20px, 4vw, 48px);
+  padding: 0 clamp(20px, 4vw, 48px);
 }
-
+.footer-cta-row {
+  display: flex;
+  justify-content: center;
+  padding: 22px 0;
+}
 .site-footer .footer-cta {
   font-family: var(--font-title);
   font-size: 18px;
   font-weight: 100;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
   color: var(--ink);
+}
+
+/* Full footer (every page except the home gallery) */
+.footer-cta-row + .footer-main { margin-top: 34px; }
+.footer-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+  padding: 40px 0 36px;
+  border-top: 1px solid var(--line);
+}
+.footer-mark { width: 34px; height: auto; margin-bottom: 16px; }
+.footer-brand p,
+.footer-col p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--graphite);
+}
+.footer-col h3 {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.footer-col a { color: var(--graphite); transition: color 0.15s ease; }
+.footer-col a:hover { color: var(--ink); }
+.footer-legal {
+  padding: 18px 0 26px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--graphite);
+}
+
+@media (max-width: 820px) {
+  .footer-main { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
 }
 
 /* ============================================================
@@ -403,6 +442,85 @@ main { flex: 1; }
 
 @media (max-width: 720px) {
   .scroll-progress { display: none; }
+}
+
+/* ============================================================
+   Scroll reveal — any element with data-reveal starts hidden and
+   fades up once it scrolls into view, then stays visible (see
+   initReveal in main.js). Only applies when JS is running, so the
+   content is never stuck hidden if a script fails to load.
+   ============================================================ */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  will-change: opacity, transform;
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================================
+   Collage — full-width grid of drawings at the top of a page.
+   Fills the screen below the header so the visitor scrolls a
+   little to reach the content. Tiles fade in one after another
+   on page load.
+   ============================================================ */
+.collage {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "a a b c c c"
+    "a a d d e f";
+  gap: 8px;
+  height: calc(100vh - var(--header-gap) - var(--nav-height) - 56px);
+  min-height: 460px;
+  margin-top: 8px;
+}
+.collage-tile {
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+  animation: collage-in 1.2s ease forwards;
+}
+.collage-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tile-a { grid-area: a; animation-delay: 0.10s; }
+.tile-b { grid-area: b; animation-delay: 0.30s; }
+.tile-c { grid-area: c; animation-delay: 0.50s; }
+.tile-d { grid-area: d; animation-delay: 0.70s; }
+.tile-e { grid-area: e; animation-delay: 0.90s; }
+.tile-f { grid-area: f; animation-delay: 1.10s; }
+
+@keyframes collage-in {
+  from { opacity: 0; transform: scale(1.02); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Space between the collage and the content below it */
+.collage + .about-page {
+  padding-top: clamp(64px, 8vw, 120px);
+}
+
+@media (max-width: 720px) {
+  .collage {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: none;
+    grid-auto-rows: 30vh;
+    grid-template-areas:
+      "a a"
+      "b c"
+      "d d"
+      "e f";
+    height: auto;
+    min-height: 0;
+    gap: 6px;
+  }
 }
 
 /* ============================================================
