@@ -25,16 +25,12 @@ function renderHeader(activePage) {
     .join("");
 
   header.innerHTML = `
-    <a href="index.html" class="mark"><span class="mark-name">${STUDIO_NAME}</span><span class="sheet">Architecture + Design</span></a>
+    <a href="index.html" class="mark"><img src="logo-horizontal.svg" alt="Point Studio Architecture + Design" /></a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span>
     </button>
     <nav class="site-nav" id="siteNav">${navLinks}</nav>
   `;
-
-  fitMarkLockup();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitMarkLockup);
-  window.addEventListener("resize", fitMarkLockup);
 
   const toggle = document.getElementById("navToggle");
   const nav = document.getElementById("siteNav");
@@ -42,34 +38,6 @@ function renderHeader(activePage) {
     const isOpen = nav.classList.toggle("open");
     toggle.setAttribute("aria-expanded", String(isOpen));
   });
-}
-
-/**
- * Make "ARCHITECTURE + DESIGN" exactly as wide as "POINT STUDIO" above it
- * by adjusting its letter spacing. Measured live, so it stays matched
- * whichever fallback fonts a device uses, and re-runs on resize (the
- * lockup is smaller on phones) and once the web font has loaded.
- */
-function fitMarkLockup() {
-  const name = document.querySelector(".site-header .mark-name");
-  const sheet = document.querySelector(".site-header .sheet");
-  if (!name || !sheet) return;
-
-  sheet.style.letterSpacing = "";
-  sheet.style.marginRight = "";
-
-  // Visible width = box width minus the trailing letter-space after the last letter
-  const nameLS = parseFloat(getComputedStyle(name).letterSpacing) || 0;
-  const sheetLS = parseFloat(getComputedStyle(sheet).letterSpacing) || 0;
-  const target = name.getBoundingClientRect().width - nameLS;
-  const current = sheet.getBoundingClientRect().width - sheetLS;
-  const gaps = sheet.textContent.length - 1;
-  if (gaps < 1) return;
-
-  const ls = sheetLS + (target - current) / gaps;
-  sheet.style.letterSpacing = `${ls}px`;
-  sheet.style.marginRight = `${-ls}px`; // cancel the trailing space so the edges line up
-  name.style.marginRight = `${-nameLS}px`;
 }
 
 function renderFooter(activePage) {
@@ -114,7 +82,7 @@ function initGallery() {
   // Dot progression indicator
   const dotProgress = document.getElementById("dotProgress");
   if (dotProgress) {
-    dotProgress.style.animationDelay = "0.15s"; // same moment as the first project image
+    dotProgress.style.animationDelay = "0s"; // same moment as the first project image
     dotProgress.innerHTML = PROJECTS.map(
       (p, i) =>
         `<button class="dot" type="button" data-index="${i}" aria-label="Go to ${p.title}"></button>`
@@ -123,64 +91,61 @@ function initGallery() {
     const dots = Array.from(dotProgress.querySelectorAll(".dot"));
     const cards = Array.from(track.querySelectorAll(".project-card"));
 
+    // The gallery is left-aligned: projects line up against the left
+    // margin (same edge as the header logo). Each project gets a "home"
+    // scroll position — the point where it sits at that margin — and the
+    // active dot is whichever project's home position is closest to where
+    // the gallery is scrolled right now.
+    //
+    // The last project or two can't physically reach the left margin (the
+    // track runs out of room first), so those homes would all collapse
+    // onto "the very end". Instead, they're spread evenly across the final
+    // stretch of scrolling, so every dot still gets its own distinct
+    // position and the last dot lights up exactly at the end.
+    const homePositions = () => {
+      const pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+      const max = track.scrollWidth - track.clientWidth;
+      const raw = cards.map((c) => c.offsetLeft - pad);
+      const firstStuck = raw.findIndex((x) => x >= max);
+      if (firstStuck === -1) return raw;
+      const from = firstStuck > 0 ? raw[firstStuck - 1] : 0;
+      const stuck = raw.length - firstStuck;
+      return raw.map((x, i) =>
+        i < firstStuck ? x : from + ((max - from) * (i - firstStuck + 1)) / stuck
+      );
+    };
+
+    // Clicking a dot slides the gallery to that project's home position
     dots.forEach((dot, i) => {
       dot.addEventListener("click", () => {
-        const card = cards[i];
-        if (card) {
-          // Center the clicked project rather than left-aligning it — with
-          // no snap forcing a specific resting edge, centering is the more
-          // natural target and the browser clamps automatically if a card
-          // near either end can't fully reach center.
-          const target = card.offsetLeft + card.offsetWidth / 2 - track.clientWidth / 2;
-          track.scrollTo({ left: target, behavior: "smooth" });
-        }
+        const homes = homePositions();
+        track.scrollTo({ left: homes[i], behavior: "smooth" });
       });
     });
 
-    // Which dot is "active" is decided by the browser itself: rootMargin
-    // shrinks the area IntersectionObserver actually watches down to a
-    // thin vertical band through the center of the track, so a card only
-    // registers as "intersecting" once part of it crosses the middle of
-    // the screen — the dot lights up for whichever project is closest to
-    // center, not just whichever happens to take up the most raw area.
-    // This sidesteps all the manual scroll-offset math (and its edge
-    // cases at the very start/end of the track) that kept causing the
-    // first/last dot to mis-highlight — IntersectionObserver measures
-    // actual on-screen position directly, so there's nothing to get
-    // wrong at the boundaries.
-    const visibleRatios = new Map();
-
     const updateActiveDot = () => {
-      let bestIndex = 0;
-      let bestRatio = -1;
-      cards.forEach((card, i) => {
-        const ratio = visibleRatios.get(card) || 0;
-        if (ratio > bestRatio) {
-          bestRatio = ratio;
-          bestIndex = i;
-        }
+      const x = track.scrollLeft;
+      const homes = homePositions();
+      let active = 0;
+      homes.forEach((h, i) => {
+        if (Math.abs(x - h) < Math.abs(x - homes[active])) active = i;
       });
-      dots.forEach((dot, i) => dot.classList.toggle("active", i === bestIndex));
+      dots.forEach((dot, i) => dot.classList.toggle("active", i === active));
     };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          visibleRatios.set(entry.target, entry.intersectionRatio);
-        });
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
         updateActiveDot();
-      },
-      {
-        root: track,
-        rootMargin: "0px -42% 0px -42%",
-        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
-      }
-    );
-
-    cards.forEach((card) => observer.observe(card));
+        ticking = false;
+      });
+    };
+    track.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
 
     updateActiveDot();
-
   }
 }
 

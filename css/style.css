@@ -85,31 +85,11 @@ textarea:focus-visible {
   padding: 0 clamp(20px, 4vw, 48px);
 }
 
-/* Logo lockup: "POINT STUDIO" (Canela Deck Thin) stacked over
-   "ARCHITECTURE + DESIGN" (Avenir). The lower line's letter spacing is
-   stretched in JS (fitMarkLockup in main.js) so both lines end up
-   exactly the same width, whatever fonts the visitor's device has. */
-.site-header .mark {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 3px;
-  text-transform: uppercase;
-  line-height: 1;
-}
-.site-header .mark .mark-name {
-  font-family: var(--font-title);
-  font-weight: 100;
-  font-size: 26px;
-  letter-spacing: 0.06em;
-}
-.site-header .mark .sheet {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: var(--graphite);
-  white-space: nowrap;
+/* Header logo (horizontal lockup, SVG) */
+.site-header .mark { display: block; line-height: 0; }
+.site-header .mark img {
+  height: 44px;
+  width: auto;
 }
 
 .site-nav {
@@ -161,9 +141,8 @@ textarea:focus-visible {
 
 @media (max-width: 720px) {
   .nav-toggle { display: flex; }
-  .site-header .mark { padding: 8px 0; }
-  .site-header .mark .mark-name { font-size: 21px; }
-  .site-header .mark .sheet { font-size: 8px; }
+  .site-header .mark { padding: 10px 0; }
+  .site-header .mark img { height: 34px; }
   .site-header {
     flex-wrap: wrap;
     height: auto;
@@ -219,6 +198,7 @@ main { flex: 1; }
 }
 
 .gallery {
+  position: relative; /* card.offsetLeft is measured from the track */
   display: flex;
   align-items: center;
   gap: clamp(32px, 4vw, 64px);
@@ -226,7 +206,9 @@ main { flex: 1; }
   overflow-y: hidden;
   height: min(720px, calc(100vh - var(--header-gap) - var(--nav-height) - var(--footer-height) - var(--gallery-top-space) - 52px));
   min-height: 420px;
-  padding: 0 clamp(32px, 4vw, 64px) 0 0;
+  /* Left padding matches the header's side padding, so the first
+     project lines up with the logo above it */
+  padding: 0 clamp(32px, 4vw, 64px) 0 clamp(20px, 4vw, 48px);
   scrollbar-width: none;
 }
 .gallery::-webkit-scrollbar { display: none; }
@@ -256,20 +238,6 @@ main { flex: 1; }
   line-height: 1.6;
   max-width: 40ch;
   margin: 0;
-}
-
-/* Logo in place of the intro title on the home page */
-/* Center the logo in the blank space between the page edge and the first
-   project. The left padding equals the gallery gap, so the logo sits in
-   the middle of (intro width + gap) without moving the first project. */
-.gallery-intro {
-  align-items: center;
-  padding-left: clamp(32px, 4vw, 64px);
-}
-.gallery-intro .logo-heading { margin: 0; line-height: 0; }
-.intro-logo {
-  width: clamp(120px, 12vw, 192px);
-  height: auto;
 }
 
 /* Home page load-in: the intro, each project card, the closing card and
@@ -391,8 +359,6 @@ main { flex: 1; }
     height: auto;
     padding: 8px clamp(20px, 5vw, 40px) 4px;
   }
-  .intro-logo { width: 112px; }
-  .gallery-intro { align-items: flex-start; }
   .gallery-outro {
     flex: none;
     align-self: stretch;
