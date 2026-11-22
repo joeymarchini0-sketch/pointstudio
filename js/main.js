@@ -229,17 +229,18 @@ function initProjectPage() {
 }
 
 /**
- * Contact form: our own styled form that submits to the studio's Google
- * Form in the background. Google doesn't let other sites read its reply
- * ("no-cors"), so a sent request is treated as success; the response shows
- * up in Google Forms as usual.
+ * Contact form: our own styled form. Submissions go to a small Google Apps
+ * Script (attached to the studio's Google Form), which submits them into
+ * the Form as the owner — so they land in the Form's Responses tab and
+ * linked Sheet like any other response. The script replies with
+ * {"ok": true} or {"ok": false, "error": "..."}, so the site only shows
+ * "Thank you" when the response was really recorded.
  *
- * Field names are the Google Form's question IDs (entry.XXXXXXXX). If a
- * question is added or changed in Google Forms, get a new pre-filled link
- * and update the matching name="" in contact.html.
+ * The script matches questions by title; if a question is renamed in the
+ * Google Form, update the QUESTIONS list at the top of the script.
  */
-const GOOGLE_FORM_ACTION =
-  "https://docs.google.com/forms/d/e/1FAIpQLSfnqbIs-iXV7LYIfH5TtgBRSmHQe3mwCvhHGSS9X09CmNLXXw/formResponse";
+const CONTACT_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbyXs-jXQuGQz-91h5hQNdgzP1pBI5kkgSjMEpdo0waXYUZAJijVF-8Pxwbz4bALNNUfuQ/exec";
 
 function initContactForm() {
   const form = document.getElementById("contactForm");
@@ -308,21 +309,28 @@ function initContactForm() {
       return;
     }
 
-    const data = new URLSearchParams();
-    form.querySelectorAll("[name^='entry.']").forEach((el) => {
-      if ((el.type === "radio" || el.type === "checkbox") && !el.checked) return;
-      data.append(el.name, el.value.trim());
-    });
-    // The Google Form also has its built-in "collect email" question turned
-    // on; fill it with the same address so the response is accepted.
-    data.append("emailAddress", form.querySelector("#cf-email").value.trim());
-    data.append("fvv", "1");
-    data.append("pageHistory", "0");
+    const chosen = form.querySelector('input[name="entry.2042927560"]:checked');
+    const payload = {
+      name: form.querySelector("#cf-name").value.trim(),
+      email: form.querySelector("#cf-email").value.trim(),
+      inquiry: chosen ? chosen.value : "",
+      message: form.querySelector("#cf-message").value.trim(),
+      website: form.querySelector("#cf-website").value,
+    };
 
     button.disabled = true;
     button.textContent = "Sending…";
     try {
-      await fetch(GOOGLE_FORM_ACTION, { method: "POST", mode: "no-cors", body: data });
+      // text/plain keeps this a "simple" request, which Apps Script accepts
+      // from other websites without extra permission checks
+      const res = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
+      });
+      const result = await res.json();
+      if (!result.ok) throw new Error(result.error || "Not recorded");
+
       // Fade out the title, form and "reach out directly" line, leaving
       // only the thank-you message
       const page = form.closest(".contact-page");
