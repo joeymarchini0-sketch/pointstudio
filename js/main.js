@@ -77,7 +77,7 @@ function initGallery() {
       <a class="project-card" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
         <div class="card-image">
           <img src="${p.image}" alt="${p.title}" ${i === 0 ? "" : 'loading="lazy"'} />
-          <div class="card-hover-title">${p.title}</div>
+          <div class="card-hover-title">${p.cardTitle || p.title}</div>
         </div>
       </a>`
   ).join("");
@@ -240,46 +240,71 @@ function initProjectPage() {
         <p>We couldn't find that project.</p>
         <a class="back-link" href="index.html">Back to all projects</a>
       </div>`;
-    document.title = "Project not found";
+    document.title = "Project not found — Point Studio Architecture + Design";
     return;
   }
 
   document.title = `${project.title} — Point Studio Architecture + Design`;
 
-  const paragraphs = project.description.map((p) => `<p>${p}</p>`).join("");
-
   const currentIndex = PROJECTS.findIndex((p) => p.slug === project.slug);
   const nextProject = PROJECTS[(currentIndex + 1) % PROJECTS.length];
+  const paragraphs = (project.description || []).map((t) => `<p>${t}</p>`).join("");
+
+  const scope = project.scope && project.scope.length
+    ? `<ul class="project-scope" data-reveal>${project.scope.map((l) => `<li>${l}</li>`).join("")}</ul>`
+    : "";
+
+  // Description: beside the feature photo if there is one, otherwise alone
+  const story = project.featureImage
+    ? `<section class="project-section project-feature">
+         <div class="project-feature-photo" data-reveal><img src="${project.featureImage}" alt="${project.title}" /></div>
+         <div class="project-description" data-reveal>${paragraphs}</div>
+       </section>`
+    : `<section class="project-section"><div class="project-description" data-reveal>${paragraphs}</div></section>`;
+
+  const pair = project.pair && project.pair.length
+    ? `<section class="project-section project-pair" data-reveal>
+         ${project.pair.map((src) => `<figure><img src="${src}" alt="${project.title}" /></figure>`).join("")}
+       </section>`
+    : "";
+
+  const credits = project.credits && project.credits.length
+    ? `<section class="project-section project-credits" data-reveal>
+         <ul>${project.credits.map((c) => `<li>${c}</li>`).join("")}</ul>
+       </section>`
+    : "";
 
   container.innerHTML = `
-    <div class="project-detail" id="projectDetailInner">
-      <div class="project-photo">
-        <img src="${project.image}" alt="${project.title}" />
-      </div>
-      <div class="project-copy">
-        <h1>${project.title}</h1>
-        <div class="project-description">${paragraphs}</div>
+    <article class="project-page">
+      <div class="project-cover"><img src="${project.cover || project.image}" alt="${project.title}" /></div>
+      <header class="project-heading">
+        <h1 data-reveal>${project.title}</h1>
+        ${scope}
+      </header>
+      ${story}
+      ${pair}
+      ${credits}
+      <nav class="project-section project-next" data-reveal>
         <a class="next-link" href="project.html?slug=${encodeURIComponent(nextProject.slug)}">Next Project</a>
-      </div>
-    </div>
+      </nav>
+    </article>
   `;
 
-  // Portrait photos sit beside the text; landscape photos stack above it.
-  // Decided from the image's actual dimensions once it loads, so adding a
-  // new project never requires manually picking a layout — just add the
-  // entry to projects-data.js and point it at an image.
-  const detailEl = document.getElementById("projectDetailInner");
-  const photoImg = detailEl.querySelector(".project-photo img");
-  const applyOrientation = () => {
-    if (!photoImg.naturalWidth || !photoImg.naturalHeight) return;
-    const isLandscape = photoImg.naturalWidth >= photoImg.naturalHeight;
-    detailEl.classList.toggle("is-landscape", isLandscape);
-  };
-  if (photoImg.complete) {
-    applyOrientation();
-  } else {
-    photoImg.addEventListener("load", applyOrientation, { once: true });
-  }
+  // Credit links open in a new tab
+  container.querySelectorAll(".project-credits a").forEach((a) => {
+    a.target = "_blank";
+    a.rel = "noopener";
+  });
+
+  // Side-by-side photos: give each a width in proportion to its shape so
+  // both end up exactly the same height
+  container.querySelectorAll(".project-pair figure").forEach((fig) => {
+    const img = fig.querySelector("img");
+    const size = () => {
+      if (img.naturalWidth) fig.style.flexGrow = img.naturalWidth / img.naturalHeight;
+    };
+    if (img.complete) size(); else img.addEventListener("load", size, { once: true });
+  });
 }
 
 /**

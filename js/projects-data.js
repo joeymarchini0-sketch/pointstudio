@@ -21,21 +21,50 @@
  *   image      - path to the hero/card image
  *   summary    - one sentence shown on the home page card (kept short)
  *   description- one or more paragraphs shown on the project detail page
+ *
+ * Optional fields for the full project page layout (see Inner Richmond):
+ *   cardTitle    - gallery hover title with line breaks (<br />)
+ *   cover        - full-width photo at the top of the project page
+ *   scope        - list of scope lines shown under the title
+ *   featureImage - photo shown left of the description
+ *   pair         - two photos shown side by side
+ *   credits      - collaborator lines (links allowed)
+ * Put each project's photos in its own folder in /project-images/.
  */
 
 const PROJECTS = [
   {
-    slug: "project-1",
-    sheet: "A-01",
-    title: "Project 1",
-    location: "City, CA",
-    year: "2024",
-    category: "Full Renovation",
-    image: "images/projects/project-01.jpg",
-    summary: "A one-line description of this project goes here.",
+    slug: "inner-richmond-addition",
+    title: "Inner Richmond Addition",
+    // Title shown over the photo on hover in the gallery (<br /> = line break)
+    cardTitle: "Inner Richmond<br />Addition",
+    // Gallery card photo
+    image: "project-images/inner-richmond-addition/01.jpg",
+    // Project page
+    cover: "project-images/inner-richmond-addition/cover.jpg",
+    scope: [
+      "3rd floor addition",
+      "Select modifications of existing floorplan",
+      "New interior stair",
+      "Interior finishes coordination",
+      "Exterior detailing"
+    ],
+    featureImage: "project-images/inner-richmond-addition/01.jpg",
     description: [
-      "Replace this paragraph with a description of the project — the design intent, the scope of work, and anything about the client's brief worth telling a visitor.",
-      "You can add a second paragraph here if there's more to say about materials, site constraints, or the process."
+      "Our clients wanted to maximize function and breathe new life into their family gathering spaces with light and color, which drove every decision as we added a third floor to their two-story 1900s Edwardian. A light-filled stairway with floating oak treads and a glass-walled bridge now connects the existing bedrooms to the new primary suite. Skylights draw daylight into the shared rooms at the center of the home’s deep footprint. Ultimately, carefully targeted interventions improved how the house works, while interiors that reflect the family’s cheerful personality enhanced the charm they first loved about it."
+    ],
+    // Photos shown side by side, at matching heights
+    pair: [
+      "project-images/inner-richmond-addition/02.jpg",
+      "project-images/inner-richmond-addition/03.jpg"
+    ],
+    // One line each. Links use <a href="...">name</a>.
+    credits: [
+      'Completed as Designer &amp; Project Manager while at <a href="http://johnlumarchitecture.com">John Lum Architecture</a>',
+      "Bryce CB Construction - GC",
+      '<a href="https://www.fletcherrhodes.com/">Fletcher Rhodes Design</a> - Interiors',
+      "LX Engineering - Structural",
+      '<a href="https://www.jessicaburke.com/">Jessica Burke</a> - Photography'
     ]
   },
   {
