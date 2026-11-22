@@ -29,7 +29,7 @@
   --font-body: "Avenir Next", Avenir, "Futura", "Segoe UI", sans-serif;
 
   --nav-height: 70px;
-  --footer-height: 166px; /* home: "Start a project" row + red footer bar */
+  --footer-height: 172px; /* home: "Start a project" row + red footer bar */
   --header-gap: clamp(16px, 2vw, 28px);
   --gallery-top-space: clamp(24px, 3vw, 48px);
 }
@@ -223,14 +223,17 @@ main { flex: 1; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   text-align: center;
+  line-height: 1.4;
 }
 .footer-blurb { margin: 0; white-space: nowrap; }
+/* Email and copyright stack under the blurb: three centered lines */
 .footer-info {
   display: flex;
-  justify-content: center;
-  gap: 48px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   white-space: nowrap;
   opacity: 0.9;
 }
@@ -249,7 +252,6 @@ main { flex: 1; }
 }
 @media (max-width: 640px) {
   .footer-blurb { white-space: normal; }
-  .footer-info { flex-direction: column; align-items: center; gap: 8px; }
 }
 
 /* ============================================================
