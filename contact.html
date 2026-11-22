@@ -17,14 +17,10 @@
   <main>
     <div class="contact-page">
       <h1 class="fade-down" style="animation-delay: 0.1s">Start a project</h1>
-      <p class="lead fade-down" style="animation-delay: 0.3s">
-        Tell us a bit about your project and we'll be in touch.
-      </p>
-
       <!-- Custom form. Submissions go to the studio's Google Form behind the
            scenes (see initContactForm in main.js), so responses still land
            in the same Google Form / Sheet as before. -->
-      <form class="contact-form fade-down" id="contactForm" style="animation-delay: 0.5s" novalidate>
+      <form class="contact-form fade-down" id="contactForm" style="animation-delay: 0.3s" novalidate>
         <div class="field">
           <label for="cf-name">Full name / company</label>
           <input id="cf-name" name="entry.1769505144" type="text" autocomplete="name" required />
@@ -40,7 +36,7 @@
         <fieldset class="field">
           <legend>Inquiry type</legend>
           <div class="choice-group">
-            <label class="choice"><input type="radio" name="entry.2042927560" value="Project Consultation" required /><span>Project Consultation</span></label>
+            <label class="choice"><input type="radio" name="entry.2042927560" value="Project Inquiry" required /><span>Project Inquiry</span></label>
             <label class="choice"><input type="radio" name="entry.2042927560" value="Partnership Opportunity" /><span>Partnership Opportunity</span></label>
             <label class="choice"><input type="radio" name="entry.2042927560" value="Press Inquiry" /><span>Press Inquiry</span></label>
             <label class="choice"><input type="radio" name="entry.2042927560" value="General Question" /><span>General Question</span></label>
@@ -50,7 +46,7 @@
 
         <div class="field">
           <label for="cf-message">Describe your project or inquiry <span class="optional">(optional)</span></label>
-          <textarea id="cf-message" name="entry.1696812339" rows="5"></textarea>
+          <textarea id="cf-message" name="entry.1696812339" rows="2"></textarea>
         </div>
 
         <!-- Spam trap: hidden from people, bots tend to fill it in -->
@@ -70,7 +66,7 @@
         <p>We've received your note and will be in touch soon.</p>
       </div>
 
-      <p class="direct-contact fade-down" style="animation-delay: 0.7s">
+      <p class="direct-contact fade-down" style="animation-delay: 0.5s">
         Or reach out directly at <a href="mailto:hello@pointstudioarch.com">hello@pointstudioarch.com</a>
       </p>
     </div>

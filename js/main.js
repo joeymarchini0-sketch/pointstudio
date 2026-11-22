@@ -269,6 +269,22 @@ function initContactForm() {
     return ok;
   };
 
+  // Message box: start at 2 lines, grow with the text. If the visitor has
+  // dragged it taller with the corner handle, never shrink below that.
+  const message = form.querySelector("#cf-message");
+  if (message) {
+    let manualMin = 0;
+    const grow = () => {
+      message.style.height = "auto";
+      const border = message.offsetHeight - message.clientHeight;
+      const needed = message.scrollHeight + border;
+      message.style.height = `${Math.max(needed, manualMin)}px`;
+    };
+    message.addEventListener("input", grow);
+    message.addEventListener("mouseup", () => { manualMin = message.offsetHeight; });
+    grow();
+  }
+
   // Clear a field's error as soon as it's fixed
   form.addEventListener("input", (e) => {
     const box = e.target.closest(".field");

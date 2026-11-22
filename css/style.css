@@ -690,8 +690,10 @@ main { flex: 1; }
 }
 
 /* Contact form — fields left-aligned inside the centered column */
+/* The form is exactly as wide as the row of inquiry-type options */
 .contact-form {
-  max-width: 600px;
+  width: fit-content;
+  max-width: 100%;
   margin: 0 auto;
   text-align: left;
 }
@@ -707,9 +709,9 @@ main { flex: 1; }
   padding: 0;
   margin-bottom: 8px;
   font-family: var(--font-display);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--graphite);
 }
@@ -730,7 +732,9 @@ main { flex: 1; }
   color: var(--ink);
   transition: border-color 0.2s ease;
 }
-.contact-form textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+/* Starts 2 lines tall and grows a line at a time as you type (main.js);
+   the corner handle still lets you drag it taller */
+.contact-form textarea { resize: vertical; line-height: 1.6; overflow: hidden; }
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
@@ -740,7 +744,7 @@ main { flex: 1; }
 /* Inquiry type: options as outlined chips; the chosen one fills in */
 .choice-group {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 10px;
   padding-top: 4px;
 }
@@ -801,6 +805,15 @@ main { flex: 1; }
 .form-submit:disabled { opacity: 0.6; cursor: default; }
 .form-status { margin: 16px 0 0; font-size: 13px; color: #aa3838; }
 .form-status a { color: inherit; border-bottom: 1px solid currentColor; }
+
+/* Space between the title and the form (the intro line was removed) */
+.contact-page h1 + .contact-form { margin-top: 44px; }
+
+@media (max-width: 720px) {
+  .contact-page h1 + .contact-form { margin-top: 28px; }
+  .contact-form { width: auto; }
+  .choice-group { flex-wrap: wrap; }
+}
 
 /* Spam trap, hidden from people */
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
