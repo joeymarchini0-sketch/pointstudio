@@ -18,16 +18,56 @@
     <div class="contact-page">
       <h1 class="fade-down" style="animation-delay: 0.1s">Start a project</h1>
       <p class="lead fade-down" style="animation-delay: 0.3s">
-        Tell us a bit about your project and we'll be in touch. Fields below
-        will be replaced by the real intake form.
+        Tell us a bit about your project and we'll be in touch.
       </p>
 
-      <div class="form-frame fade-down" style="animation-delay: 0.5s">
-        <iframe
-          src="https://docs.google.com/forms/d/e/1FAIpQLSfnqbIs-iXV7LYIfH5TtgBRSmHQe3mwCvhHGSS9X09CmNLXXw/viewform?embedded=true"
-          title="Point Studio Architecture contact form"
-          loading="lazy"
-        >Loading…</iframe>
+      <!-- Custom form. Submissions go to the studio's Google Form behind the
+           scenes (see initContactForm in main.js), so responses still land
+           in the same Google Form / Sheet as before. -->
+      <form class="contact-form fade-down" id="contactForm" style="animation-delay: 0.5s" novalidate>
+        <div class="field">
+          <label for="cf-name">Full name / company</label>
+          <input id="cf-name" name="entry.1769505144" type="text" autocomplete="name" required />
+          <p class="field-error" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="cf-email">Email</label>
+          <input id="cf-email" name="entry.658655044" type="email" autocomplete="email" required />
+          <p class="field-error" aria-live="polite"></p>
+        </div>
+
+        <fieldset class="field">
+          <legend>Inquiry type</legend>
+          <div class="choice-group">
+            <label class="choice"><input type="radio" name="entry.2042927560" value="Project Consultation" required /><span>Project Consultation</span></label>
+            <label class="choice"><input type="radio" name="entry.2042927560" value="Partnership Opportunity" /><span>Partnership Opportunity</span></label>
+            <label class="choice"><input type="radio" name="entry.2042927560" value="Press Inquiry" /><span>Press Inquiry</span></label>
+            <label class="choice"><input type="radio" name="entry.2042927560" value="General Question" /><span>General Question</span></label>
+          </div>
+          <p class="field-error" aria-live="polite"></p>
+        </fieldset>
+
+        <div class="field">
+          <label for="cf-message">Describe your project or inquiry <span class="optional">(optional)</span></label>
+          <textarea id="cf-message" name="entry.1696812339" rows="5"></textarea>
+        </div>
+
+        <!-- Spam trap: hidden from people, bots tend to fill it in -->
+        <div class="hp" aria-hidden="true">
+          <label for="cf-website">Website</label>
+          <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="form-submit">Send</button>
+          <p class="form-status" aria-live="polite"></p>
+        </div>
+      </form>
+
+      <div class="form-thanks" id="formThanks" hidden>
+        <h2>Thank you</h2>
+        <p>We've received your note and will be in touch soon.</p>
       </div>
 
       <p class="direct-contact fade-down" style="animation-delay: 0.7s">

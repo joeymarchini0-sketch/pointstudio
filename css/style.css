@@ -689,32 +689,135 @@ main { flex: 1; }
   margin: 0 auto 40px;
 }
 
-.form-frame {
-  border: 1px solid var(--line);
-  background: var(--header);
-  padding: 8px;
+/* Contact form — fields left-aligned inside the centered column */
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
 }
-
-.form-frame iframe {
-  width: 100%;
-  min-height: 900px;
-  border: none;
-  background: var(--paper);
+.contact-form .field {
+  margin: 0 0 30px;
+  padding: 0;
+  border: 0;
+  min-width: 0;
 }
-
-.form-placeholder {
-  padding: 60px 24px;
+.contact-form label,
+.contact-form legend {
+  display: block;
+  padding: 0;
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--graphite);
-  font-size: 14px;
-  line-height: 1.7;
 }
-.form-placeholder code {
-  background: var(--paper);
+.contact-form .optional { text-transform: none; letter-spacing: 0.02em; opacity: 0.8; }
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  display: block;
+  width: 100%;
+  padding: 8px 0 10px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 16px; /* 16px stops iPhones zooming in on focus */
+  color: var(--ink);
+  transition: border-color 0.2s ease;
+}
+.contact-form textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-bottom-color: var(--ink);
+}
+
+/* Inquiry type: options as outlined chips; the chosen one fills in */
+.choice-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 4px;
+}
+.contact-form .choice {
+  margin: 0;
+  position: relative;
+  cursor: pointer;
+}
+.choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.choice span {
+  display: inline-block;
+  padding: 10px 16px;
   border: 1px solid var(--line);
-  padding: 2px 6px;
-  border-radius: 3px;
   font-size: 13px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--ink);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
+.choice:hover span { border-color: var(--ink); }
+.choice input:checked + span {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+.choice input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.field-error {
+  margin: 8px 0 0;
+  min-height: 0;
+  font-size: 12px;
+  color: #aa3838;
+}
+.field.has-error input,
+.field.has-error textarea { border-bottom-color: #aa3838; }
+.field.has-error .choice span { border-color: rgba(170, 56, 56, 0.5); }
+
+.form-actions { margin-top: 10px; text-align: center; }
+.form-submit {
+  appearance: none;
+  padding: 14px 44px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.form-submit:hover:not(:disabled) { background: var(--ink); color: var(--paper); }
+.form-submit:disabled { opacity: 0.6; cursor: default; }
+.form-status { margin: 16px 0 0; font-size: 13px; color: #aa3838; }
+.form-status a { color: inherit; border-bottom: 1px solid currentColor; }
+
+/* Spam trap, hidden from people */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* Send → form fades out, thank-you fades in */
+.contact-form.is-leaving { opacity: 0; transition: opacity 0.4s ease; }
+.form-thanks { padding: 40px 0 20px; }
+.form-thanks.is-showing { animation: fade-down 0.9s ease both; }
+.form-thanks h2 {
+  margin: 0 0 14px;
+  font-family: var(--font-title);
+  font-weight: 100;
+  font-size: clamp(26px, 3vw, 36px);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.form-thanks p { margin: 0; color: var(--graphite); line-height: 1.6; }
 
 .direct-contact {
   margin-top: 32px;

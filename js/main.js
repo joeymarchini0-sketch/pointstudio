@@ -228,6 +228,97 @@ function initProjectPage() {
   }
 }
 
+/**
+ * Contact form: our own styled form that submits to the studio's Google
+ * Form in the background. Google doesn't let other sites read its reply
+ * ("no-cors"), so a sent request is treated as success; the response shows
+ * up in Google Forms as usual.
+ *
+ * Field names are the Google Form's question IDs (entry.XXXXXXXX). If a
+ * question is added or changed in Google Forms, get a new pre-filled link
+ * and update the matching name="" in contact.html.
+ */
+const GOOGLE_FORM_ACTION =
+  "https://docs.google.com/forms/d/e/1FAIpQLSfnqbIs-iXV7LYIfH5TtgBRSmHQe3mwCvhHGSS9X09CmNLXXw/formResponse";
+
+function initContactForm() {
+  const form = document.getElementById("contactForm");
+  if (!form) return;
+  const thanks = document.getElementById("formThanks");
+  const status = form.querySelector(".form-status");
+  const button = form.querySelector(".form-submit");
+
+  const setError = (fieldEl, msg) => {
+    const box = fieldEl.closest(".field");
+    box.classList.toggle("has-error", Boolean(msg));
+    box.querySelector(".field-error").textContent = msg || "";
+  };
+
+  const validate = () => {
+    let ok = true;
+    const name = form.querySelector("#cf-name");
+    const email = form.querySelector("#cf-email");
+    const choice = form.querySelector('input[name="entry.2042927560"]');
+    const chosen = form.querySelector('input[name="entry.2042927560"]:checked');
+
+    if (!name.value.trim()) { setError(name, "Please add your name."); ok = false; } else setError(name);
+    if (!email.value.trim()) { setError(email, "Please add your email."); ok = false; }
+    else if (!email.checkValidity()) { setError(email, "That email doesn't look quite right."); ok = false; }
+    else setError(email);
+    if (!chosen) { setError(choice, "Please choose one."); ok = false; } else setError(choice);
+    return ok;
+  };
+
+  // Clear a field's error as soon as it's fixed
+  form.addEventListener("input", (e) => {
+    const box = e.target.closest(".field");
+    if (box && box.classList.contains("has-error")) validate();
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    status.textContent = "";
+    if (!validate()) {
+      const first = form.querySelector(".has-error input, .has-error textarea");
+      if (first) first.focus();
+      return;
+    }
+
+    // Honeypot filled in → quietly pretend it worked
+    if (form.querySelector("#cf-website").value) {
+      form.hidden = true;
+      thanks.hidden = false;
+      return;
+    }
+
+    const data = new URLSearchParams();
+    form.querySelectorAll("[name^='entry.']").forEach((el) => {
+      if ((el.type === "radio" || el.type === "checkbox") && !el.checked) return;
+      data.append(el.name, el.value.trim());
+    });
+    // The Google Form also has its built-in "collect email" question turned
+    // on; fill it with the same address so the response is accepted.
+    data.append("emailAddress", form.querySelector("#cf-email").value.trim());
+
+    button.disabled = true;
+    button.textContent = "Sending…";
+    try {
+      await fetch(GOOGLE_FORM_ACTION, { method: "POST", mode: "no-cors", body: data });
+      form.classList.add("is-leaving");
+      setTimeout(() => {
+        form.hidden = true;
+        thanks.hidden = false;
+        thanks.classList.add("is-showing");
+      }, 400);
+    } catch (err) {
+      button.disabled = false;
+      button.textContent = "Send";
+      status.innerHTML =
+        'Something went wrong sending that. Please try again, or email us at <a href="mailto:hello@pointstudioarch.com">hello@pointstudioarch.com</a>.';
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const activePage = document.body.dataset.page || "";
   renderHeader(activePage);
@@ -235,4 +326,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initGallery();
   initProjectPage();
   initReveal();
+  initContactForm();
 });
