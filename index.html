@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Point Studio Architecture — Projects</title>
   <meta name="description" content="Residential architecture and renovation studio. Browse recent projects." />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="stylesheet" href="css/style.css" />
   <script>document.documentElement.classList.add("js");</script>
 </head>
@@ -17,7 +20,11 @@
         <!-- project cards + closing card injected by js/main.js -->
       </div>
 
-      <div class="dot-progress" id="dotProgress"></div>
+      <!-- Thin progress line: fills as you scroll through the projects -->
+      <div class="scroll-progress" id="scrollProgress" role="progressbar"
+           aria-label="Gallery scroll position" aria-valuemin="0" aria-valuemax="100">
+        <div class="scroll-progress-fill" id="scrollProgressFill"></div>
+      </div>
     </div>
   </main>
 

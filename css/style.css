@@ -244,7 +244,7 @@ main { flex: 1; }
    the dots fade in while sliding from right to left, one after another.
    Delays are set per item in initGallery (main.js). */
 .js .gallery > *,
-.js .dot-progress {
+.js .scroll-progress {
   opacity: 0;
   animation: slide-in-left 1s ease forwards;
 }
@@ -374,118 +374,35 @@ main { flex: 1; }
   .project-card { height: 62vh; min-height: 340px; }
 }
 
-/* Dot progression — shows which project is currently in view */
-.dot-progress {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  padding: 22px 0;
-}
-
-.dot-progress .dot {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 8px;
-  height: 8px;
-  padding: 0;
-  border-radius: 50%;
-  border: 1.5px solid var(--ink);
-  background: transparent;
+/* Progress line — a thin rule under the gallery that fills from left to
+   right as you scroll. The fill shows how much of the gallery has been
+   seen (left edge → right edge of the screen), so it's partly filled on
+   load and full at the end. Clicking along the line jumps there. */
+.scroll-progress {
+  position: relative;
+  width: clamp(160px, 20vw, 300px);
+  height: 1px;
+  margin: 26px auto 25px;
+  background: var(--line);
   cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.15s ease;
 }
-
-.dot-progress .dot:hover {
-  transform: scale(1.15);
+/* Taller invisible hit area so the 1px line is easy to click */
+.scroll-progress::before {
+  content: "";
+  position: absolute;
+  inset: -10px 0;
 }
-
-.dot-progress .dot.active {
+.scroll-progress-fill {
+  position: absolute;
+  inset: 0;
   background: var(--ink);
-  transform: scale(1.15);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.12s linear;
 }
 
 @media (max-width: 720px) {
-  .dot-progress { display: none; }
-}
-
-/* ============================================================
-   Scroll reveal — any element with data-reveal starts hidden and
-   fades up once it scrolls into view, then stays visible (see
-   initReveal in main.js). Only applies when JS is running, so the
-   content is never stuck hidden if a script fails to load.
-   ============================================================ */
-.js [data-reveal] {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.9s ease, transform 0.9s ease;
-  will-change: opacity, transform;
-}
-.js [data-reveal].is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-/* ============================================================
-   Collage — full-width grid of drawings at the top of a page.
-   Fills the screen below the header so the visitor scrolls a
-   little to reach the content. Tiles fade in one after another
-   on page load.
-   ============================================================ */
-.collage {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas:
-    "a a b c c c"
-    "a a d d e f";
-  gap: 8px;
-  height: calc(100vh - var(--header-gap) - var(--nav-height) - 56px);
-  min-height: 460px;
-  margin-top: 8px;
-}
-.collage-tile {
-  margin: 0;
-  overflow: hidden;
-  opacity: 0;
-  animation: collage-in 1.2s ease forwards;
-}
-.collage-tile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.tile-a { grid-area: a; animation-delay: 0.10s; }
-.tile-b { grid-area: b; animation-delay: 0.30s; }
-.tile-c { grid-area: c; animation-delay: 0.50s; }
-.tile-d { grid-area: d; animation-delay: 0.70s; }
-.tile-e { grid-area: e; animation-delay: 0.90s; }
-.tile-f { grid-area: f; animation-delay: 1.10s; }
-
-@keyframes collage-in {
-  from { opacity: 0; transform: scale(1.02); }
-  to   { opacity: 1; transform: none; }
-}
-
-/* Space between the collage and the content below it */
-.collage + .about-page {
-  padding-top: clamp(64px, 8vw, 120px);
-}
-
-@media (max-width: 720px) {
-  .collage {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: none;
-    grid-auto-rows: 30vh;
-    grid-template-areas:
-      "a a"
-      "b c"
-      "d d"
-      "e f";
-    height: auto;
-    min-height: 0;
-    gap: 6px;
-  }
+  .scroll-progress { display: none; }
 }
 
 /* ============================================================

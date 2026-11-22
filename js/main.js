@@ -79,58 +79,20 @@ function initGallery() {
     el.style.animationDelay = `${Math.min(i * 0.15, 1.2)}s`;
   });
 
-  // Dot progression indicator
-  const dotProgress = document.getElementById("dotProgress");
-  if (dotProgress) {
-    dotProgress.style.animationDelay = "0s"; // same moment as the first project image
-    dotProgress.innerHTML = PROJECTS.map(
-      (p, i) =>
-        `<button class="dot" type="button" data-index="${i}" aria-label="Go to ${p.title}"></button>`
-    ).join("");
+  // Progress line: fill = how far the right edge of the screen has
+  // travelled through the gallery (so it's partly full on load, completely
+  // full at the end). Clicking the line scrolls to that point.
+  const progress = document.getElementById("scrollProgress");
+  const fill = document.getElementById("scrollProgressFill");
+  if (progress && fill) {
+    progress.style.animationDelay = "0s"; // fades in with the first project
 
-    const dots = Array.from(dotProgress.querySelectorAll(".dot"));
-    const cards = Array.from(track.querySelectorAll(".project-card"));
-
-    // The gallery is left-aligned: projects line up against the left
-    // margin (same edge as the header logo). Each project gets a "home"
-    // scroll position — the point where it sits at that margin — and the
-    // active dot is whichever project's home position is closest to where
-    // the gallery is scrolled right now.
-    //
-    // The last project or two can't physically reach the left margin (the
-    // track runs out of room first), so those homes would all collapse
-    // onto "the very end". Instead, they're spread evenly across the final
-    // stretch of scrolling, so every dot still gets its own distinct
-    // position and the last dot lights up exactly at the end.
-    const homePositions = () => {
-      const pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
-      const max = track.scrollWidth - track.clientWidth;
-      const raw = cards.map((c) => c.offsetLeft - pad);
-      const firstStuck = raw.findIndex((x) => x >= max);
-      if (firstStuck === -1) return raw;
-      const from = firstStuck > 0 ? raw[firstStuck - 1] : 0;
-      const stuck = raw.length - firstStuck;
-      return raw.map((x, i) =>
-        i < firstStuck ? x : from + ((max - from) * (i - firstStuck + 1)) / stuck
-      );
-    };
-
-    // Clicking a dot slides the gallery to that project's home position
-    dots.forEach((dot, i) => {
-      dot.addEventListener("click", () => {
-        const homes = homePositions();
-        track.scrollTo({ left: homes[i], behavior: "smooth" });
-      });
-    });
-
-    const updateActiveDot = () => {
-      const x = track.scrollLeft;
-      const homes = homePositions();
-      let active = 0;
-      homes.forEach((h, i) => {
-        if (Math.abs(x - h) < Math.abs(x - homes[active])) active = i;
-      });
-      dots.forEach((dot, i) => dot.classList.toggle("active", i === active));
+    const update = () => {
+      const total = track.scrollWidth;
+      const seen = total > 0 ? (track.scrollLeft + track.clientWidth) / total : 1;
+      const pct = Math.min(1, Math.max(0, seen));
+      fill.style.transform = `scaleX(${pct})`;
+      progress.setAttribute("aria-valuenow", String(Math.round(pct * 100)));
     };
 
     let ticking = false;
@@ -138,14 +100,22 @@ function initGallery() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        updateActiveDot();
+        update();
         ticking = false;
       });
     };
     track.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
 
-    updateActiveDot();
+    progress.addEventListener("click", (e) => {
+      const rect = progress.getBoundingClientRect();
+      const ratio = (e.clientX - rect.left) / rect.width;
+      // Same scale as the fill: move so the line ends where you clicked
+      const left = ratio * track.scrollWidth - track.clientWidth;
+      track.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+    });
+
+    update();
   }
 }
 
