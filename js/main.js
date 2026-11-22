@@ -274,8 +274,8 @@ function initProjectPage() {
     : `<section class="project-section"><div class="project-description" data-reveal>${paragraphs}</div></section>`;
 
   const pair = project.pair && project.pair.length
-    ? `<section class="project-section project-pair" data-reveal>
-         ${project.pair.map((src) => `<figure><img src="${src}" alt="${project.title}" /></figure>`).join("")}
+    ? `<section class="project-section project-pair">
+         ${project.pair.map((src) => `<figure data-reveal><img src="${src}" alt="${project.title}" /></figure>`).join("")}
        </section>`
     : "";
 

@@ -964,6 +964,8 @@ main { flex: 1; }
 }
 .project-pair figure { flex: 1 1 0; min-width: 0; margin: 0; }
 .project-pair img { width: 100%; height: auto; }
+/* The second photo fades in a beat after the first, so they read as two */
+.project-pair figure + figure[data-reveal] { transition-delay: 0.35s; }
 
 .project-credits ul {
   list-style: none;
@@ -1001,12 +1003,13 @@ main { flex: 1; }
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink);
-  transition: gap 0.15s ease;
 }
-.next-link::after { content: "→"; }
-.prev-link::before { content: "←"; }
-.next-link:hover,
-.prev-link:hover { gap: 12px; }
+/* On hover the arrow nudges outward, in the direction it points; the
+   words stay put */
+.next-link::after { content: "→"; transition: transform 0.15s ease; }
+.prev-link::before { content: "←"; transition: transform 0.15s ease; }
+.next-link:hover::after { transform: translateX(4px); }
+.prev-link:hover::before { transform: translateX(-4px); }
 
 .back-link {
   display: inline-flex;

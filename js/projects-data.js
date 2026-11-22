@@ -41,8 +41,6 @@ const PROJECTS = [
     cardTitle: "Inner Richmond<br />Addition",
     // Gallery card photo (same as the project page cover)
     image: "project-images/inner-richmond-addition/cover.jpg",
-    // Show this card wide, at the full gallery height, in the photo's own shape
-    cardWide: true,
     // Project page
     cover: "project-images/inner-richmond-addition/cover.jpg",
     scope: [
