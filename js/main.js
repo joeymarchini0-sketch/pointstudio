@@ -60,7 +60,6 @@ function renderFooter(activePage) {
       <div class="footer-center">
         <p class="footer-blurb">Serving residential and commercial spaces in the San Francisco Bay Area</p>
         <div class="footer-info">
-          <span>Richmond, CA</span>
           <a href="mailto:hello@pointstudioarch.com">hello@pointstudioarch.com</a>
           <span>© ${year} Point Studio Inc.</span>
         </div>
