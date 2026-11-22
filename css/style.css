@@ -867,7 +867,22 @@ main { flex: 1; }
 @media (max-width: 720px) {
   .contact-page h1 + .contact-form { margin-top: 28px; }
   .contact-form { width: auto; }
-  .choice-group { flex-wrap: wrap; }
+  /* Phones: inquiry types as two rows of two, equal-width buttons */
+  .choice-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1fr; /* both rows the same height */
+    gap: 10px;
+  }
+  .contact-form .choice { display: flex; }
+  .choice span {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    text-align: center;
+  }
 }
 
 /* Spam trap, hidden from people */
