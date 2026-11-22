@@ -56,17 +56,13 @@ function renderFooter(activePage) {
   const year = new Date().getFullYear();
   footer.innerHTML = `${cta}
     <div class="footer-bar">
-      <div class="footer-item footer-brand">
-        <img src="logo-mark-light.svg" alt="" class="footer-mark" />
-        <span>Residential architecture and design for the San Francisco Bay Area.</span>
+      <div class="footer-brand">
+        <img src="wordmark-light.svg" alt="Point Studio Architecture + Design" class="footer-wordmark" />
+        <p class="footer-blurb">Serving residential and commercial spaces<br />in the San Francisco Bay Area</p>
       </div>
-      <div class="footer-item">
+      <div class="footer-info">
         <span>Richmond, CA</span>
-      </div>
-      <div class="footer-item">
         <a href="mailto:hello@pointstudioarch.com">hello@pointstudioarch.com</a>
-      </div>
-      <div class="footer-item">
         <span>© ${year} Point Studio Inc.</span>
       </div>
     </div>
