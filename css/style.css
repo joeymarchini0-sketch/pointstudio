@@ -819,8 +819,10 @@ main { flex: 1; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* Send → form fades out, thank-you fades in */
-.contact-form.is-leaving { opacity: 0; transition: opacity 0.4s ease; }
-.form-thanks { padding: 40px 0 20px; }
+.contact-form.is-leaving,
+.contact-page .is-leaving { opacity: 0; transition: opacity 0.4s ease; }
+/* Thank-you message sits on its own, with room above and below */
+.form-thanks { padding: clamp(60px, 12vh, 140px) 0; }
 .form-thanks.is-showing { animation: fade-down 0.9s ease both; }
 .form-thanks h2 {
   margin: 0 0 14px;

@@ -302,6 +302,7 @@ function initContactForm() {
 
     // Honeypot filled in → quietly pretend it worked
     if (form.querySelector("#cf-website").value) {
+      form.closest(".contact-page").querySelectorAll("h1, .direct-contact").forEach((el) => (el.hidden = true));
       form.hidden = true;
       thanks.hidden = false;
       return;
@@ -315,14 +316,22 @@ function initContactForm() {
     // The Google Form also has its built-in "collect email" question turned
     // on; fill it with the same address so the response is accepted.
     data.append("emailAddress", form.querySelector("#cf-email").value.trim());
+    data.append("fvv", "1");
+    data.append("pageHistory", "0");
 
     button.disabled = true;
     button.textContent = "Sending…";
     try {
       await fetch(GOOGLE_FORM_ACTION, { method: "POST", mode: "no-cors", body: data });
+      // Fade out the title, form and "reach out directly" line, leaving
+      // only the thank-you message
+      const page = form.closest(".contact-page");
+      const extras = page ? page.querySelectorAll("h1, .direct-contact") : [];
       form.classList.add("is-leaving");
+      extras.forEach((el) => el.classList.add("is-leaving"));
       setTimeout(() => {
         form.hidden = true;
+        extras.forEach((el) => (el.hidden = true));
         thanks.hidden = false;
         thanks.classList.add("is-showing");
       }, 400);
