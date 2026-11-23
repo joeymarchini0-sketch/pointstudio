@@ -377,7 +377,7 @@ function initProjectPage() {
  * Google Form, update the QUESTIONS list at the top of the script.
  */
 const CONTACT_ENDPOINT =
-  "https://script.google.com/macros/s/AKfycbyXs-jXQuGQz-91h5hQNdgzP1pBI5kkgSjMEpdo0waXYUZAJijVF-8Pxwbz4bALNNUfuQ/exec";
+  "https://script.google.com/macros/s/AKfycbxq4iSWCH9AQHixFeJRiLDfX532pe03FSiE-jV9rdTSia6kfFFcxUPfyn4aybxeyju2QQ/exec";
 
 function initContactForm() {
   const form = document.getElementById("contactForm");
