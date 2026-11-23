@@ -1103,8 +1103,11 @@ main { flex: 1; }
   .project-nav::after { left: clamp(20px, 5vw, 40px); right: clamp(20px, 5vw, 40px); }
   .project-feature,
   .project-feature.has-multi { grid-template-columns: 1fr; row-gap: 32px; }
-  .project-photos { flex-direction: column; }
-  .project-photos figure { flex: none !important; }
+  /* Phones: every photo on its own line */
+  .project-photos,
+  .project-feature-photo.is-multi { flex-direction: column; }
+  .project-photos figure,
+  .project-feature-photo.is-multi figure { flex: none !important; width: 100%; }
 }
 
 .not-found {
