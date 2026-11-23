@@ -456,7 +456,7 @@ function initContactForm() {
     };
 
     button.disabled = true;
-    button.textContent = "Sending…";
+    button.textContent = "Submitting…";
     try {
       // text/plain keeps this a "simple" request, which Apps Script accepts
       // from other websites without extra permission checks
@@ -483,7 +483,7 @@ function initContactForm() {
     } catch (err) {
       console.error("Contact form:", err); // visible in the browser's developer console
       button.disabled = false;
-      button.textContent = "Send";
+      button.textContent = "Submit";
       status.innerHTML =
         'Something went wrong sending that. Please try again, or email us at <a href="mailto:hello@pointstudioarch.com">hello@pointstudioarch.com</a>.';
     }
