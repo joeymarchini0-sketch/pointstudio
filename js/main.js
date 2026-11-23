@@ -87,7 +87,7 @@ function initGallery() {
     "beforeend",
     `<a class="gallery-outro" href="contact.html">
       <h2>Let's Talk</h2>
-      <p>Have a project in mind? We'd love to hear about it.</p>
+      <p>Have a project in mind?<br />We'd love to hear about it.</p>
     </a>`
   );
 
