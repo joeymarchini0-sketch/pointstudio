@@ -276,7 +276,7 @@ main { flex: 1; }
   position: relative; /* card.offsetLeft is measured from the track */
   display: flex;
   align-items: center;
-  gap: clamp(32px, 4vw, 64px);
+  gap: clamp(48px, 6vw, 112px); /* space between photos (phones use their own) */
   overflow-x: auto;
   overflow-y: hidden;
   height: min(720px, calc(100vh - var(--header-gap) - var(--nav-height) - var(--footer-height) - var(--gallery-top-space) - 52px));
