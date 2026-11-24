@@ -76,7 +76,7 @@ function initGallery() {
     (p, i) => `
       <a class="project-card" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
         <div class="card-image">
-          <img src="${p.card || p.image}" alt="${p.title}" ${i === 0 ? "" : 'loading="lazy"'} />
+          <img src="${p.card || p.image}" alt="${p.title}" />
           <div class="card-hover-title">${p.cardTitle || p.title}</div>
         </div>
       </a>`
@@ -90,6 +90,32 @@ function initGallery() {
       <p>Have a project in mind?<br />We'd love to hear about it.</p>
     </a>`
   );
+
+  // Each card is made exactly as wide as its photo (photos are never
+  // cropped), so the visible space between every pair of photos is the same.
+  // Phones stack the gallery instead, so this only applies on wider screens.
+  const phoneLayout = window.matchMedia("(max-width: 720px)");
+  const sizeCards = () => {
+    track.querySelectorAll(".project-card").forEach((card) => {
+      card.style.flex = "";
+      card.style.width = "";
+    });
+    if (phoneLayout.matches) return;
+    track.querySelectorAll(".project-card").forEach((card) => {
+      const img = card.querySelector("img");
+      if (!img.naturalWidth) return;
+      const slot = card.getBoundingClientRect();
+      const box = card.querySelector(".card-image").getBoundingClientRect();
+      const w = Math.min(slot.width, box.height * (img.naturalWidth / img.naturalHeight));
+      card.style.flex = `0 0 ${w}px`;
+      card.style.width = `${w}px`;
+    });
+  };
+  track.querySelectorAll(".project-card img").forEach((img) => {
+    if (!img.complete) img.addEventListener("load", sizeCards, { once: true });
+  });
+  sizeCards();
+  window.addEventListener("resize", sizeCards);
 
   // Touch screens have no hover, so the project title (and the photo
   // darkening) appears on its own when a project scrolls into the middle
