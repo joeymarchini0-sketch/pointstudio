@@ -10,6 +10,8 @@
  *      e.g. /project-images/glen-park-remodel/cover.jpg, 01.jpg, 02.jpg ...
  *   2. Copy the TEMPLATE below into the list where you want it to appear,
  *      fill it in, and delete any optional lines you don't need.
+ *      (Older entries may use featureImage / photos instead of blocks;
+ *      both still work.)
  *   3. Save. That's it — no HTML to touch.
  *
  * TEMPLATE
@@ -17,7 +19,7 @@
  *     slug: "glen-park-remodel",          // URL name: lowercase, dashes, unique
  *     title: "Glen Park Remodel",
  *     cardTitle: "Glen Park<br />Remodel",// optional: hover title with line break
- *     card: "project-images/glen-park-remodel/01.jpg",   // gallery photo
+ *     card: "project-images/glen-park-remodel/card.jpg",  // gallery photo
  *     cover: "project-images/glen-park-remodel/cover.jpg",// full-width top photo
  *     coverPosition: "center 70%",        // optional: move the cover crop
  *                                         // (0% = show top, 100% = show bottom)
@@ -25,19 +27,29 @@
  *       "Kitchen remodel",
  *       "New rear deck"
  *     ],
- *     featureImage: "project-images/glen-park-remodel/01.jpg", // left of text
- *       // or several side by side: ["…/01.jpg", "…/02.jpg"]
  *     description: [                      // one entry per paragraph
  *       "First paragraph…"
  *     ],
- *     photos: [                           // optional: 1–3 photos in a row,
- *       "project-images/glen-park-remodel/02.jpg"  // shown at matching heights
+ *     blocks: [                           // the page body, top to bottom
+ *       { type: "feature", side: "left", photos: ["project-images/glen-park-remodel/01.jpg"] },
+ *       { type: "row", photos: ["project-images/glen-park-remodel/02.jpg",
+ *                               "project-images/glen-park-remodel/03.jpg"] }
  *     ],
  *     credits: [                          // one line each; links allowed
  *       'Builder Name - GC',
  *       '<a href="https://example.com">Photographer</a> - Photography'
  *     ]
  *   },
+ *
+ * BLOCKS (any number, any order)
+ *   feature – 1 or 2 photos side by side, with text beside them.
+ *             side: "left" (photos left of text) or "right".
+ *             text: optional; defaults to the project's description. Give a
+ *             block its own text: ["Paragraph…"] for a second text section.
+ *   row     – 1 to 3 photos side by side at matching heights. A single tall
+ *             photo is centered and kept within the screen height.
+ *   text    – a text section on its own (text: [...], or the description).
+ *   On phones, every photo stacks on its own line, photos before their text.
  *
  * NOTES
  *   - Use &amp; for "&" inside text.
@@ -57,13 +69,15 @@ const PROJECTS = [
       "Interior finishes coordination",
       "Exterior detailing"
     ],
-    featureImage: "project-images/inner-richmond-addition/01.jpg",
     description: [
       "Our clients wanted to maximize function and breathe new life into their family gathering spaces with light and color, which drove every decision as we added a third floor to their two-story 1900s Edwardian. A light-filled stairway with floating oak treads and a glass-walled bridge now connects the existing bedrooms to the new primary suite. Skylights draw daylight into the shared rooms at the center of the home’s deep footprint. Ultimately, carefully targeted interventions improved how the house works, while interiors that reflect the family’s cheerful personality enhanced the charm they first loved about it."
     ],
-    photos: [
-      "project-images/inner-richmond-addition/02.jpg",
-      "project-images/inner-richmond-addition/03.jpg"
+    blocks: [
+      { type: "feature", side: "left", photos: ["project-images/inner-richmond-addition/01.jpg"] },
+      { type: "row", photos: [
+        "project-images/inner-richmond-addition/02.jpg",
+        "project-images/inner-richmond-addition/03.jpg"
+      ] }
     ],
     credits: [
       'Completed as Designer &amp; Project Manager while at <a href="http://johnlumarchitecture.com">John Lum Architecture</a>',
@@ -86,12 +100,14 @@ const PROJECTS = [
       "Kitchen and bathroom modernizations",
       "Maintain existing building footprint"
     ],
-    featureImage: [
-      "project-images/hidden-suite/01.jpg",
-      "project-images/hidden-suite/02.jpg"
-    ],
     description: [
       "Part of an ongoing years-long renovation of our East Bay home that's been in the family for three generations. The tiny en-suite water closet became far more functional with the addition of a diagonal, wood-clad wall allowing for a roomy walk-in shower. Inside, the walls and ceiling are drenched in silky plaster, creating a calm cool retreat despite the small footprint."
+    ],
+    blocks: [
+      { type: "feature", side: "left", photos: [
+        "project-images/hidden-suite/01.jpg",
+        "project-images/hidden-suite/02.jpg"
+      ] }
     ],
     credits: [
       "Joey Marchini - DIY builder",

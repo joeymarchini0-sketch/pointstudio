@@ -965,6 +965,13 @@ main { flex: 1; }
   align-items: center;
 }
 .project-feature-photo img { width: 100%; height: auto; }
+/* Feature with the photos on the right instead */
+.project-feature.is-right { grid-template-columns: 1fr minmax(260px, 42%); }
+.project-feature.has-multi.is-right { grid-template-columns: 1fr minmax(320px, 60%); }
+.project-feature.is-right .project-feature-photo { order: 2; }
+/* Text block on its own: same reading width as beside a photo */
+.project-text .project-description { max-width: 60ch; }
+
 /* Two (or more) photos side by side, with the description to their right */
 .project-feature.has-multi { grid-template-columns: minmax(320px, 60%) 1fr; }
 .project-feature-photo.is-multi { display: flex; gap: clamp(12px, 1.5vw, 24px); align-items: flex-start; }
@@ -1106,7 +1113,11 @@ main { flex: 1; }
   .project-scope li + li::before { content: none; }
   .project-nav::after { left: clamp(20px, 5vw, 40px); right: clamp(20px, 5vw, 40px); }
   .project-feature,
-  .project-feature.has-multi { grid-template-columns: 1fr; row-gap: 32px; }
+  .project-feature.has-multi,
+  .project-feature.is-right,
+  .project-feature.has-multi.is-right { grid-template-columns: 1fr; row-gap: 32px; }
+  /* Phones: photos always come before their text */
+  .project-feature.is-right .project-feature-photo { order: 0; }
   /* Phones: every photo on its own line */
   .project-photos,
   .project-feature-photo.is-multi { flex-direction: column; }

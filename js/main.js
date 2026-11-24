@@ -276,35 +276,51 @@ function initProjectPage() {
   // Previous / next wrap around both ways (1 ← 5, 5 → 1)
   const nextProject = PROJECTS[(currentIndex + 1) % PROJECTS.length];
   const prevProject = PROJECTS[(currentIndex - 1 + PROJECTS.length) % PROJECTS.length];
-  const paragraphs = (project.description || []).map((t) => `<p>${t}</p>`).join("");
 
   const scope = project.scope && project.scope.length
     ? `<ul class="project-scope" data-reveal>${project.scope.map((l) => `<li>${l}</li>`).join(" ")}</ul>`
     : "";
 
-  // Description: beside the feature photo if there is one, otherwise alone
-  // Feature photo(s) to the left of the description: one photo, or a list
-  // of photos shown side by side at matching heights
-  const featureList = [].concat(project.featureImage || []);
-  const featurePhotos = featureList.length > 1
-    ? `<div class="project-feature-photo is-multi">${featureList
-        .map((src, n) => `<figure data-reveal style="transition-delay: ${n * 0.35}s"><img src="${src}" alt="${project.title}" /></figure>`)
-        .join("")}</div>`
-    : `<div class="project-feature-photo" data-reveal><img src="${featureList[0]}" alt="${project.title}" /></div>`;
-  const story = featureList.length
-    ? `<section class="project-section project-feature${featureList.length > 1 ? " has-multi" : ""}">
-         ${featurePhotos}
-         <div class="project-description" data-reveal>${paragraphs}</div>
-       </section>`
-    : `<section class="project-section"><div class="project-description" data-reveal>${paragraphs}</div></section>`;
+  // ---- Body blocks -------------------------------------------------------
+  // A project's body is a list of blocks, shown in order between the
+  // heading and the credits (see projects-data.js for the full guide):
+  //   { type: "feature", photos: [...], side: "left" | "right", text: [...] }
+  //       1–2 photos side by side with text beside them (text defaults to
+  //       the project's description)
+  //   { type: "row", photos: [...] }   1–3 photos side by side, matching heights
+  //   { type: "text", text: [...] }    a paragraph block on its own
+  // Older entries without "blocks" are converted automatically.
+  const blocks = project.blocks || [
+    ...(project.featureImage
+      ? [{ type: "feature", photos: [].concat(project.featureImage) }]
+      : [{ type: "text" }]),
+    ...((project.photos || project.pair || []).length
+      ? [{ type: "row", photos: project.photos || project.pair }]
+      : []),
+  ];
 
-  // Photo row: 1–3 photos side by side at matching heights
-  const photoList = project.photos || project.pair || [];
-  const pair = photoList.length
-    ? `<section class="project-section project-photos${photoList.length === 1 ? " is-single" : ""}">
-         ${photoList.map((src, n) => `<figure data-reveal style="transition-delay: ${n * 0.35}s"><img src="${src}" alt="${project.title}" /></figure>`).join("")}
-       </section>`
-    : "";
+  const figures = (list) =>
+    list
+      .map((src, n) => `<figure data-reveal style="transition-delay: ${n * 0.35}s"><img src="${src}" alt="${project.title}" /></figure>`)
+      .join("");
+  const textHtml = (text) =>
+    [].concat(text || project.description || []).map((t) => `<p>${t}</p>`).join("");
+
+  const renderBlock = (b) => {
+    const list = [].concat(b.photos || []);
+    if (b.type === "row") {
+      return `<section class="project-section project-photos${list.length === 1 ? " is-single" : ""}">${figures(list)}</section>`;
+    }
+    if (b.type === "feature" && list.length) {
+      const photos = list.length > 1
+        ? `<div class="project-feature-photo is-multi">${figures(list)}</div>`
+        : `<div class="project-feature-photo" data-reveal><img src="${list[0]}" alt="${project.title}" /></div>`;
+      const cls = `project-section project-feature${list.length > 1 ? " has-multi" : ""}${b.side === "right" ? " is-right" : ""}`;
+      return `<section class="${cls}">${photos}<div class="project-description" data-reveal>${textHtml(b.text)}</div></section>`;
+    }
+    return `<section class="project-section project-text"><div class="project-description" data-reveal>${textHtml(b.text)}</div></section>`;
+  };
+  const body = blocks.map(renderBlock).join("");
 
   const credits = project.credits && project.credits.length
     ? `<section class="project-section project-credits" data-reveal>
@@ -319,8 +335,7 @@ function initProjectPage() {
         <h1 data-reveal>${project.title}</h1>
         ${scope}
       </header>
-      ${story}
-      ${pair}
+      ${body}
       ${credits}
       <nav class="project-section project-nav" data-reveal aria-label="More projects">
         <a class="prev-link" href="project.html?slug=${encodeURIComponent(prevProject.slug)}">
