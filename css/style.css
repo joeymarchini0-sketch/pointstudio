@@ -281,9 +281,9 @@ main { flex: 1; }
   overflow-y: hidden;
   height: min(720px, calc(100vh - var(--header-gap) - var(--nav-height) - var(--footer-height) - var(--gallery-top-space) - 52px));
   min-height: 420px;
-  /* Left padding matches the header's side padding, so the first
-     project lines up with the logo above it */
-  padding: 0 clamp(32px, 4vw, 64px) 0 clamp(20px, 4vw, 48px);
+  /* Side padding matches the header's: the first project lines up with
+     the logo, and at the end "Let's Talk" lines up with the menu's right edge */
+  padding: 0 clamp(20px, 4vw, 48px);
   scrollbar-width: none;
 }
 .gallery::-webkit-scrollbar { display: none; }
@@ -333,12 +333,12 @@ main { flex: 1; }
 }
 
 .gallery-outro {
-  flex: 0 0 min(34vw, 440px);
+  flex: 0 0 auto; /* only as wide as its text */
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  padding: 0 clamp(24px, 5vw, 64px);
+  padding: 0; /* the gallery gap sets the space before it, the gallery edge padding the space after */
   cursor: pointer;
 }
 
