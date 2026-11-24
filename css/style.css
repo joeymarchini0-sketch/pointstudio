@@ -319,10 +319,14 @@ main { flex: 1; }
    the dots fade in while sliding from right to left, one after another.
    Delays are set per item in initGallery (main.js). */
 .js .gallery > *,
-.js .scroll-progress {
+.js .scroll-progress,
+.js .site-footer.is-home .footer-cta-row {
   opacity: 0;
   animation: slide-in-left 1s ease forwards;
 }
+/* "Start a project" under the gallery arrives with the second project */
+.js .site-footer.is-home .footer-cta-row { animation-delay: 0.15s; }
+
 @keyframes slide-in-left {
   from { opacity: 0; transform: translateX(48px); }
   to   { opacity: 1; transform: none; }
