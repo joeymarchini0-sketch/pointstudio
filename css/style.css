@@ -377,7 +377,9 @@ main { flex: 1; }
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  padding: 0; /* the gallery gap sets the space before it, the gallery edge padding the space after */
+  /* the gallery gap sets the space before it, the gallery edge padding the
+     space after; the 3px nudges the "K" to line up with "CONTACT" above */
+  padding: 0 3px 0 0;
   cursor: pointer;
 }
 
