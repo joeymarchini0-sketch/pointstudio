@@ -122,27 +122,18 @@ function initGallery() {
   // of the screen, and fades away again as it scrolls past.
   initTouchTitles(track);
 
-  // Phones: project photos fade up as each one scrolls into view (once),
-  // instead of the sideways slide used on computers (styles in CSS)
+  // Phones: project photos fade up as each one scrolls into view and then
+  // stay — the same reveal (timing, distance, trigger point) as the About
+  // page. Computers keep the sideways slide. Styles in CSS.
   if ("IntersectionObserver" in window) {
-    // Staggered: if several photos come into view at once (e.g. on page
-    // load), each starts a beat after the one before it
-    const STAGGER = 250; // ms between photos
-    let nextStart = 0;
     const cardObserver = new IntersectionObserver(
       (entries) =>
-        entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
-          .forEach((e) => {
-            const now = performance.now();
-            const delay = Math.max(0, nextStart - now);
-            nextStart = now + delay + STAGGER;
-            e.target.style.transitionDelay = `${delay}ms`;
-            e.target.classList.add("is-shown");
-            cardObserver.unobserve(e.target);
-          }),
-      { threshold: 0.15 }
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add("is-shown");
+          cardObserver.unobserve(e.target);
+        }),
+      { threshold: 0.1, rootMargin: "0px 0px -8% 0px" }
     );
     track.querySelectorAll(".project-card").forEach((c) => cardObserver.observe(c));
   }
