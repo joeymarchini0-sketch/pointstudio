@@ -128,13 +128,23 @@ function initGallery() {
   // stay — the same reveal (timing, distance, trigger point) as the About
   // page. Computers keep the sideways slide. Styles in CSS.
   if ("IntersectionObserver" in window) {
+    // If several photos come into view together (e.g. the first two on
+    // page load), each starts a beat after the one before it
+    const STAGGER = 350; // ms
+    let nextStart = 0;
     const cardObserver = new IntersectionObserver(
       (entries) =>
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          e.target.classList.add("is-shown");
-          cardObserver.unobserve(e.target);
-        }),
+        entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+          .forEach((e) => {
+            const now = performance.now();
+            const delay = Math.max(0, nextStart - now);
+            nextStart = now + delay + STAGGER;
+            e.target.style.transitionDelay = `${delay}ms`;
+            e.target.classList.add("is-shown");
+            cardObserver.unobserve(e.target);
+          }),
       // Photos are much taller than a paragraph, so wait until the top of
       // the photo is a little way up the screen — otherwise most of the
       // fade happens below the edge where you can't see it

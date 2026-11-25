@@ -115,9 +115,8 @@ textarea:focus-visible {
   color: var(--ink);
 }
 
-/* Underlines draw in from the left on hover and retract back to the left
-   (menu links on computers, and "Start a project"). The anchor point never
-   changes, so a quick hover in and out stays smooth. */
+/* Underlines fade in on hover and out again (menu links on computers, and
+   "Start a project") */
 @media (min-width: 721px) {
   .site-nav a { position: relative; border-bottom: 0; }
   .site-nav a::after {
@@ -128,13 +127,12 @@ textarea:focus-visible {
     bottom: 0;
     height: 1px;
     background: var(--ink);
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 0.35s ease;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
   .site-nav a:hover::after,
   .site-nav a[aria-current="page"]::after {
-    transform: scaleX(1);
+    opacity: 1;
   }
 }
 @media (max-width: 720px) {
@@ -222,16 +220,15 @@ main { flex: 1; }
   bottom: 0;
   height: 1px;
   background: var(--ink);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.35s ease;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 .site-footer .footer-cta:hover::after {
-  transform: scaleX(1);
+  opacity: 1;
 }
 /* Phones (no hover): "Start a project" always shows its thin underline */
 @media (hover: none), (max-width: 720px) {
-  .site-footer .footer-cta::after { transform: scaleX(1); }
+  .site-footer .footer-cta::after { opacity: 1; }
 }
 
 /* Footer: "Start a project" link, then the red bar (same red as the logo) */
