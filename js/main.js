@@ -86,7 +86,7 @@ function initGallery() {
   track.insertAdjacentHTML(
     "beforeend",
     `<a class="gallery-outro" href="contact.html">
-      <h2>Let's Talk</h2>
+      <h2><span class="outro-label">Let's Talk</span></h2>
       <p>Have a project in mind?<br />We'd love to hear about it.</p>
     </a>`
   );

@@ -453,10 +453,15 @@ main { flex: 1; }
   .js .gallery .gallery-outro {
     animation: none; /* replaces the page-load slide-in on phones */
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(6px); /* just a hint of movement */
     transition: opacity 0.7s ease, transform 0.7s ease;
   }
   .js .gallery .gallery-outro.is-in { opacity: 1; transform: none; }
+  /* Thin line under "Let's Talk" so it reads as a link */
+  .outro-label {
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--ink);
+  }
   .project-card {
     flex: none;
     width: 100%;
