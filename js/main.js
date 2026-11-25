@@ -86,7 +86,7 @@ function initGallery() {
   track.insertAdjacentHTML(
     "beforeend",
     `<a class="gallery-outro" href="contact.html">
-      <h2>Let's Talk</h2>
+      <h2><span class="outro-label">Let's Talk</span><span class="outro-arrow" aria-hidden="true">→</span></h2>
       <p>Have a project in mind?<br />We'd love to hear about it.</p>
     </a>`
   );
@@ -121,6 +121,24 @@ function initGallery() {
   // darkening) appears on its own when a project scrolls into the middle
   // of the screen, and fades away again as it scrolls past.
   initTouchTitles(track);
+
+  // "Let's Talk" on phones: when it scrolls into view, an underline draws
+  // in beneath it and the arrow gives one small nudge (styles in CSS; on
+  // computers neither shows). Happens once.
+  const outro = track.querySelector(".gallery-outro");
+  if (outro && "IntersectionObserver" in window) {
+    const outroObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          outro.classList.add("is-in");
+          outroObserver.disconnect();
+        });
+      },
+      { threshold: 0.6 }
+    );
+    outroObserver.observe(outro);
+  }
 
   // Load-in animation: stagger each item (intro, cards, closing card) so
   // they slide in right-to-left one after another. Capped so items far
