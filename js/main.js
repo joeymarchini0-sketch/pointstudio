@@ -86,8 +86,10 @@ function initGallery() {
   track.insertAdjacentHTML(
     "beforeend",
     `<a class="gallery-outro" href="contact.html">
-      <h2><span class="outro-label">Let's Talk</span></h2>
-      <p>Have a project in mind?<br />We'd love to hear about it.</p>
+      <div class="outro-inner">
+        <h2><span class="outro-label">Let's Talk</span></h2>
+        <p>Have a project in mind?<br />We'd love to hear about it.</p>
+      </div>
     </a>`
   );
 
@@ -133,7 +135,10 @@ function initGallery() {
           e.target.classList.add("is-shown");
           cardObserver.unobserve(e.target);
         }),
-      { threshold: 0.1, rootMargin: "0px 0px -8% 0px" }
+      // Photos are much taller than a paragraph, so wait until the top of
+      // the photo is a fifth of the way up the screen — otherwise most of
+      // the fade happens below the edge where you can't see it
+      { threshold: 0, rootMargin: "0px 0px -20% 0px" }
     );
     track.querySelectorAll(".project-card").forEach((c) => cardObserver.observe(c));
   }

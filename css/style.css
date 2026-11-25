@@ -113,7 +113,32 @@ textarea:focus-visible {
 .site-nav a:hover,
 .site-nav a[aria-current="page"] {
   color: var(--ink);
-  border-bottom-color: var(--ink);
+}
+
+/* Underlines draw in from the left on hover and slide away to the right
+   (menu links on computers, and "Start a project") */
+@media (min-width: 721px) {
+  .site-nav a { position: relative; border-bottom: 0; }
+  .site-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.35s ease;
+  }
+  .site-nav a:hover::after,
+  .site-nav a[aria-current="page"]::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+}
+@media (max-width: 720px) {
+  .site-nav a[aria-current="page"] { border-bottom-color: var(--line); }
 }
 
 .nav-toggle {
@@ -187,13 +212,27 @@ main { flex: 1; }
   text-transform: uppercase;
   color: var(--ink);
   padding: 4px 2px;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s ease;
+  position: relative;
 }
-.site-footer .footer-cta:hover { border-bottom-color: var(--ink); }
+.site-footer .footer-cta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.35s ease;
+}
+.site-footer .footer-cta:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
 /* Phones (no hover): "Start a project" always shows its thin underline */
 @media (hover: none), (max-width: 720px) {
-  .site-footer .footer-cta { border-bottom-color: var(--ink); }
+  .site-footer .footer-cta::after { transform: scaleX(1); }
 }
 
 /* Footer: "Start a project" link, then the red bar (same red as the logo) */
@@ -355,7 +394,15 @@ main { flex: 1; }
   line-height: 1.1;
   margin: 0 0 18px;
   color: var(--ink);
-  transition: color 0.15s ease;
+}
+
+/* Hover (computers): a slight zoom, matching the project photos */
+.outro-inner {
+  transition: transform 0.5s ease;
+  transform-origin: left center;
+}
+@media (hover: hover) and (min-width: 721px) {
+  .gallery-outro:hover .outro-inner { transform: scale(1.03); }
 }
 
 .gallery-outro p {
@@ -366,9 +413,7 @@ main { flex: 1; }
   margin: 0;
 }
 
-.gallery-outro:hover h2 {
-  color: var(--graphite);
-}
+
 
 .project-card {
   position: relative;
@@ -466,8 +511,8 @@ main { flex: 1; }
   .js .gallery .project-card {
     animation: none;
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.9s ease, transform 0.9s ease;
+    transform: translateY(40px);
+    transition: opacity 1.1s ease, transform 1.1s ease;
   }
   .js .gallery .project-card.is-shown { opacity: 1; transform: none; }
   /* Thin line under "Let's Talk" so it reads as a link */
