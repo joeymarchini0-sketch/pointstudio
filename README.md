@@ -29,6 +29,28 @@ You never touch HTML to add a project.
 3. Save and push. The Selected Work gallery, the new project page, and the
    Previous / Next links on every project page all update automatically.
 
+## How publishing works (search engines & AI assistants)
+
+When you push to GitHub, Vercel runs `build.js` (set up in `vercel.json`).
+It turns every page into finished HTML so Google and AI assistants like
+ChatGPT and Claude, which don't run JavaScript, can read all of it, and it
+writes:
+
+- a page per project at `/projects/<slug>/` (old `project.html?slug=…`
+  links redirect there automatically)
+- `sitemap.xml` and `robots.txt`
+- structured business details (studio name, Richmond CA, Bay Area service
+  area, services, Megan as principal) that search engines read
+
+Nothing to do on your end; the site looks the same. If a deploy ever fails,
+Vercel keeps the previous version live and the error shows in its
+Deployments tab. The address switches to pointstudioarch.com automatically
+once that domain is connected in Vercel.
+
+`js/templates.js` holds the page layouts used by both the browser and the
+build. `js/projects-data.js` must keep its last line (the `module.exports`
+line) so the build can read it.
+
 ## Testing it locally (offline, no npm needed)
 
 Because there's no build step, you have two options:

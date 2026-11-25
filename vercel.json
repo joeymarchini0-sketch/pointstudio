@@ -1,0 +1,12 @@
+{
+  "buildCommand": "node build.js",
+  "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/project.html",
+      "has": [{ "type": "query", "key": "slug", "value": "(?<slug>.+)" }],
+      "destination": "/projects/:slug/",
+      "permanent": true
+    }
+  ]
+}

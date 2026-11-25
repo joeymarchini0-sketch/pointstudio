@@ -7,30 +7,18 @@
 const OWNER_NAME = "Megan Lizarraga Marchini";
 const STUDIO_NAME = "Point Studio";
 
+// Pages built on Vercel arrive with their content already in place (marked
+// data-prerendered); then only the behavior is added here. Opened locally
+// without a build, the same templates (js/templates.js) render it instead.
+const T = window.PSTemplates;
+const isPrebuilt = (el) => el && el.hasAttribute("data-prerendered");
+// Clean project addresses (/projects/<slug>/) only exist on the built site
+const cleanLinks = document.documentElement.hasAttribute("data-built");
+
 function renderHeader(activePage) {
   const header = document.getElementById("site-header");
   if (!header) return;
-
-  const links = [
-    { href: "index.html", label: "Selected Work", key: "projects" },
-    { href: "about.html", label: "About", key: "about" },
-    { href: "contact.html", label: "Contact", key: "contact" }
-  ];
-
-  const navLinks = links
-    .map(
-      (l) =>
-        `<a href="${l.href}"${l.key === activePage ? ' aria-current="page"' : ""}>${l.label}</a>`
-    )
-    .join("");
-
-  header.innerHTML = `
-    <a href="index.html" class="mark"><img src="logo-header.svg" alt="Point Studio Architecture + Design" /></a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span>
-    </button>
-    <nav class="site-nav" id="siteNav">${navLinks}</nav>
-  `;
+  if (!isPrebuilt(header)) header.innerHTML = T.headerHTML(activePage);
 
   const toggle = document.getElementById("navToggle");
   const nav = document.getElementById("siteNav");
@@ -44,54 +32,21 @@ function renderFooter(activePage) {
   const footer = document.getElementById("site-footer");
   if (!footer) return;
 
-  const cta = activePage === "contact" ? "" : `
-    <div class="footer-cta-row">
-      <a class="footer-cta" href="contact.html">Start a project</a>
-    </div>`;
-
   // Home page: the gallery is sized to fill the screen, so the footer sits
   // tighter there (see .site-footer.is-home in the CSS)
   if (document.getElementById("galleryTrack")) footer.classList.add("is-home");
 
   const year = new Date().getFullYear();
-  footer.innerHTML = `${cta}
-    <div class="footer-bar">
-      <img src="wordmark-light.svg" alt="Point Studio Architecture + Design" class="footer-wordmark" />
-      <div class="footer-center">
-        <p class="footer-blurb">Serving residential and commercial spaces <span class="blurb-break">in the San Francisco Bay Area</span></p>
-        <div class="footer-info">
-          <a href="mailto:hello@pointstudioarch.com">hello@pointstudioarch.com</a>
-        </div>
-      </div>
-      <span class="footer-copyright">© ${year} Point Studio Inc.</span>
-    </div>
-  `;
+  if (!isPrebuilt(footer)) footer.innerHTML = T.footerHTML(activePage, year);
+  const yearEl = footer.querySelector(".footer-year");
+  if (yearEl) yearEl.textContent = year; // always current, even on a pre-built page
 }
 
 function initGallery() {
   const track = document.getElementById("galleryTrack");
   if (!track) return;
 
-  const cards = PROJECTS.map(
-    (p, i) => `
-      <a class="project-card" href="project.html?slug=${encodeURIComponent(p.slug)}" data-index>
-        <div class="card-image">
-          <img src="${p.card || p.image}" alt="${p.title}" />
-          <div class="card-hover-title">${p.cardTitle || p.title}</div>
-        </div>
-      </a>`
-  ).join("");
-
-  track.insertAdjacentHTML("beforeend", cards);
-  track.insertAdjacentHTML(
-    "beforeend",
-    `<a class="gallery-outro" href="contact.html">
-      <div class="outro-inner">
-        <h2><span class="outro-label">Let's Talk</span></h2>
-        <p>Have a project in mind?<br />We'd love to hear about it.</p>
-      </div>
-    </a>`
-  );
+  if (!isPrebuilt(track)) track.insertAdjacentHTML("beforeend", T.galleryHTML(PROJECTS, cleanLinks));
 
   // Each card is made exactly as wide as its photo (photos are never
   // cropped), so the visible space between every pair of photos is the same.
@@ -297,8 +252,8 @@ function initProjectPage() {
   const container = document.getElementById("projectDetail");
   if (!container) return;
 
-  const params = new URLSearchParams(window.location.search);
-  const slug = params.get("slug");
+  // Built pages name their project in <body data-slug>; local files use ?slug=
+  const slug = document.body.dataset.slug || new URLSearchParams(window.location.search).get("slug");
   const project = PROJECTS.find((p) => p.slug === slug);
 
   if (!project) {
@@ -312,84 +267,7 @@ function initProjectPage() {
   }
 
   document.title = `${project.title} — Point Studio Architecture + Design`;
-
-  const currentIndex = PROJECTS.findIndex((p) => p.slug === project.slug);
-  // Previous / next wrap around both ways (1 ← 5, 5 → 1)
-  const nextProject = PROJECTS[(currentIndex + 1) % PROJECTS.length];
-  const prevProject = PROJECTS[(currentIndex - 1 + PROJECTS.length) % PROJECTS.length];
-
-  const scope = project.scope && project.scope.length
-    ? `<ul class="project-scope" data-reveal>${project.scope.map((l) => `<li>${l}</li>`).join(" ")}</ul>`
-    : "";
-
-  // ---- Body blocks -------------------------------------------------------
-  // A project's body is a list of blocks, shown in order between the
-  // heading and the credits (see projects-data.js for the full guide):
-  //   { type: "feature", photos: [...], side: "left" | "right", text: [...] }
-  //       1–2 photos side by side with text beside them (text defaults to
-  //       the project's description)
-  //   { type: "row", photos: [...] }   1–3 photos side by side, matching heights
-  //   { type: "text", text: [...] }    a paragraph block on its own
-  // Older entries without "blocks" are converted automatically.
-  const blocks = project.blocks || [
-    ...(project.featureImage
-      ? [{ type: "feature", photos: [].concat(project.featureImage) }]
-      : [{ type: "text" }]),
-    ...((project.photos || project.pair || []).length
-      ? [{ type: "row", photos: project.photos || project.pair }]
-      : []),
-  ];
-
-  const figures = (list) =>
-    list
-      .map((src, n) => `<figure data-reveal style="transition-delay: ${n * 0.35}s"><img src="${src}" alt="${project.title}" /></figure>`)
-      .join("");
-  const textHtml = (text) =>
-    [].concat(text || project.description || []).map((t) => `<p>${t}</p>`).join("");
-
-  const renderBlock = (b) => {
-    const list = [].concat(b.photos || []);
-    if (b.type === "row") {
-      return `<section class="project-section project-photos${list.length === 1 ? " is-single" : ""}">${figures(list)}</section>`;
-    }
-    if (b.type === "feature" && list.length) {
-      const photos = list.length > 1
-        ? `<div class="project-feature-photo is-multi">${figures(list)}</div>`
-        : `<div class="project-feature-photo" data-reveal><img src="${list[0]}" alt="${project.title}" /></div>`;
-      const cls = `project-section project-feature${list.length > 1 ? " has-multi" : ""}${b.side === "right" ? " is-right" : ""}`;
-      return `<section class="${cls}">${photos}<div class="project-description" data-reveal>${textHtml(b.text)}</div></section>`;
-    }
-    return `<section class="project-section project-text"><div class="project-description" data-reveal>${textHtml(b.text)}</div></section>`;
-  };
-  const body = blocks.map(renderBlock).join("");
-
-  const credits = project.credits && project.credits.length
-    ? `<section class="project-section project-credits" data-reveal>
-         <ul>${project.credits.map((c) => `<li>${c}</li>`).join("")}</ul>
-       </section>`
-    : "";
-
-  container.innerHTML = `
-    <article class="project-page">
-      <div class="project-cover"><img src="${project.cover || project.card || project.image}" alt="${project.title}"${project.coverPosition ? ` style="object-position: ${project.coverPosition}"` : ""} /></div>
-      <header class="project-heading">
-        <h1 data-reveal>${project.title}</h1>
-        ${scope}
-      </header>
-      ${body}
-      ${credits}
-      <nav class="project-section project-nav" data-reveal aria-label="More projects">
-        <a class="prev-link" href="project.html?slug=${encodeURIComponent(prevProject.slug)}">
-          <span class="nav-label">Previous</span>
-          <span class="nav-name">${prevProject.title}</span>
-        </a>
-        <a class="next-link" href="project.html?slug=${encodeURIComponent(nextProject.slug)}">
-          <span class="nav-label">Next</span>
-          <span class="nav-name">${nextProject.title}</span>
-        </a>
-      </nav>
-    </article>
-  `;
+  if (!isPrebuilt(container)) container.innerHTML = T.projectHTML(project, PROJECTS, cleanLinks);
 
   // Scope line: wrap at ~2/3 of the title's width, and hide the dot on any
   // item that starts a new line

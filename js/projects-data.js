@@ -156,3 +156,6 @@ const PROJECTS = [
     ]
   }
 ];
+
+// Lets the deploy build (build.js) read this list. Keep this as the last line.
+if (typeof module !== "undefined" && module.exports) module.exports = PROJECTS;
