@@ -136,9 +136,9 @@ function initGallery() {
           cardObserver.unobserve(e.target);
         }),
       // Photos are much taller than a paragraph, so wait until the top of
-      // the photo is a fifth of the way up the screen — otherwise most of
-      // the fade happens below the edge where you can't see it
-      { threshold: 0, rootMargin: "0px 0px -20% 0px" }
+      // the photo is a little way up the screen — otherwise most of the
+      // fade happens below the edge where you can't see it
+      { threshold: 0, rootMargin: "0px 0px -10% 0px" }
     );
     track.querySelectorAll(".project-card").forEach((c) => cardObserver.observe(c));
   }

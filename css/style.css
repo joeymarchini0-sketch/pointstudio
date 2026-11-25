@@ -115,8 +115,9 @@ textarea:focus-visible {
   color: var(--ink);
 }
 
-/* Underlines draw in from the left on hover and slide away to the right
-   (menu links on computers, and "Start a project") */
+/* Underlines draw in from the left on hover and retract back to the left
+   (menu links on computers, and "Start a project"). The anchor point never
+   changes, so a quick hover in and out stays smooth. */
 @media (min-width: 721px) {
   .site-nav a { position: relative; border-bottom: 0; }
   .site-nav a::after {
@@ -128,13 +129,12 @@ textarea:focus-visible {
     height: 1px;
     background: var(--ink);
     transform: scaleX(0);
-    transform-origin: right center;
+    transform-origin: left center;
     transition: transform 0.35s ease;
   }
   .site-nav a:hover::after,
   .site-nav a[aria-current="page"]::after {
     transform: scaleX(1);
-    transform-origin: left center;
   }
 }
 @media (max-width: 720px) {
@@ -223,12 +223,11 @@ main { flex: 1; }
   height: 1px;
   background: var(--ink);
   transform: scaleX(0);
-  transform-origin: right center;
+  transform-origin: left center;
   transition: transform 0.35s ease;
 }
 .site-footer .footer-cta:hover::after {
   transform: scaleX(1);
-  transform-origin: left center;
 }
 /* Phones (no hover): "Start a project" always shows its thin underline */
 @media (hover: none), (max-width: 720px) {
@@ -511,8 +510,8 @@ main { flex: 1; }
   .js .gallery .project-card {
     animation: none;
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1.1s ease, transform 1.1s ease;
+    transform: translateY(32px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
   }
   .js .gallery .project-card.is-shown { opacity: 1; transform: none; }
   /* Thin line under "Let's Talk" so it reads as a link */
