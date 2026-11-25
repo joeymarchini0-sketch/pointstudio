@@ -58,7 +58,7 @@ function renderFooter(activePage) {
     <div class="footer-bar">
       <img src="wordmark-light.svg" alt="Point Studio Architecture + Design" class="footer-wordmark" />
       <div class="footer-center">
-        <p class="footer-blurb">Serving residential and commercial spaces in the San Francisco Bay Area</p>
+        <p class="footer-blurb">Serving residential and commercial spaces <span class="blurb-break">in the San Francisco Bay Area</span></p>
         <div class="footer-info">
           <a href="mailto:hello@pointstudioarch.com">hello@pointstudioarch.com</a>
         </div>
