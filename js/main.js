@@ -86,7 +86,7 @@ function initGallery() {
   track.insertAdjacentHTML(
     "beforeend",
     `<a class="gallery-outro" href="contact.html">
-      <h2><span class="outro-label">Let's Talk</span><span class="outro-arrow" aria-hidden="true">→</span></h2>
+      <h2>Let's Talk</h2>
       <p>Have a project in mind?<br />We'd love to hear about it.</p>
     </a>`
   );
@@ -122,22 +122,14 @@ function initGallery() {
   // of the screen, and fades away again as it scrolls past.
   initTouchTitles(track);
 
-  // "Let's Talk" on phones: when it scrolls into view, an underline draws
-  // in beneath it and the arrow gives one small nudge (styles in CSS; on
-  // computers neither shows). Happens once.
+  // "Let's Talk" on phones: fades in each time it scrolls into view and
+  // fades back out when it scrolls away (styles in CSS; computers unaffected)
   const outro = track.querySelector(".gallery-outro");
   if (outro && "IntersectionObserver" in window) {
-    const outroObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          outro.classList.add("is-in");
-          outroObserver.disconnect();
-        });
-      },
-      { threshold: 0.6 }
-    );
-    outroObserver.observe(outro);
+    new IntersectionObserver(
+      (entries) => entries.forEach((e) => outro.classList.toggle("is-in", e.isIntersecting)),
+      { threshold: 0.4 }
+    ).observe(outro);
   }
 
   // Load-in animation: stagger each item (intro, cards, closing card) so

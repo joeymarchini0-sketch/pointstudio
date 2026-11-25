@@ -327,13 +327,6 @@ main { flex: 1; }
 /* "Start a project" under the gallery arrives with the second project */
 .js .site-footer.is-home .footer-cta-row { animation-delay: 0.15s; }
 
-/* Arrow after "Let's Talk" only shows on phones */
-.outro-arrow { display: none; }
-@keyframes outro-nudge {
-  0%, 100% { transform: none; }
-  50% { transform: translateX(7px); }
-}
-
 @keyframes slide-in-left {
   from { opacity: 0; transform: translateX(48px); }
   to   { opacity: 1; transform: none; }
@@ -445,8 +438,8 @@ main { flex: 1; }
     height: auto;
     padding: 8px clamp(20px, 5vw, 40px) 4px;
   }
-  /* Phones: "Let's Talk" centered; an underline draws in and the arrow
-     nudges once when it scrolls into view (.is-in, set in main.js) */
+  /* Phones: "Let's Talk" centered; fades in each time it scrolls into
+     view and out again when it leaves (.is-in, set in main.js) */
   .gallery-outro {
     flex: none;
     align-self: stretch;
@@ -455,31 +448,15 @@ main { flex: 1; }
     align-items: center;
     text-align: center;
   }
-  .gallery-outro h2 { margin-bottom: 20px; }
+  .gallery-outro h2 { margin-bottom: 16px; }
   .gallery-outro p { max-width: none; }
-  .outro-label { position: relative; }
-  .outro-label::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -6px;
-    height: 1px;
-    background: var(--ink);
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 0.8s ease 0.2s;
+  .js .gallery .gallery-outro {
+    animation: none; /* replaces the page-load slide-in on phones */
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
   }
-  .gallery-outro.is-in .outro-label::after { transform: scaleX(1); }
-  .outro-arrow {
-    display: inline-block;
-    margin-left: 0.35em;
-    font-family: var(--font-display);
-    font-weight: 300;
-    font-size: 0.55em;
-    vertical-align: 0.25em;
-  }
-  .gallery-outro.is-in .outro-arrow { animation: outro-nudge 0.7s ease 1s 1; }
+  .js .gallery .gallery-outro.is-in { opacity: 1; transform: none; }
   .project-card {
     flex: none;
     width: 100%;
