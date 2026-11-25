@@ -443,7 +443,7 @@ function initProjectPage() {
  * Google Form, update the QUESTIONS list at the top of the script.
  */
 const CONTACT_ENDPOINT =
-  "https://script.google.com/macros/s/AKfycbxq4iSWCH9AQHixFeJRiLDfX532pe03FSiE-jV9rdTSia6kfFFcxUPfyn4aybxeyju2QQ/exec";
+  "https://script.google.com/macros/s/AKfycbwGXabCKiixWBYzgnPH5r7rzzPNK0r82W1ti8nCKrIQiKK9n-NYixRneAOFz7c3TlZv/exec";
 
 function initContactForm() {
   const form = document.getElementById("contactForm");
