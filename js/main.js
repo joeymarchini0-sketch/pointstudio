@@ -122,6 +122,21 @@ function initGallery() {
   // of the screen, and fades away again as it scrolls past.
   initTouchTitles(track);
 
+  // Phones: project photos fade up as each one scrolls into view (once),
+  // instead of the sideways slide used on computers (styles in CSS)
+  if ("IntersectionObserver" in window) {
+    const cardObserver = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add("is-shown");
+          cardObserver.unobserve(e.target);
+        }),
+      { threshold: 0.15 }
+    );
+    track.querySelectorAll(".project-card").forEach((c) => cardObserver.observe(c));
+  }
+
   // "Let's Talk" on phones: fades in each time it scrolls into view and
   // fades back out when it scrolls away (styles in CSS; computers unaffected)
   const outro = track.querySelector(".gallery-outro");

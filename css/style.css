@@ -191,6 +191,10 @@ main { flex: 1; }
   transition: border-color 0.15s ease;
 }
 .site-footer .footer-cta:hover { border-bottom-color: var(--ink); }
+/* Phones (no hover): "Start a project" always shows its thin underline */
+@media (hover: none), (max-width: 720px) {
+  .site-footer .footer-cta { border-bottom-color: var(--ink); }
+}
 
 /* Footer: "Start a project" link, then the red bar (same red as the logo) */
 .site-footer { padding: 0; }
@@ -457,6 +461,15 @@ main { flex: 1; }
     transition: opacity 0.7s ease, transform 0.7s ease;
   }
   .js .gallery .gallery-outro.is-in { opacity: 1; transform: none; }
+  /* Phones: project photos fade up into place as they scroll into view
+     (.is-shown, set once in main.js) instead of sliding in sideways */
+  .js .gallery .project-card {
+    animation: none;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .js .gallery .project-card.is-shown { opacity: 1; transform: none; }
   /* Thin line under "Let's Talk" so it reads as a link */
   .outro-label {
     padding-bottom: 6px;
