@@ -396,7 +396,27 @@ function initProjectPage() {
   const scopeList = container.querySelector(".project-scope");
   const titleEl = container.querySelector(".project-heading h1");
   if (scopeList && titleEl) {
+    // Phones: scope lines are stacked one per line. If the longest line
+    // doesn't fit the screen width, shrink the whole list a half-pixel at a
+    // time until every line fits on one line (never below 11px)
+    const fitScopeOnPhones = () => {
+      scopeList.style.fontSize = "";
+      if (!window.matchMedia("(max-width: 820px)").matches) return;
+      const wraps = () =>
+        Array.from(scopeList.children).some((li) => {
+          const r = document.createRange();
+          r.selectNodeContents(li);
+          return Array.from(r.getClientRects()).filter((x) => x.width > 1).length > 1;
+        });
+      let size = parseFloat(getComputedStyle(scopeList).fontSize);
+      while (wraps() && size > 11) {
+        size -= 0.5;
+        scopeList.style.fontSize = `${size}px`;
+      }
+    };
+
     const layoutScope = () => {
+      fitScopeOnPhones();
       const range = document.createRange();
       range.selectNodeContents(titleEl);
       const titleWidth = range.getBoundingClientRect().width;

@@ -1184,6 +1184,7 @@ main { flex: 1; }
   /* Phones: scope items stacked one per line, no dots */
   .project-scope { max-width: none !important; }
   .project-scope li { display: block; }
+  .project-scope { letter-spacing: 0.05em; }
   .project-scope li + li::before { content: none; }
   .project-nav::after { left: clamp(20px, 5vw, 40px); right: clamp(20px, 5vw, 40px); }
   .project-feature,
