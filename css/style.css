@@ -438,12 +438,20 @@ main { flex: 1; }
     height: auto;
     padding: 8px clamp(20px, 5vw, 40px) 4px;
   }
+  /* Phones: "Let's Talk" as a centered, outlined box so it reads as a
+     button */
   .gallery-outro {
     flex: none;
     align-self: stretch;
     height: auto;
-    padding: 4px clamp(20px, 5vw, 40px) 24px;
+    margin: 8px clamp(20px, 5vw, 40px) 0;
+    padding: 36px 24px;
+    border: 1px solid var(--ink);
+    align-items: center;
+    text-align: center;
   }
+  .gallery-outro h2 { margin-bottom: 12px; }
+  .gallery-outro p { max-width: none; }
   .project-card {
     flex: none;
     width: 100%;
@@ -459,7 +467,7 @@ main { flex: 1; }
      separate "Start a project" link is dropped on the phone home page */
   .site-footer.is-home .footer-cta-row { display: none; }
   .site-footer.is-home .footer-cta-row + .footer-bar { margin-top: 0; }
-  .gallery-outro { padding-bottom: 48px; }
+  .gallery-outro { margin-bottom: 48px; }
 }
 
 /* Touch screens: the hover effect (darkened photo + title) is switched on
